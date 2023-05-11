@@ -30,7 +30,7 @@ integer time_low = 20000 ;
 integer th_cntr = 0;
 integer tl_cntr = 0;
 
-always @(CLK, DIR, EN) begin : P1
+always @(CLK, DIR, EN) begin
    if (EN == 1'b1) begin
       // stopping the servos
       if (DIR == 2'b00) begin

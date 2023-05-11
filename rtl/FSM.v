@@ -2,7 +2,8 @@
 // Module Name: FSM - Behavioral
 // Project Name: 
 // Target Devices: 
-// Description: 
+// Description:  5 stati manual vertical sweep horizontal sweep search max
+// horiz and vertical
 // 
 // Dependencies: 
 // 
@@ -13,29 +14,29 @@ module FSM(
    input wire BTN_R,
    input wire BTN_U,
    input wire BTN_D,
-   input wire BTN_C, // Button center (main button)
+   input wire BTN_C, // Button center (main button) **TODO: da fare con pressione
    input wire CNT_L, // signals which come from the counters and tell the FWM drive the corresponding servos
    input wire CNT_RU,
    input wire CNT_D,
    input wire CLK, // clock signal
-   output reg HS, // enable signal which go to counters
-   output reg VS,
-   output reg MC,
+   output reg HS, // horizontal sweep signal, enable signal which go to counters
+   output reg VS, // vertical sweep
+   output reg MC, // Maximum counter
    output reg SERVO_L, // servo enable signal
    output reg SERVO_R,
    output reg SERVO_U,
    output reg SERVO_D,
-   output reg [4:0] STAT,
+   output reg [4:0] STAT, // possible states of FSM
    output reg CNT_RST // reset signal for oe of the counters 
 );
 
 // defining states (Modes: Manual, Horizontal Sweep, Horizontal Max State, Vertical Sweep. Vertical Max State)
 parameter [2:0]
-man = 0,
-   hor_sweep = 1,
-   hor_max = 2,
-   vert_sweep = 3,
-   vert_max = 4;
+   man = 3'd0,
+   hor_sweep = 3'd1,
+   hor_max = 3'd2,
+   vert_sweep = 3'd3,
+   vert_max = 3'd4;
 
 reg [2:0] PS;  // Present State
 reg [2:0] NS;  // Next state

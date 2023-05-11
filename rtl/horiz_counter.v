@@ -17,11 +17,11 @@
 
 module horiz_counter(
    input wire CLK,
-   input wire HS,
-   output reg CNT_L
+   input wire HS, // horizontal sweep enable FSM defined
+   output reg CNT_L // counter left enable
 );
 
-reg [12:0] currcount = 13'b0_000_000_000_000;
+reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
 
 always @(posedge CLK, posedge HS) begin : P1
 

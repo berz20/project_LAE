@@ -12,11 +12,11 @@
 
 module vert_counter(
    input wire CLK,
-   input wire VS,
-   output reg CNT_D
+   input wire VS, // vertical sweep enable 
+   output reg CNT_D // counter down enable
 );
 
-reg [11:0] currcount = 12'b000000000000;
+reg [11:0] currcount = 12'b000000000000; // **TODO: value to be defined
 
 always @(posedge CLK, posedge VS) begin : P1
 

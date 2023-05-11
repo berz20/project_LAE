@@ -23,17 +23,17 @@
 
 module max_counter(
    input wire CLK,
-   input wire FSM_RST,
+   input wire CNT_RST,
    input wire RESET,
-   input wire MC,
+   input wire MC,// max counter enable
    output reg CNT_RU
 );
 
-reg [12:0] currcount = 13'b0_000_000_000_000;
+reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
 
-always @(posedge CLK, posedge FSM_RST, posedge RESET, posedge MC) begin : P1
+always @(posedge CLK, posedge CNT_RST, posedge RESET, posedge MC) begin : P1
 
-   if(RESET == 1'b1 || FSM_RST == 1'b1) begin
+   if(CNT_RST == 1'b1) begin
       currcount <= 13'b0_000_000_000_000;
       CNT_RU <= 1'b0;
    end else begin

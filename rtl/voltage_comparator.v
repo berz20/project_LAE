@@ -22,7 +22,7 @@ module voltage_comparator(
 );
 
 always @(PV, LV) begin
-   if(PV[9:4] > LV[9:4]) begin
+   if(PV[9:4] > LV[9:4]) begin // [9:4] ultimi bit non sono rilevanti nel confronto
       GT <= 1'b1;
    end
    else begin
