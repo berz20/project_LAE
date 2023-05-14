@@ -27,88 +27,96 @@ output wire SERVO_V,
 output wire [4:0] STAT
 );
 
-
-
-
-wire hs; wire vs; wire mc;
-wire cnt_l; wire cnt_ru; wire cnt_d;
-wire [9:0] max_volt = 10'b0000000000; wire [9:0] volt = 10'b0000000000;
-wire servo_l; wire servo_r; wire servo_u; wire servo_d;
+wire hs; wire vs; wire mc; // define horizontal sweep, vertical sweep and max counter enable signals
+wire cnt_l; wire cnt_ru; wire cnt_d; // define counter left and right enable signals
+wire [9:0] max_volt = 10'b0000000000; wire [9:0] volt = 10'b0000000000; // wire which contain max voltage e voltage readed form adc
+wire servo_l; wire servo_r; wire servo_u; wire servo_d; // define servo left right up and down signals
 wire reset;
 wire div_clk;
 wire cnt_rst;
 
-  FSM fsm0(
-      .BTN_L(BTN_L),
-    .BTN_R(BTN_R),
-    .BTN_U(BTN_U),
-    .BTN_D(BTN_D),
-    .BTN_C(BTN_C),
-    .CNT_L(cnt_l),
-    .CNT_RU(cnt_ru),
-    .CNT_D(cnt_d),
-    .CLK(div_clk),
-    .HS(hs),
-    .VS(vs),
-    .MC(mc),
-    .SERVO_L(servo_l),
-    .SERVO_R(servo_r),
-    .SERVO_U(servo_u),
-    .SERVO_D(servo_d),
-    .STAT(STAT),
-    .CNT_RST(cnt_rst));
 
-  servo_driver servo_driver0(
-      .CLK(CLK),
-    .BTN_0(servo_l),
-    .BTN_1(servo_r),
-    .SERVO(SERVO_H));
+// Instantiation of finite state machine 
+FSM fsm0(
+   .BTN_L(BTN_L),
+   .BTN_R(BTN_R),
+   .BTN_U(BTN_U),
+   .BTN_D(BTN_D),
+   .BTN_C(BTN_C),
+   .CNT_L(cnt_l),
+   .CNT_RU(cnt_ru),
+   .CNT_D(cnt_d),
+   .CLK(div_clk),
+   .HS(hs),
+   .VS(vs),
+   .MC(mc),
+   .SERVO_L(servo_l),
+   .SERVO_R(servo_r),
+   .SERVO_U(servo_u),
+   .SERVO_D(servo_d),
+   .STAT(STAT),
+   .CNT_RST(cnt_rst));
 
-  servo_driver servo_driver1(
-      .CLK(CLK),
-    .BTN_0(servo_u),
-    .BTN_1(servo_d),
-    .SERVO(SERVO_V));
+// Instantiation o the two servo drivers which control the servos by pwm_control and
+// a clk divider
+servo_driver servo_driver0(
+   .CLK(CLK),
+   .BTN_0(servo_l),
+   .BTN_1(servo_r),
+   .SERVO(SERVO_H));
 
-  volt_vis volt_vis0(
-      .CLK(CLK),
-    .V_in(V_in),
-    .V_out(V_out),
-    .V_value(volt),
-    .DISP_EN(DISP_EN),
-    .SSD(SSD));
+servo_driver servo_driver1(
+   .CLK(CLK),
+   .BTN_0(servo_u),
+   .BTN_1(servo_d),
+   .SERVO(SERVO_V));
 
-  voltage_comparator voltage_comparator0(
-      .PV(volt),
-    .LV(max_volt),
-    .GT(reset));
+// Voltage visualizer which outputs current voltage on the seven segment
+// display
+volt_vis volt_vis0(
+   .CLK(CLK),
+   .V_in(V_in),
+   .V_out(V_out),
+   .V_value(volt),
+   .DISP_EN(DISP_EN),
+   .SSD(SSD));
 
-  clk_div cd0(
-      .clk(CLK),
-    .sclk(div_clk));
+// Compare current voltage with the one stored in the register
+voltage_comparator voltage_comparator0(
+   .PV(volt),
+   .LV(max_volt),
+   .GT(reset));
 
-  max_counter max_counter0(
-      .CLK(div_clk),
-    .FSM_RST(cnt_rst),
-    .RESET(reset),
-    .MC(mc),
-    .CNT_RU(cnt_ru));
+clk_div cd0(
+   .clk(CLK),
+   .sclk(div_clk));
 
-  horiz_counter horiz_counter0(
-      .CLK(div_clk),
-    .HS(hs),
-    .CNT_L(cnt_l));
+// Counter which counts the number of steps taken from the max voltage 
+max_counter max_counter0(
+   .CLK(div_clk),
+   .CNT_RST(cnt_rst),
+   .RESET(reset),
+   .MC(mc),
+   .CNT_RU(cnt_ru));
 
-  vert_counter vert_counter0(
-      .CLK(div_clk),
-    .VS(vs),
-    .CNT_D(cnt_d));
+// Counter to limit the horizontal range of movement of servos
+horiz_counter horiz_counter0(
+   .CLK(div_clk),
+   .HS(hs),
+   .CNT_L(cnt_l));
 
-  FF_Array FF_Array0(
-      .CLK(CLK),
-    .EN(reset),
-    .A(volt),
-    .LV(max_volt));
+// Counter to limit the vertical range of movement of servos
+vert_counter vert_counter0(
+   .CLK(div_clk),
+   .VS(vs),
+   .CNT_D(cnt_d));
+
+// Flip Flop array which register the max voltage
+FF_Array FF_Array0(
+   .CLK(CLK),
+   .GT(reset),
+   .PV(volt),
+   .LV(max_volt));
 
 
 endmodule
