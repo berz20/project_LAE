@@ -3,6 +3,8 @@
 //---------------------------------------------------------------------
 // no timescale needed
 
+`timescale 1 us / 100 ps
+
 module clk_div(
    input wire clk,
    output reg sclk

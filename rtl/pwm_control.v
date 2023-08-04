@@ -24,6 +24,10 @@ integer time_high_stopped = 1500 ; // 1.5 ms
 integer time_high_ccw = 1520 ;
 integer time_high_cw = 1480 ;
 integer time_low = 20000 ;  
+// integer time_high_stopped = 1500 ; // 1.5 ms
+// integer time_high_ccw = 1520 ;
+// integer time_high_cw = 1480 ;
+// integer time_low = 20000 ;  
 
 //change time_high and time_low to change the period and duty cycle of the pwm wave (1300 = ccw, 1500 = stopped, 1700 = cw)
 

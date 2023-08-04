@@ -18,19 +18,26 @@ input wire BTN_U,
 input wire BTN_D,
 input wire BTN_C,
 input wire CLK,
-input wire V_in,
-input wire V_out,
-output wire [3:0] DISP_EN,
-output wire [7:0] SSD,
+input wire [9:0] V_in,
+output wire [9:0] max_V_in,
+// input wire V_out,
+// output wire [3:0] DISP_EN,
+// output wire [7:0] SSD,
+output reg [1:0] direction_lr,
+output reg [1:0] direction_ud,
+output wire servo_l,
+output wire servo_r,
+output wire servo_u,
+output wire servo_d,
 output wire SERVO_H,
 output wire SERVO_V,
-output wire [4:0] STAT
+output reg [2:0] STAT
 );
 
 wire hs; wire vs; wire mc; // define horizontal sweep, vertical sweep and max counter enable signals
 wire cnt_l; wire cnt_ru; wire cnt_d; // define counter left and right enable signals
 wire [9:0] max_volt = 10'b0000000000; wire [9:0] volt = 10'b0000000000; // wire which contain max voltage e voltage readed form adc
-wire servo_l; wire servo_r; wire servo_u; wire servo_d; // define servo left right up and down signals
+// wire servo_l; wire servo_r; wire servo_u; wire servo_d; // define servo left right up and down signals
 wire reset;
 wire div_clk;
 wire cnt_rst;
@@ -63,28 +70,30 @@ servo_driver servo_driver0(
    .CLK(CLK),
    .BTN_0(servo_l),
    .BTN_1(servo_r),
+   .direction(direction_lr),
    .SERVO(SERVO_H));
 
 servo_driver servo_driver1(
    .CLK(CLK),
    .BTN_0(servo_u),
    .BTN_1(servo_d),
+   .direction(direction_ud),
    .SERVO(SERVO_V));
 
 // Voltage visualizer which outputs current voltage on the seven segment
 // display
-volt_vis volt_vis0(
-   .CLK(CLK),
-   .V_in(V_in),
-   .V_out(V_out),
-   .V_value(volt),
-   .DISP_EN(DISP_EN),
-   .SSD(SSD));
+// volt_vis volt_vis0(
+//    .CLK(CLK),
+//    .V_in(V_in),
+//    .V_out(V_out),
+//    .V_value(volt),
+//    .DISP_EN(DISP_EN),
+//    .SSD(SSD));
 
 // Compare current voltage with the one stored in the register
 voltage_comparator voltage_comparator0(
-   .PV(volt),
-   .LV(max_volt),
+   .PV(V_in),
+   .LV(max_V_in),
    .GT(reset));
 
 clk_div cd0(
@@ -115,8 +124,8 @@ vert_counter vert_counter0(
 FF_Array FF_Array0(
    .CLK(CLK),
    .GT(reset),
-   .PV(volt),
-   .LV(max_volt));
+   .PV(V_in),
+   .LV(max_V_in));
 
 
 endmodule

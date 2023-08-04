@@ -14,6 +14,8 @@
 // Module to divide the clock 
 //---------------------------------------------------------------------
 
+`timescale 1 us / 100 ps
+
 module clk_div2(
 input wire clk,
 output wire sclk

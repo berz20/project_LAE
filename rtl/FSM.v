@@ -26,7 +26,7 @@ module FSM(
    output reg SERVO_R,
    output reg SERVO_U,
    output reg SERVO_D,
-   output reg [4:0] STAT, // possible states of FSM
+   output reg [2:0] STAT, // possible states of FSM
    output reg CNT_RST // reset signal for oe of the counters 
 );
 
@@ -38,7 +38,7 @@ parameter [2:0]
    vert_sweep = 3'd3,
    vert_max = 3'd4;
 
-reg [2:0] PS;  // Present State
+reg [2:0] PS = man;  // Present State
 reg [2:0] NS;  // Next state
 
 always @(posedge CLK, posedge NS) begin
@@ -53,7 +53,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
    case(PS)
       // Manual mode
       man : begin
-         STAT <= 5'b00001;
+         STAT <= man;
          if((BTN_C == 1'b1)) begin
             NS <= hor_sweep; // go into the first calibration state if the center button is pressed
             CNT_RST <= 1'b0;
@@ -100,7 +100,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
       end
       // Horizontal Sweep Mode 
       hor_sweep : begin
-         STAT <= 5'b00010;
+         STAT <= hor_sweep ;
          SERVO_U <= 1'b0;
          SERVO_D <= 1'b0;
          CNT_RST <= 1'b0;
@@ -123,7 +123,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
       end
       // Horizontal Max State Mode
       hor_max : begin
-         STAT <= 5'b00100;
+         STAT <= hor_max;
          SERVO_U <= 1'b0;
          SERVO_D <= 1'b0;
          CNT_RST <= 1'b0;
@@ -146,7 +146,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
       end
       // Veritcal Sweep Mode
       vert_sweep : begin
-         STAT <= 5'b01000;
+         STAT <= vert_sweep;
          SERVO_L <= 1'b0;
          SERVO_R <= 1'b0;
          CNT_RST <= 1'b0;
@@ -169,7 +169,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
       end
       // Vertical Max State Mode
       vert_max : begin
-         STAT <= 5'b10000;
+         STAT <= vert_max;
          SERVO_L <= 1'b0;
          SERVO_R <= 1'b0;
          CNT_RST <= 1'b0;

@@ -77,13 +77,13 @@ LOG_DIR  := log
 #RTL_TOP_MODULE := DLATCH
 # RTL_TOP_MODULE := DFF
 # RTL_TOP_MODULE := RippleCounter4b
-RTL_TOP_MODULE := SyncCounter4b
+RTL_TOP_MODULE := sp_optimizer
 
 ## specify top-level testbench module (this is the target module for the xelab executable)
 #SIM_TOP_MODULE := tb_DLATCH
 # SIM_TOP_MODULE := tb_DFF
 # SIM_TOP_MODULE := tb_RippleCounter4b
-SIM_TOP_MODULE := tb_SyncCounter4b
+SIM_TOP_MODULE := tb_sp_optimizer
 
 
 ##
@@ -102,12 +102,12 @@ SIM_TOP_MODULE := tb_SyncCounter4b
 #RTL_VLOG_SOURCES := $(RTL_DIR)/DLATCH.v
 # RTL_VLOG_SOURCES := $(RTL_DIR)/DFF.v
 # RTL_VLOG_SOURCES := $(RTL_DIR)/RippleCounter4b.v
-RTL_VLOG_SOURCES := $(RTL_DIR)/SyncCounter4b.v
+RTL_VLOG_SOURCES := $(RTL_DIR)/sp_optimizer.v $(RTL_DIR)/FSM.v $(RTL_DIR)/voltage_comparator.v $(RTL_DIR)/clk_div.v $(RTL_DIR)/max_counter.v $(RTL_DIR)/horiz_counter.v $(RTL_DIR)/vert_counter.v $(RTL_DIR)/FF_Array.v $(RTL_DIR)/servo_driver.v $(RTL_DIR)/pwm_control.v $(RTL_DIR)/clk_div2.v
 
 #SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_DLATCH.v
 # SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_DFF.v
 # SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_RippleCounter4b.v
-SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_SyncCounter4b.v
+SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_sp_optimizer.v
 
 ## if no VHDL sources, you can either comment the below variables or just leave them empty
 RTL_VHDL_SOURCES :=
