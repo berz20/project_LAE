@@ -16,11 +16,11 @@
 module FF_Array(
    input wire CLK,
    input wire GT, // enable signal 
-   input wire [9:0] PV, // pendig value
-   output reg [9:0] LV // last value (lenght of bits stored defualt to 10 least significant bit of ADC are not considered as they define the minimum threshold for differnce of potential)
+   input wire [11:0] PV, // pendig value
+   output reg [11:0] LV // last value (lenght of bits stored defualt to 10 least significant bit of ADC are not considered as they define the minimum threshold for differnce of potential)
 );
 
-reg [9:0] inter = 10'b0000000000;
+reg [11:0] inter = 12'b000000000000;
 
 always @(posedge CLK, posedge PV, posedge GT) begin
    if(GT == 1'b1) begin

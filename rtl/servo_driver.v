@@ -15,7 +15,7 @@
 // Additional Comments:
 // 
 //--------------------------------------------------------------------------------
-`timescale 1 us / 100 ps
+`timescale 1 ns / 100 ps
 
 module servo_driver(
    input wire CLK,
@@ -46,14 +46,16 @@ end
 // function given from Catalog of servos
 
 pwm_control pwm_control_0(
-   .CLK(CLK),
+   .CLK(inter_clk),
    .DIR(direction),
    .EN(1'b1),
    .SERVO(SERVO));
 
-clk_div2 clk_div2_0(
-   .clk(CLK),
-   .sclk(inter_clk));
+TickCounterRst #(.MAX(100)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+
+// clk_div2 clk_div2_0(
+//    .clk(CLK),
+//    .sclk(inter_clk));
 
 
 endmodule

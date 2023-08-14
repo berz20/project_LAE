@@ -9,7 +9,7 @@
 //
 
 
-`timescale 1us / 100ps
+`timescale 1ns / 100ps
 
 module ClockGen #(parameter real PERIOD = 10.0) (
 

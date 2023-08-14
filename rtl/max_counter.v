@@ -29,14 +29,14 @@ module max_counter(
    output reg CNT_RU
 );
 
-// reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
-reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
+reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
+// reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
 
 always @(posedge CLK, posedge CNT_RST, posedge RESET, posedge MC) begin : P1
 
    if(CNT_RST == 1'b1) begin
-      // currcount <= 13'b0_000_000_000_000;
-      currcount <= 4'b0_000;
+      currcount <= 13'b0_000_000_000_000;
+      // currcount <= 4'b0_000;
       CNT_RU <= 1'b0;
    end else begin
       if(MC == 1'b0) begin
@@ -45,8 +45,8 @@ always @(posedge CLK, posedge CNT_RST, posedge RESET, posedge MC) begin : P1
       end
       else if(MC == 1'b1) begin
          currcount <= currcount - 1;
-         // if(currcount == 13'b0_000_000_000_000) begin
-         if(currcount == 4'b0_000) begin
+         if(currcount == 13'b0_000_000_000_000) begin
+         // if(currcount == 4'b0_000) begin
             CNT_RU <= 1'b0;
          end
          else begin

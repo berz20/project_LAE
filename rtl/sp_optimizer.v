@@ -9,7 +9,7 @@
 // Additional Comments:
 // 
 //--------------------------------------------------------------------------------
-`timescale 1 us / 100 ps
+`timescale 1 ns / 100 ps
 
 module sp_optimizer(
 input wire BTN_L,
@@ -18,8 +18,8 @@ input wire BTN_U,
 input wire BTN_D,
 input wire BTN_C,
 input wire CLK,
-input wire [9:0] V_in,
-output wire [9:0] max_V_in,
+input wire [11:0] V_in,
+output wire [11:0] max_V_in,
 // input wire V_out,
 // output wire [3:0] DISP_EN,
 // output wire [7:0] SSD,
@@ -42,7 +42,41 @@ wire reset;
 wire div_clk;
 wire cnt_rst;
 
+wire pll_clk, pll_locked ;
 
+PLL  PLL_inst ( .CLK_IN(CLK), .CLK_OUT(pll_clk), .LOCKED(pll_locked) ) ;
+
+///////////////////////////
+//   ADC SOC generator   //
+///////////////////////////
+
+// assert a single clock-pulse "SOC" once every 0.1 seconds
+
+wire adc_soc ;
+
+// TickCounterRst #(.MAX(2200)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(adc_soc)) ;
+// TickCounterRst #(.MAX(2200)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
+
+
+////////////////////////////////////////////////////////////
+//    XADC configured to read on-die temperature sensor   //
+////////////////////////////////////////////////////////////
+
+wire adc_eoc ;
+
+wire [11:0] adc_data ;
+
+//assign adc_data = 12'hABC ;    // **DEBUG
+
+
+// XADC  XADC (
+//
+//    .AdcClk    (        pll_clk ),
+//    .AdcSoc    (        div_clk ),
+//    .AdcEoc    (        adc_eoc ),
+//    .AdcData   (     V_in[11:0] )
+//
+// ) ;
 // Instantiation of finite state machine 
 FSM fsm0(
    .BTN_L(BTN_L),
@@ -67,14 +101,14 @@ FSM fsm0(
 // Instantiation o the two servo drivers which control the servos by pwm_control and
 // a clk divider
 servo_driver servo_driver0(
-   .CLK(CLK),
+   .CLK(pll_clk),
    .BTN_0(servo_l),
    .BTN_1(servo_r),
    .direction(direction_lr),
    .SERVO(SERVO_H));
 
 servo_driver servo_driver1(
-   .CLK(CLK),
+   .CLK(pll_clk),
    .BTN_0(servo_u),
    .BTN_1(servo_d),
    .direction(direction_ud),
@@ -97,7 +131,7 @@ voltage_comparator voltage_comparator0(
    .GT(reset));
 
 clk_div cd0(
-   .clk(CLK),
+   .clk(pll_clk),
    .sclk(div_clk));
 
 // Counter which counts the number of steps taken from the max voltage 
@@ -122,7 +156,7 @@ vert_counter vert_counter0(
 
 // Flip Flop array which register the max voltage
 FF_Array FF_Array0(
-   .CLK(CLK),
+   .CLK(pll_clk),
    .GT(reset),
    .PV(V_in),
    .LV(max_V_in));
