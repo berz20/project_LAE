@@ -20,10 +20,15 @@ module pwm_control(
    output reg SERVO
 );
 
-integer time_high_stopped = 150 ; // 1.5 ms
-integer time_high_ccw = 152 ;
-integer time_high_cw = 148 ;
-integer time_low = 2000 ;
+// the clk used is the 100 MHz reduced by a 100 factor so 1Mhz therefore the
+// period is 1us and this constant are to be viewed in us
+// This are the simulation constants for a more compact pwm signal
+integer time_high_stopped = 15 ; // 15 us
+integer time_high_ccw = 16 ;
+integer time_high_cw = 14 ;
+integer time_low = 200 ;
+
+// This are the effective constants to be used
 // integer time_high_stopped = 1500 ; // 1.5 ms
 // integer time_high_ccw = 1520 ;
 // integer time_high_cw = 1480 ;
@@ -34,16 +39,17 @@ integer time_low = 2000 ;
 integer th_cntr = 0;
 integer tl_cntr = 0;
 
+// Due to the fact that it changes at every rising edge of clk it always 
 always @(CLK, DIR, EN) begin
    if (EN == 1'b1) begin
       // stopping the servos
       if (CLK == 1'b1) begin
          if (DIR == 2'b00) begin
-            if (tl_cntr <= time_low) begin
+            if (tl_cntr <= time_low - 1) begin
                tl_cntr <= tl_cntr + 1 ;
                SERVO <= 1'b0 ;
             end
-            else if (th_cntr <= time_high_stopped) begin
+            else if (th_cntr <= time_high_stopped - 1) begin
                th_cntr <= th_cntr + 1 ;
                SERVO <= 1'b0 ;
             end
@@ -55,11 +61,11 @@ always @(CLK, DIR, EN) begin
          end // stopping the servos
          // servo clockwise
          else if (DIR == 2'b01) begin
-            if (tl_cntr <= time_low) begin
+            if (tl_cntr <= time_low - 1) begin
                tl_cntr <= tl_cntr + 1 ;
                SERVO <= 1'b0 ;
             end
-            else if (th_cntr <= time_high_ccw) begin
+            else if (th_cntr <= time_high_ccw - 1) begin
                th_cntr <= th_cntr + 1 ;
                SERVO <= 1'b1 ;
             end
@@ -71,11 +77,11 @@ always @(CLK, DIR, EN) begin
          end // servo clockwise
          // servo counter-clockwise
          else if (DIR == 2'b10) begin
-            if (tl_cntr <= time_low) begin
+            if (tl_cntr <= time_low - 1) begin
                tl_cntr <= tl_cntr + 1 ;
                SERVO <= 1'b0 ;
             end
-            else if (th_cntr <= time_high_cw) begin
+            else if (th_cntr <= time_high_cw - 1) begin
                th_cntr <= th_cntr + 1 ;
                SERVO <= 1'b1 ;
             end

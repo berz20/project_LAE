@@ -130,9 +130,13 @@ voltage_comparator voltage_comparator0(
    .LV(max_V_in),
    .GT(reset));
 
-clk_div cd0(
-   .clk(pll_clk),
-   .sclk(div_clk));
+// clk_div cd0(
+//    .clk(pll_clk),
+//    .sclk(div_clk));
+
+// TIckcounter faster than the actual in orded to reduce the time to switch
+// the sweeping steps 
+TickCounterRst #(.MAX(100)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
 
 // Counter which counts the number of steps taken from the max voltage 
 max_counter max_counter0(

@@ -16,15 +16,19 @@ module vert_counter(
    output reg CNT_D // counter down enable
 );
 
-reg [11:0] currcount = 12'b000000000000; // **TODO: value to be defined
-// reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
+// Maximum count for horizontal movement (it sets the servos limits)
+// reg [11:0] currcount = 12'b000_000_000_000; // **TODO: value to be defined
+
+// Reduced count to view all the calibration steps in a reasonable simulation
+// time 
+reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
 
 always @(posedge CLK, posedge VS) begin : P1
 
    if(VS == 1'b1) begin
       currcount <= currcount + 1;
-      if(currcount == 12'b111111111111) begin
-      // if(currcount == 4'b1_111) begin
+      // if(currcount == 12'b111_111_111_111) begin
+      if(currcount == 4'b1_111) begin
          CNT_D <= 1'b0;
       end
       else begin
@@ -32,8 +36,8 @@ always @(posedge CLK, posedge VS) begin : P1
       end
    end
    else if(VS == 1'b0) begin
-      currcount <= 12'b000000000000;
-      // currcount <= 4'b0_000;
+      // currcount <= 12'b000_000_000_000;
+      currcount <= 4'b0_000;
       CNT_D <= 1'b0;
    end
 end

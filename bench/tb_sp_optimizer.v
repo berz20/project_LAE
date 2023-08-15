@@ -4,7 +4,7 @@ module tb_sp_optimizer;
 
 // Parameters
 // parameter CLK_PERIOD = 10; // Clock period in time units (e.g., ns, us)
-parameter SIM_TIME = 100000; // Simulation time in time units (e.g., ns, us)
+parameter SIM_TIME = 10000; // Simulation time in time units (e.g., ns, us)
 parameter NUM_CYCLES = 5;  // Number of times to repeat the trend
 
 // Inputs
