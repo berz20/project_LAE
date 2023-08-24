@@ -28,10 +28,16 @@ integer time_high_ccw = 16 ;
 integer time_high_cw = 14 ;
 integer time_low = 200 ;
 
-// This are the effective constants to be used
+// OLD_This are the effective constants to be used
 // integer time_high_stopped = 1500 ; // 1.5 ms
 // integer time_high_ccw = 1520 ;
 // integer time_high_cw = 1480 ;
+// integer time_low = 20000 ;
+
+// This are the effective constants to be used for 
+// integer time_high_stopped = 1500 ; // 1.5 ms
+// integer time_high_ccw = 2000 ;
+// integer time_high_cw = 980 ;
 // integer time_low = 20000 ;  
 
 //change time_high and time_low to change the period and duty cycle of the pwm wave (1300 = ccw, 1500 = stopped, 1700 = cw)
@@ -59,6 +65,7 @@ always @(CLK, DIR, EN) begin
                SERVO <= 1'b0 ;
             end
          end // stopping the servos
+		 
          // servo clockwise
          else if (DIR == 2'b01) begin
             if (tl_cntr <= time_low - 1) begin
@@ -75,6 +82,7 @@ always @(CLK, DIR, EN) begin
                SERVO <= 1'b0 ;
             end
          end // servo clockwise
+		 
          // servo counter-clockwise
          else if (DIR == 2'b10) begin
             if (tl_cntr <= time_low - 1) begin

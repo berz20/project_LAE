@@ -30,16 +30,16 @@ wire inter_clk;
 
 always @(BTN_0, BTN_1, CLK) begin
    if(BTN_0 == 1'b0 && BTN_1 == 1'b0) begin
-      direction <= 2'b00;
+      direction <= 2'b00;   // stop
    end
    else if(BTN_0 == 1'b1 && BTN_1 == 1'b0) begin
-      direction <= 2'b01;
+      direction <= 2'b01;   // cw
    end
    else if(BTN_0 == 1'b0 && BTN_1 == 1'b1) begin
-      direction <= 2'b10;
+      direction <= 2'b10;   // ccw
    end
    else begin
-      direction <= 2'b00;
+      direction <= 2'b00;   // stop
    end
 end
 
