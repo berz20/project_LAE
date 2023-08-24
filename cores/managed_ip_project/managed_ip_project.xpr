@@ -6,7 +6,7 @@
 <Project Version="7" Minor="56" Path="/home/berz/Documents/UNI/MAG_1/project_LAE/cores/managed_ip_project/managed_ip_project.xpr">
   <DefaultLaunch Dir="$PRUNDIR"/>
   <Configuration>
-    <Option Name="Id" Val="e7ba94a7fc5949e5aeb494037c117708"/>
+    <Option Name="Id" Val="76063697d7114bd7a69b78eb51dc2cd1"/>
     <Option Name="Part" Val="xc7a35ticsg324-1L"/>
     <Option Name="CompiledLibDir" Val="$PCACHEDIR/compile_simlib"/>
     <Option Name="CompiledLibDirXSim" Val=""/>

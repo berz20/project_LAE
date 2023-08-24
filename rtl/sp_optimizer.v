@@ -66,17 +66,17 @@ wire adc_eoc ;
 
 wire [11:0] adc_data ;
 
-//assign adc_data = 12'hABC ;    // **DEBUG
+assign adc_data = 12'hABC ;    // **DEBUG
 
 
-// XADC  XADC (
-//
-//    .AdcClk    (        pll_clk ),
-//    .AdcSoc    (        div_clk ),
-//    .AdcEoc    (        adc_eoc ),
-//    .AdcData   (     V_in[11:0] )
-//
-// ) ;
+XADC  XADC (
+
+   .AdcClk    (        pll_clk ),
+   .AdcSoc    (        div_clk ),
+   .AdcEoc    (        adc_eoc ),
+   .AdcData   (     adc_data[11:0] )
+
+) ;
 
 // Instantiation of finite state machine 
 FSM fsm0(

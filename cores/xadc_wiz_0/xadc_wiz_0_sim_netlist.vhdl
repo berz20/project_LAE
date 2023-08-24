@@ -1,7 +1,7 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
--- Date        : Mon Aug 14 12:29:13 2023
+-- Date        : Thu Aug 24 23:06:31 2023
 -- Host        : berz-msi running 64-bit Archcraft
 -- Command     : write_vhdl -force -mode funcsim
 --               /home/berz/Documents/UNI/MAG_1/project_LAE/cores/xadc_wiz_0/xadc_wiz_0_sim_netlist.vhdl

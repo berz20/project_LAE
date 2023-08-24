@@ -38,7 +38,7 @@ module XADC (
    xadc_wiz_0 xadc (
 
       .convst_in             (         AdcSoc ),     // start-of-conversion (SOC) flag to ADC
-      .daddr_in              (          7'h00 ),     // address for the Dynamic Reconfiguration Port (DRP), set 7'h00 to read the on-chip temperature sensor
+      .daddr_in              (          7'h03 ),     // address for the Dynamic Reconfiguration Port (DRP), set 7'h00 to read the on-chip temperature sensor
       .dclk_in               (         AdcClk ),     // on-board 100 MHz system clock fed to DRP
       .den_in                (         AdcEoc ),     // read-enable for the DRP, connected to ADC EOC
       .di_in                 (       16'h0000 ),     // optional 16-bit input-data to the DRP, not required 
