@@ -61,9 +61,13 @@ COMPONENT xadc_wiz_0
     drdy_out : OUT STD_LOGIC;
     do_out : OUT STD_LOGIC_VECTOR(15 DOWNTO 0);
     dclk_in : IN STD_LOGIC;
-    convst_in : IN STD_LOGIC;
+    reset_in : IN STD_LOGIC;
     vp_in : IN STD_LOGIC;
     vn_in : IN STD_LOGIC;
+    user_temp_alarm_out : OUT STD_LOGIC;
+    vccint_alarm_out : OUT STD_LOGIC;
+    vccaux_alarm_out : OUT STD_LOGIC;
+    ot_out : OUT STD_LOGIC;
     channel_out : OUT STD_LOGIC_VECTOR(4 DOWNTO 0);
     eoc_out : OUT STD_LOGIC;
     alarm_out : OUT STD_LOGIC;
@@ -86,9 +90,13 @@ your_instance_name : xadc_wiz_0
     drdy_out => drdy_out,
     do_out => do_out,
     dclk_in => dclk_in,
-    convst_in => convst_in,
+    reset_in => reset_in,
     vp_in => vp_in,
     vn_in => vn_in,
+    user_temp_alarm_out => user_temp_alarm_out,
+    vccint_alarm_out => vccint_alarm_out,
+    vccaux_alarm_out => vccaux_alarm_out,
+    ot_out => ot_out,
     channel_out => channel_out,
     eoc_out => eoc_out,
     alarm_out => alarm_out,

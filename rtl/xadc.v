@@ -54,76 +54,90 @@
 //----------------------------------------------------------------------------
 
 `timescale 1ns / 1 ps
+module xadc (
 
+   input wire [6:0] daddr_in,
+   input wire AdcClk,
+   input wire den_in,
+   input wire [15:0] di_in,
+   input wire dwe_in,
+   input wire vn_in,
+   input wire vp_in,
+   output wire AdcEoc,
+   output wire [11:0] AdcData
 
-module xadc
-     (
-          daddr_in,            // Address bus for the dynamic reconfiguration port
-          dclk_in,             // Clock input for the dynamic reconfiguration port
-          den_in,              // Enable Signal for the dynamic reconfiguration port
-          di_in,               // Input data bus for the dynamic reconfiguration port
-          dwe_in,              // Write Enable for the dynamic reconfiguration port
-          reset_in,            // Reset signal for the System Monitor control logic
-          busy_out,            // ADC Busy signal
-          channel_out,         // Channel Selection Outputs
-          do_out,              // Output data bus for dynamic reconfiguration port
-          drdy_out,            // Data ready signal for the dynamic reconfiguration port
-          eoc_out,             // End of Conversion Signal
-          eos_out,             // End of Sequence Signal
-          ot_out,              // Over-Temperature alarm output
-          vccaux_alarm_out,    // VCCAUX-sensor alarm output
-          vccint_alarm_out,    //  VCCINT-sensor alarm output
-          user_temp_alarm_out, // Temperature-sensor alarm output
-          alarm_out,           
-          vp_in,               // Dedicated Analog Input Pair
-          vn_in);
-     
-   input vp_in;
-   input vn_in;
-   input [6:0] daddr_in;
-   input dclk_in;
-   input den_in;
-   input [15:0] di_in;
-   input dwe_in;
-   input reset_in;
-   output busy_out;
-   output [4:0] channel_out;
-   output [15:0] do_out;
-   output drdy_out;
-   output eoc_out;
-   output eos_out;
-   output ot_out;
-   output vccaux_alarm_out;
-   output vccint_alarm_out;
-   output user_temp_alarm_out;
-   output alarm_out;
+);
 
-   wire GND_BIT;
+// module xadc
+//      (
+//           daddr_in,            // Address bus for the dynamic reconfiguration port
+//           dclk_in,             // Clock input for the dynamic reconfiguration port
+//           den_in,              // Enable Signal for the dynamic reconfiguration port
+//           di_in,               // Input data bus for the dynamic reconfiguration port
+//           dwe_in,              // Write Enable for the dynamic reconfiguration port
+//           reset_in,            // Reset signal for the System Monitor control logic
+//           busy_out,            // ADC Busy signal
+//           channel_out,         // Channel Selection Outputs
+//           do_out,              // Output data bus for dynamic reconfiguration port
+//           drdy_out,            // Data ready signal for the dynamic reconfiguration port
+//           eoc_out,             // End of Conversion Signal
+//           eos_out,             // End of Sequence Signal
+//           ot_out,              // Over-Temperature alarm output
+//           vccaux_alarm_out,    // VCCAUX-sensor alarm output
+//           vccint_alarm_out,    //  VCCINT-sensor alarm output
+//           user_temp_alarm_out, // Temperature-sensor alarm output
+//           alarm_out,           
+//           vp_in,               // Dedicated Analog Input Pair
+//           vn_in);
+//
+//    input vp_in;
+//    input vn_in;
+//    input [6:0] daddr_in;
+//    input dclk_in;
+//    input den_in;
+//    input [15:0] di_in;
+//    input dwe_in;
+//    input reset_in;
+//    output busy_out;
+//    output [4:0] channel_out;
+//    output [15:0] do_out;
+//    output drdy_out;
+//    output eoc_out;
+//    output eos_out;
+//    output ot_out;
+//    output vccaux_alarm_out;
+//    output vccint_alarm_out;
+//    output user_temp_alarm_out;
+//    output alarm_out;
 
-   reg rst_sync;
-   reg rst_sync_int;
-   reg rst_sync_int1;
-   reg rst_sync_int2;
+   // wire GND_BIT;
+   //
+   // reg rst_sync;
+   // reg rst_sync_int;
+   // reg rst_sync_int1;
+   // reg rst_sync_int2;
+   //
+   // assign GND_BIT = 0;
+   //
+   //   always @(posedge reset_in or posedge dclk_in) begin
+   //     if (reset_in) begin
+   //          rst_sync <= 1'b1;
+   //          rst_sync_int <= 1'b1;
+   //          rst_sync_int1 <= 1'b1;
+   //          rst_sync_int2 <= 1'b1;
+   //     end
+   //     else begin
+   //          rst_sync <= 1'b0;
+   //          rst_sync_int <= rst_sync;     
+   //          rst_sync_int1 <= rst_sync_int; 
+   //          rst_sync_int2 <= rst_sync_int1;
+   //     end
+   //  end
+   //
+   //
 
-   assign GND_BIT = 0;
-
-     always @(posedge reset_in or posedge dclk_in) begin
-       if (reset_in) begin
-            rst_sync <= 1'b1;
-            rst_sync_int <= 1'b1;
-            rst_sync_int1 <= 1'b1;
-            rst_sync_int2 <= 1'b1;
-       end
-       else begin
-            rst_sync <= 1'b0;
-            rst_sync_int <= rst_sync;     
-            rst_sync_int1 <= rst_sync_int; 
-            rst_sync_int2 <= rst_sync_int1;
-       end
-    end
-
-
-
+   wire [4:0] channel_out;
+   wire [15:0] do_out;
 xadc_wiz_0
 xadc_wiz_inst (
       .daddr_in(daddr_in[6:0]),
@@ -147,4 +161,20 @@ xadc_wiz_inst (
       .vp_in(vp_in),
       .vn_in(vn_in)
       );
+
+   //////////////////////////////////////////////////////
+   //   register ADC output into a bank of FlipFlops   //
+   //////////////////////////////////////////////////////
+
+   reg [11:0] adc_data_reg = 12'hFFF ;
+
+   always @(posedge AdcClk) begin
+
+      if( AdcEoc )
+
+         adc_data_reg[11:0] <= do_out[15:4] ;  // only 12-bits do_out[15:4] are meaningful
+   end
+
+   assign AdcData[11:0] = adc_data_reg[11:0] ;
+
 endmodule

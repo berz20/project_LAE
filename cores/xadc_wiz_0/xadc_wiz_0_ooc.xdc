@@ -1,4 +1,3 @@
- 
 
 # file: xadc_wiz_0_ooc.xdc
 # (c) Copyright 2009 - 2013 Xilinx, Inc. All rights reserved.

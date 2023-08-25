@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-// Date        : Thu Aug 24 23:06:30 2023
+// Date        : Fri Aug 25 11:29:41 2023
 // Host        : berz-msi running 64-bit Archcraft
 // Command     : write_verilog -force -mode funcsim
 //               /home/berz/Documents/UNI/MAG_1/project_LAE/cores/xadc_wiz_0/xadc_wiz_0_sim_netlist.v
@@ -14,33 +14,41 @@
 
 (* NotValidForBitStream *)
 module xadc_wiz_0
-   (convst_in,
-    daddr_in,
+   (daddr_in,
     dclk_in,
     den_in,
     di_in,
     dwe_in,
+    reset_in,
     busy_out,
     channel_out,
     do_out,
     drdy_out,
     eoc_out,
     eos_out,
+    ot_out,
+    vccaux_alarm_out,
+    vccint_alarm_out,
+    user_temp_alarm_out,
     alarm_out,
     vp_in,
     vn_in);
-  input convst_in;
   input [6:0]daddr_in;
   input dclk_in;
   input den_in;
   input [15:0]di_in;
   input dwe_in;
+  input reset_in;
   output busy_out;
   output [4:0]channel_out;
   output [15:0]do_out;
   output drdy_out;
   output eoc_out;
   output eos_out;
+  output ot_out;
+  output vccaux_alarm_out;
+  output vccint_alarm_out;
+  output user_temp_alarm_out;
   output alarm_out;
   input vp_in;
   input vn_in;
@@ -48,7 +56,6 @@ module xadc_wiz_0
   wire alarm_out;
   wire busy_out;
   wire [4:0]channel_out;
-  wire convst_in;
   wire [6:0]daddr_in;
   wire dclk_in;
   wire den_in;
@@ -58,19 +65,23 @@ module xadc_wiz_0
   wire dwe_in;
   wire eoc_out;
   wire eos_out;
+  wire ot_out;
+  wire reset_in;
+  wire user_temp_alarm_out;
+  wire vccaux_alarm_out;
+  wire vccint_alarm_out;
   wire vn_in;
   wire vp_in;
   wire NLW_inst_JTAGBUSY_UNCONNECTED;
   wire NLW_inst_JTAGLOCKED_UNCONNECTED;
   wire NLW_inst_JTAGMODIFIED_UNCONNECTED;
-  wire NLW_inst_OT_UNCONNECTED;
-  wire [6:0]NLW_inst_ALM_UNCONNECTED;
+  wire [6:3]NLW_inst_ALM_UNCONNECTED;
   wire [4:0]NLW_inst_MUXADDR_UNCONNECTED;
 
   (* BOX_TYPE = "PRIMITIVE" *) 
   XADC #(
-    .INIT_40(16'h8200),
-    .INIT_41(16'h31AF),
+    .INIT_40(16'h0003),
+    .INIT_41(16'h31A0),
     .INIT_42(16'h0400),
     .INIT_43(16'h0000),
     .INIT_44(16'h0000),
@@ -106,10 +117,10 @@ module xadc_wiz_0
     .SIM_DEVICE("7SERIES"),
     .SIM_MONITOR_FILE("design.txt")) 
     inst
-       (.ALM({alarm_out,NLW_inst_ALM_UNCONNECTED[6:0]}),
+       (.ALM({alarm_out,NLW_inst_ALM_UNCONNECTED[6:3],vccaux_alarm_out,vccint_alarm_out,user_temp_alarm_out}),
         .BUSY(busy_out),
         .CHANNEL(channel_out),
-        .CONVST(convst_in),
+        .CONVST(1'b0),
         .CONVSTCLK(1'b0),
         .DADDR(daddr_in),
         .DCLK(dclk_in),
@@ -124,8 +135,8 @@ module xadc_wiz_0
         .JTAGLOCKED(NLW_inst_JTAGLOCKED_UNCONNECTED),
         .JTAGMODIFIED(NLW_inst_JTAGMODIFIED_UNCONNECTED),
         .MUXADDR(NLW_inst_MUXADDR_UNCONNECTED[4:0]),
-        .OT(NLW_inst_OT_UNCONNECTED),
-        .RESET(1'b0),
+        .OT(ot_out),
+        .RESET(reset_in),
         .VAUXN({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
         .VAUXP({1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0,1'b0}),
         .VN(vn_in),

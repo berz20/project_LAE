@@ -63,20 +63,34 @@ wire adc_soc ;
 ////////////////////////////////////////////////////////////
 
 wire adc_eoc ;
+wire vp_in, vn_in ;
 
 wire [11:0] adc_data ;
+wire [15:0] do_out ;
 
 assign adc_data = 12'hABC ;    // **DEBUG
 
+xadc
+xadc_inst (
+      .daddr_in(7'h03),
+      .AdcClk(pll_clk),
+      .den_in(adc_eoc),
+      .di_in(16'h0000),
+      .dwe_in(1'b0),
+      .vp_in(vp_in),
+      .vn_in(vn_in),
+      .AdcEoc(adc_eoc),
+      .AdcData(adc_data[11:0])
+      );
 
-XADC  XADC (
-
-   .AdcClk    (        pll_clk ),
-   .AdcSoc    (        div_clk ),
-   .AdcEoc    (        adc_eoc ),
-   .AdcData   (     adc_data[11:0] )
-
-) ;
+// XADC  XADC (
+//
+//    .AdcClk    (        pll_clk ),
+//    .AdcSoc    (        div_clk ),
+//    .AdcEoc    (        adc_eoc ),
+//    .AdcData   (     adc_data[11:0] )
+//
+// ) ;
 
 // Instantiation of finite state machine 
 FSM fsm0(

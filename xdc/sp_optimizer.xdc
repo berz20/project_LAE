@@ -21,7 +21,7 @@ set_property -dict { PACKAGE_PIN E3  IOSTANDARD LVCMOS33 } [get_ports clk]
 ########################
 
 
-#set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
+set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
 
 
 ######################
@@ -37,10 +37,10 @@ set_property -dict { PACKAGE_PIN E3  IOSTANDARD LVCMOS33 } [get_ports clk]
 
 # Buttons facing away from human
 
-#set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
-#set_property -dict { PACKAGE_PIN C9  IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L11P_T1_SRCC_16 Sch=btn[1]
-#set_property -dict { PACKAGE_PIN B9  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L11N_T1_SRCC_16 Sch=btn[2]
-#set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
+set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
+set_property -dict { PACKAGE_PIN C9  IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L11P_T1_SRCC_16 Sch=btn[1]
+set_property -dict { PACKAGE_PIN B9  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L11N_T1_SRCC_16 Sch=btn[2]
+set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
 
 
 ########################
@@ -49,8 +49,8 @@ set_property -dict { PACKAGE_PIN E3  IOSTANDARD LVCMOS33 } [get_ports clk]
 
 # Utilized to control servo motors
 
-#set_property -dict { PACKAGE_PIN G13  IOSTANDARD LVCMOS33 } [get_ports { ja[0] }]   ; #IO_0_15 Sch=ja[1]
-#set_property -dict { PACKAGE_PIN B11  IOSTANDARD LVCMOS33 } [get_ports { ja[1] }]   ; #IO_L4P_T0_15 Sch=ja[2]
+set_property -dict { PACKAGE_PIN G13  IOSTANDARD LVCMOS33 } [get_ports SERVO_H ]   ; #IO_0_15 Sch=ja[1]
+set_property -dict { PACKAGE_PIN B11  IOSTANDARD LVCMOS33 } [get_ports SERVO_V ]   ; #IO_L4P_T0_15 Sch=ja[2]
 #set_property -dict { PACKAGE_PIN A11  IOSTANDARD LVCMOS33 } [get_ports { ja[2] }]   ; #IO_L4N_T0_15 Sch=ja[3]
 #set_property -dict { PACKAGE_PIN D12  IOSTANDARD LVCMOS33 } [get_ports { ja[3] }]   ; #IO_L6P_T0_15 Sch=ja[4]
 #set_property -dict { PACKAGE_PIN D13  IOSTANDARD LVCMOS33 } [get_ports { ja[4] }]   ; #IO_L6N_T0_VREF_15 Sch=ja[7]
@@ -65,7 +65,7 @@ set_property -dict { PACKAGE_PIN E3  IOSTANDARD LVCMOS33 } [get_ports clk]
 
 # Utilized to recive voltage signal from the sp
 
-#set_property -dict { PACKAGE_PIN D4  IOSTANDARD LVCMOS33 } [get_ports vp_in]   ; #IO_L11N_T1_SRCC_35 Sch=jd[1]
+set_property -dict { PACKAGE_PIN D4  IOSTANDARD LVCMOS33 } [get_ports vp_in]   ; #IO_L11N_T1_SRCC_35 Sch=jd[1]
 #set_property -dict { PACKAGE_PIN D3  IOSTANDARD LVCMOS33 } [get_ports vn_in]   ; #IO_L12N_T1_MRCC_35 Sch=jd[2]
 
 
