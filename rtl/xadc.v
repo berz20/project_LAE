@@ -61,8 +61,9 @@ module xadc (
    input wire den_in,
    input wire [15:0] di_in,
    input wire dwe_in,
-   input wire vn_in,
+   input wire reset_in,
    input wire vp_in,
+   input wire vn_in,
    output wire AdcEoc,
    output wire [11:0] AdcData
 
@@ -110,38 +111,39 @@ module xadc (
 //    output user_temp_alarm_out;
 //    output alarm_out;
 
-   // wire GND_BIT;
-   //
-   // reg rst_sync;
-   // reg rst_sync_int;
-   // reg rst_sync_int1;
-   // reg rst_sync_int2;
-   //
-   // assign GND_BIT = 0;
-   //
-   //   always @(posedge reset_in or posedge dclk_in) begin
-   //     if (reset_in) begin
-   //          rst_sync <= 1'b1;
-   //          rst_sync_int <= 1'b1;
-   //          rst_sync_int1 <= 1'b1;
-   //          rst_sync_int2 <= 1'b1;
-   //     end
-   //     else begin
-   //          rst_sync <= 1'b0;
-   //          rst_sync_int <= rst_sync;     
-   //          rst_sync_int1 <= rst_sync_int; 
-   //          rst_sync_int2 <= rst_sync_int1;
-   //     end
-   //  end
-   //
-   //
+   wire GND_BIT;
+
+   reg rst_sync;
+   reg rst_sync_int;
+   reg rst_sync_int1;
+   reg rst_sync_int2;
+
+   assign GND_BIT = 0;
+
+     always @(posedge reset_in or posedge AdcClk) begin
+       if (reset_in) begin
+            rst_sync <= 1'b1;
+            rst_sync_int <= 1'b1;
+            rst_sync_int1 <= 1'b1;
+            rst_sync_int2 <= 1'b1;
+       end
+       else begin
+            rst_sync <= 1'b0;
+            rst_sync_int <= rst_sync;
+            rst_sync_int1 <= rst_sync_int;
+            rst_sync_int2 <= rst_sync_int1;
+       end
+    end
+
+
 
    wire [4:0] channel_out;
    wire [15:0] do_out;
+
 xadc_wiz_0
 xadc_wiz_inst (
       .daddr_in(daddr_in[6:0]),
-      .dclk_in(dclk_in),
+      .dclk_in(AdcClk),
       .den_in(den_in),
       .di_in(di_in[15:0]),
       .dwe_in(dwe_in),
@@ -155,7 +157,7 @@ xadc_wiz_inst (
       .do_out(do_out[15:0]),
       .drdy_out(drdy_out),
       .eoc_out(eoc_out),
-      .eos_out(eos_out),
+      .eos_out(AdcEoc),
       .ot_out(ot_out),
       .alarm_out(alarm_out),
       .vp_in(vp_in),

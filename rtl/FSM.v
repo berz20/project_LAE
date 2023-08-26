@@ -41,8 +41,10 @@ parameter [2:0]
 reg [2:0] PS = man;  // Present State
 reg [2:0] NS;  // Next state
 
-always @(posedge CLK, posedge NS) begin
-   PS <= NS;
+always @(CLK,NS) begin
+   if (CLK == 1) begin
+      PS <= NS;
+   end
 end
 
 always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin

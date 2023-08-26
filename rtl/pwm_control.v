@@ -23,16 +23,16 @@ module pwm_control(
 // the clk used is the 100 MHz reduced by a 100 factor so 1Mhz therefore the
 // period is 1us and this constant are to be viewed in us
 // This are the simulation constants for a more compact pwm signal
-integer time_high_stopped = 15 ; // 15 us
-integer time_high_ccw = 16 ;
-integer time_high_cw = 14 ;
-integer time_low = 200 ;
+// integer time_high_stopped = 15 ; // 15 us
+// integer time_high_ccw = 16 ;
+// integer time_high_cw = 14 ;
+// integer time_low = 200 ;
 
 // OLD_This are the effective constants to be used
-// integer time_high_stopped = 1500 ; // 1.5 ms
-// integer time_high_ccw = 1520 ;
-// integer time_high_cw = 1480 ;
-// integer time_low = 20000 ;
+integer time_high_stopped = 1500 ; // 1.5 ms
+integer time_high_ccw = 1520 ;
+integer time_high_cw = 1480 ;
+integer time_low = 20000 ;
 
 // This are the effective constants to be used for 
 // integer time_high_stopped = 1500 ; // 1.5 ms

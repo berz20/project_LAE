@@ -55,15 +55,15 @@ pwm_control pwm_control_0(
 // order to change the period of the clk that becomes 1us so the constants in
 // the pwm_control are expressed in us due to the fact that the increase in
 // the counter happens every rising edge of clk
-// TickCounterRst #(.MAX(100)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+// TickCounterRst #(.MAX(50)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
 // this is a test tick counter to view more pwm pulses it only divides the clk
 // by 2
-TickCounterRst #(.MAX(2)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+// TickCounterRst #(.MAX(2)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
-// clk_div2 clk_div2_0(
-//    .clk(CLK),
-//    .sclk(inter_clk));
+clk_div2 clk_div2_0(
+   .clk(CLK),
+   .sclk(inter_clk));
 
 
 endmodule

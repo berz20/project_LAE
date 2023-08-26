@@ -34,27 +34,29 @@ module max_counter(
 
 // Reduced count to view all the calibration steps in a reasonable simulation
 // time 
-reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
+reg [8:0] currcount = 9'b000_000_000; // **TODO: value to be defined
 
-always @(posedge CLK, posedge CNT_RST, posedge RESET, posedge MC) begin : P1
+always @(CLK,CNT_RST,MC) begin : P1
 
-   if(CNT_RST == 1'b1) begin
-      // currcount <= 13'b0_000_000_000_000;
-      currcount <= 4'b0_000;
-      CNT_RU <= 1'b0;
-   end else begin
-      if(MC == 1'b0) begin
-         currcount <= currcount + 1;
+   if(CLK==1) begin
+      if(CNT_RST == 1'b1) begin
+         // currcount <= 13'b0_000_000_000_000;
+         currcount <= 9'b000_000_000;
          CNT_RU <= 1'b0;
-      end
-      else if(MC == 1'b1) begin
-         currcount <= currcount - 1;
-         // if(currcount == 13'b0_000_000_000_000) begin
-         if(currcount == 4'b0_000) begin
+      end else begin
+         if(MC == 1'b0) begin
+            currcount <= currcount + 1;
             CNT_RU <= 1'b0;
          end
-         else begin
-            CNT_RU <= 1'b1;
+         else if(MC == 1'b1) begin
+            currcount <= currcount - 1;
+            // if(currcount == 13'b0_000_000_000_000) begin
+            if(currcount == 9'b000_000_000) begin
+               CNT_RU <= 1'b0;
+            end
+            else begin
+               CNT_RU <= 1'b1;
+            end
          end
       end
    end

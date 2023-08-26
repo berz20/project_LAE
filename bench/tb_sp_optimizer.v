@@ -30,31 +30,123 @@ wire CLK ;
 integer i = 0;
 integer j = 0;
 
-ClockGen  #(.PERIOD(10.0)) ClockGen_inst (.clk(CLK) ) ;   // override default period as module parameter (default is 50.0 ns)
+ClockGen  #(.PERIOD(10.0)) ClockGen_inst (.clk(pll_clk) ) ;   // override default period as module parameter (default is 50.0 ns)
 // Instantiate the DUT (Device Under Test)
-sp_optimizer dut(
-    .BTN_L(BTN_L),
-    .BTN_R(BTN_R),
-    .BTN_U(BTN_U),
-    .BTN_D(BTN_D),
-    .BTN_C(BTN_C),
-    .CLK(CLK),
-    .V_in(V_in),
-    .max_V_in(max_V_in),
-    .direction_lr(direction_lr),
-    .direction_ud(direction_ud),
-    // .V_out(), // Unused output in test bench
-    // .DISP_EN(DISP_EN),
-    // .SSD(SSD),
-    .servo_l(servo_l),
-    .servo_r(servo_r),
-    .servo_u(servo_u),
-    .servo_d(servo_d),
-    .SERVO_H(SERVO_H),
-    .SERVO_V(SERVO_V),
-    .STAT(STAT)
-);
+// sp_optimizer dut(
+//     .BTN_L(BTN_L),
+//     .BTN_R(BTN_R),
+//     .BTN_U(BTN_U),
+//     .BTN_D(BTN_D),
+//     .BTN_C(BTN_C),
+//     .CLK(CLK),
+//     .V_in(V_in),
+//     .max_V_in(max_V_in),
+//     .direction_lr(direction_lr),
+//     .direction_ud(direction_ud),
+//     // .V_out(), // Unused output in test bench
+//     // .DISP_EN(DISP_EN),
+//     // .SSD(SSD),
+//     .servo_l(servo_l),
+//     .servo_r(servo_r),
+//     .servo_u(servo_u),
+//     .servo_d(servo_d),
+//     .SERVO_H(SERVO_H),
+//     .SERVO_V(SERVO_V),
+//     .STAT(STAT)
+// );
 
+// wire pll_clk, pll_locked ;
+//
+// PLL  PLL_inst ( .CLK_IN(CLK), .CLK_OUT(pll_clk), .LOCKED(pll_locked) ) ;
+
+// TIckcounter faster than the actual in orded to reduce the time to switch
+// the sweeping steps 
+// TickCounterRst #(.MAX(24414)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
+
+// Instantiation of finite state machine 
+FSM fsm0(
+   .BTN_L(BTN_L),
+   .BTN_R(BTN_R),
+   .BTN_U(BTN_U),
+   .BTN_D(BTN_D),
+   .BTN_C(BTN_C),
+   .CNT_L(cnt_l),
+   .CNT_RU(cnt_ru),
+   .CNT_D(cnt_d),
+   .CLK(div_clk),
+   .HS(hs),
+   .VS(vs),
+   .MC(mc),
+   .SERVO_L(servo_l),
+   .SERVO_R(servo_r),
+   .SERVO_U(servo_u),
+   .SERVO_D(servo_d),
+   .STAT(STAT),
+   .CNT_RST(cnt_rst));
+
+// Instantiation o the two servo drivers which control the servos by pwm_control and
+// a clk divider
+servo_driver servo_driver0(
+   .CLK(pll_clk),
+   .BTN_0(servo_l),
+   .BTN_1(servo_r),
+   .direction(direction_lr),
+   .SERVO(SERVO_H));
+
+servo_driver servo_driver1(
+   .CLK(pll_clk),
+   .BTN_0(servo_u),
+   .BTN_1(servo_d),
+   .direction(direction_ud),
+   .SERVO(SERVO_V));
+
+// Voltage visualizer which outputs current voltage on the seven segment
+// display
+// volt_vis volt_vis0(
+//    .CLK(CLK),
+//    .V_in(V_in),
+//    .V_out(V_out),
+//    .V_value(volt),
+//    .DISP_EN(DISP_EN),
+//    .SSD(SSD));
+
+// Compare current voltage with the one stored in the register
+voltage_comparator voltage_comparator0(
+   .PV(V_in),
+   .LV(max_V_in),
+   .GT(reset));
+
+clk_div cd0(
+   .clk(pll_clk),
+   .sclk(div_clk));
+
+
+// Counter which counts the number of steps taken from the max voltage 
+max_counter max_counter0(
+   .CLK(div_clk),
+   .CNT_RST(cnt_rst),
+   .RESET(reset),
+   .MC(mc),
+   .CNT_RU(cnt_ru));
+
+// Counter to limit the horizontal range of movement of servos
+horiz_counter horiz_counter0(
+   .CLK(div_clk),
+   .HS(hs),
+   .CNT_L(cnt_l));
+
+// Counter to limit the vertical range of movement of servos
+vert_counter vert_counter0(
+   .CLK(div_clk),
+   .VS(vs),
+   .CNT_D(cnt_d));
+
+// Flip Flop array which register the max voltage
+FF_Array FF_Array0(
+   .CLK(pll_clk),
+   .GT(reset),
+   .PV(V_in),
+   .LV(max_V_in));
 // Stimulus
 initial begin
     // Initialize inputs

@@ -14,27 +14,30 @@
 // Module to divide the clock 
 //---------------------------------------------------------------------
 
-`timescale 1 us / 100 ps
+`timescale 1 ns / 100 ps
 
 module clk_div2(
-input wire clk,
-output wire sclk
+   input wire clk,
+   output reg sclk
 );
 
 parameter MAX_COUNT = 50;
 reg tmp_clk = 1'b0;
 integer div_cnt = 0;
 
-  always @(posedge clk, posedge tmp_clk) begin : P1
+always @(clk,tmp_clk) begin : P1
 
-    if((div_cnt == MAX_COUNT)) begin
-      tmp_clk <=  ~tmp_clk;
-      div_cnt <= 0;
-    end
-    else begin
-      div_cnt <= div_cnt + 1;
-    end
-  end
+   if(clk==1) begin
+      if((div_cnt == MAX_COUNT)) begin
+         tmp_clk <=  ~tmp_clk;
+         div_cnt <= 0;
+      end
+      else begin
+         div_cnt <= div_cnt + 1;
+      end
+      sclk <= tmp_clk; 
+   end
+end
 
 
 endmodule

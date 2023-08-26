@@ -26,14 +26,14 @@ module horiz_counter(
 
 // Reduced count to view all the calibration steps in a reasonable simulation
 // time 
-reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
+reg [8:0] currcount = 9'b000_000_000; // **TODO: value to be defined
 
 always @(posedge CLK, posedge HS) begin : P1
 
    if(HS == 1'b1) begin
       currcount <= currcount + 1;
       // if(currcount == 13'b1_111_111_111_111) begin
-      if(currcount == 4'b1_111) begin
+      if(currcount == 9'b111_111_111) begin
          CNT_L <= 1'b0;
       end
       else begin
@@ -42,7 +42,7 @@ always @(posedge CLK, posedge HS) begin : P1
    end
    else if(HS == 1'b0) begin
       // currcount <= 13'b0_000_000_000_000;
-      currcount <= 4'b0_000;
+      currcount <= 9'b000_000_000;
       CNT_L <= 1'b0;
    end
 end

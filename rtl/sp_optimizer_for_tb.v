@@ -19,20 +19,20 @@ input wire BTN_D,
 input wire BTN_C,
 input wire CLK,
 input wire vp_in,
-// output wire [11:0] V_in,
-// output wire [11:0] max_V_in,
+input wire [11:0] V_in,
+output wire [11:0] max_V_in,
 // input wire V_out,
 // output wire [3:0] DISP_EN,
 // output wire [7:0] SSD,
-// output reg [1:0] direction_lr,
-// output reg [1:0] direction_ud,
+output reg [1:0] direction_lr,
+output reg [1:0] direction_ud,
 output wire servo_l,
 output wire servo_r,
 output wire servo_u,
 output wire servo_d,
 output wire SERVO_H,
-output wire SERVO_V
-// output reg [2:0] STAT
+output wire SERVO_V,
+output reg [2:0] STAT
 );
 
 wire hs; wire vs; wire mc; // define horizontal sweep, vertical sweep and max counter enable signals
@@ -66,13 +66,8 @@ wire adc_soc ;
 wire adc_eoc ;
 // wire vp_in, vn_in ;
 
-wire [11:0] V_in;
-wire [11:0] max_V_in;
-reg [2:0] STAT;
-reg [1:0] direction_lr;
-reg [1:0] direction_ud;
-// wire [11:0] adc_data ;
-// wire [15:0] do_out ;
+wire [11:0] adc_data ;
+wire [15:0] do_out ;
 
 assign adc_data = 12'hABC ;    // **DEBUG
 
@@ -87,7 +82,7 @@ xadc_inst (
       .vp_in(vp_in),
       .vn_in(1'b0),
       .AdcEoc(adc_eoc),
-      .AdcData(V_in[11:0])
+      .AdcData(adc_data[11:0])
       );
 
 // XADC  XADC (
@@ -152,13 +147,13 @@ voltage_comparator voltage_comparator0(
    .LV(max_V_in),
    .GT(reset));
 
-clk_div cd0(
-   .clk(pll_clk),
-   .sclk(div_clk));
+// clk_div cd0(
+//    .clk(pll_clk),
+//    .sclk(div_clk));
 
 // TIckcounter faster than the actual in orded to reduce the time to switch
 // the sweeping steps 
-// TickCounterRst #(.MAX(24414)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
+TickCounterRst #(.MAX(100)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
 
 // Counter which counts the number of steps taken from the max voltage 
 max_counter max_counter0(

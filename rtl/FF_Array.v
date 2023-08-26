@@ -22,13 +22,15 @@ module FF_Array(
 
 reg [11:0] inter = 12'b000000000000;
 
-always @(posedge CLK, posedge PV, posedge GT) begin
-   if(GT == 1'b1) begin
-      LV <= PV; // if enable is set to high to LV is set to PV otherwise it keeps is value 
-      inter <= PV;
-   end
-   else begin
-      LV <= inter;
+always @(CLK,GT,PV) begin
+   if(CLK==1) begin
+      if(GT == 1'b1) begin
+         LV <= PV; // if enable is set to high to LV is set to PV otherwise it keeps is value 
+         inter <= PV;
+      end
+      else begin
+         LV <= inter;
+      end
    end
 end
 
