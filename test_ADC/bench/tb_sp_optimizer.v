@@ -14,6 +14,7 @@ wire [11:0] V_in;
 // wire [3:0] DISP_EN;
 // wire [7:0] SSD;
 wire [11:0] max_V_in;
+wire [31:0] pulseWidth_max;
 wire servo_l;
 wire servo_r;
 wire servo_u;
@@ -47,6 +48,7 @@ sp_optimizer dut(
     // .vp_in(vp_in),
     .V_in(V_in),
     .max_V_in(max_V_in),
+    .pulseWidth_max(pulseWidth_max),
     .direction_lr(direction_lr),
     .direction_ud(direction_ud),
     // .V_out(), // Unused output in test bench

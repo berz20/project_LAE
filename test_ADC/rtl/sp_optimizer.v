@@ -21,6 +21,7 @@ input wire CLK,
 // input wire vp_in,
 output wire [11:0] V_in,
 output wire [11:0] max_V_in,
+output wire [31:0] pulseWidth_max,
 // input wire V_out,
 // output wire [3:0] DISP_EN,
 // output wire [7:0] SSD,
@@ -80,7 +81,7 @@ wire adc_eoc ;
 // wire [11:0] adc_data ;
 // wire [15:0] do_out ;
 
-assign adc_data = 12'hABC ;    // **DEBUG
+// assign adc_data = 12'hABC ;    // **DEBUG
 
   wire EOC_TB;
   wire EOS_TB;
@@ -157,6 +158,8 @@ servo_driver servo_driver0(
    .CLK(pll_clk),
    .BTN_0(servo_l),
    .BTN_1(servo_r),
+   .max_enable(mc),
+   .pulseWidth_max(pulseWidth_max),
    .direction(direction_lr),
    .servo_position(servo_position_H),
    .general_enable(general_enable_H),
@@ -166,6 +169,8 @@ servo_driver servo_driver1(
    .CLK(pll_clk),
    .BTN_0(servo_d),
    .BTN_1(servo_u),
+   .max_enable(mc),
+   .pulseWidth_max(pulseWidth_max),
    .direction(direction_ud),
    .servo_position(servo_position_V),
    .general_enable(general_enable_V),
@@ -221,7 +226,12 @@ vert_counter vert_counter0(
 FF_Array FF_Array0(
    .CLK(pll_clk),
    .GT(reset),
+   .pulseWidth_H(servo_position_H),
+   .pulseWidth_V(servo_position_V),
+   .EN_H(servo_r),
+   .EN_V(servo_u),
    .PV(V_in),
+   .pulseWidth_max(pulseWidth_max),
    .LV(max_V_in));
 
 

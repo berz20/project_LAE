@@ -4,23 +4,26 @@ module pwm_control(
     input wire CLK,
     input wire [1:0] DIR,
     input wire EN,
+    input wire max_enable,
+    input wire [31:0] pulseWidth_max,
     output reg [31:0] pulseWidth,
     output reg SERVO
 );
 
-parameter integer minPulseWidth = 500;
-parameter integer maxPulseWidth = 2500;
-parameter integer inc_dec_interval = 10;
+parameter integer minPulseWidth = 50;
+parameter integer maxPulseWidth = 250;
+parameter integer inc_dec_interval = 1;
 
 integer th_cntr = 0;
 integer tl_cntr = 0;
 
-integer tmp_th = 0;
+integer tmp_th = minPulseWidth;
 integer tmp_th_cw = minPulseWidth;
 integer tmp_th_ccw = maxPulseWidth;
-integer time_low = 20000;
+integer time_low = 2000;
 
 always @(posedge CLK,DIR) begin
+   pulseWidth <= tmp_th;
     if (EN == 1'b1) begin
         if (DIR == 2'b00) begin
             SERVO <= 1'b0;
@@ -29,14 +32,14 @@ always @(posedge CLK,DIR) begin
             if (th_cntr < tmp_th_cw) begin
                 th_cntr <= th_cntr + 1 ;
                 SERVO <= 1'b1 ;
-                // tmp_th <= tmp_th_cw;
+                tmp_th <= tmp_th_cw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_cw;
             end
             else if (tl_cntr < time_low) begin
                 tl_cntr <= tl_cntr + 1 ;
                 SERVO <= 1'b0 ;
-                // tmp_th <= tmp_th_cw;
+                tmp_th <= tmp_th_cw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_cw;
             end
@@ -44,24 +47,43 @@ always @(posedge CLK,DIR) begin
                 tl_cntr <= 0 ;
                 th_cntr <= 0 ;
                 SERVO <= 1'b0 ;
-                // tmp_th <= tmp_th_cw;
+                tmp_th <= tmp_th_cw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_cw;
                 tmp_th_cw <= tmp_th_cw + inc_dec_interval;
-            end
-        end
-        else if (DIR == 2'b10) begin
-            if (th_cntr < tmp_th_ccw) begin
+             end
+          end
+          else if (DIR == 2'b10) begin
+             if (max_enable) begin
+                if (th_cntr < pulseWidth_max) begin
+                   th_cntr <= th_cntr + 1 ;
+                   SERVO <= 1'b1 ;
+                   pulseWidth <= pulseWidth_max;
+                end
+                else if (tl_cntr < time_low) begin
+                   tl_cntr <= tl_cntr + 1 ;
+                   SERVO <= 1'b0 ;
+                   pulseWidth <= pulseWidth_max;
+                end
+                else begin
+                   tl_cntr <= 0 ;
+                   th_cntr <= 0 ;
+                   SERVO <= 1'b0 ;
+                   pulseWidth <= pulseWidth_max;
+                end
+
+           end
+           else if (th_cntr < tmp_th_ccw) begin
                 th_cntr <= th_cntr + 1 ;
                 SERVO <= 1'b1 ;
-                // tmp_th <= tmp_th_ccw;
+                tmp_th <= tmp_th_ccw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_ccw;
             end
             else if (tl_cntr < time_low) begin
                 tl_cntr <= tl_cntr + 1 ;
                 SERVO <= 1'b0 ;
-                // tmp_th <= tmp_th_ccw;
+                tmp_th <= tmp_th_ccw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_ccw;
             end
@@ -69,7 +91,7 @@ always @(posedge CLK,DIR) begin
                 tl_cntr <= 0 ;
                 th_cntr <= 0 ;
                 SERVO <= 1'b0 ;
-                // tmp_th <= tmp_th_ccw;
+                tmp_th <= tmp_th_ccw;
                 // $display("tmp_th =",tmp_th);
                 pulseWidth <= tmp_th_ccw;
                 tmp_th_ccw <= tmp_th_ccw - inc_dec_interval;
@@ -88,6 +110,98 @@ always @(posedge CLK,DIR) begin
 end
 
 endmodule
+
+// `timescale 1ns / 100ps
+//
+// module pwm_control(
+//     input wire CLK,
+//     input wire [1:0] DIR,
+//     input wire EN,
+//     output reg [31:0] pulseWidth,
+//     output reg SERVO
+// );
+//
+// parameter integer minPulseWidth = 500;
+// parameter integer maxPulseWidth = 2500;
+// parameter integer inc_dec_interval = 10;
+//
+// integer th_cntr = 0;
+// integer tl_cntr = 0;
+//
+// integer tmp_th = 0;
+// integer tmp_th_cw = minPulseWidth;
+// integer tmp_th_ccw = maxPulseWidth;
+// integer time_low = 20000;
+//
+// always @(posedge CLK,DIR) begin
+//    pulseWidth <= 1500;
+//     if (EN == 1'b1) begin
+//         if (DIR == 2'b00) begin
+//             SERVO <= 1'b0;
+//         end
+//         else if (DIR == 2'b01) begin
+//             if (th_cntr < tmp_th_cw) begin
+//                 th_cntr <= th_cntr + 1 ;
+//                 SERVO <= 1'b1 ;
+//                 // tmp_th <= tmp_th_cw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_cw;
+//             end
+//             else if (tl_cntr < time_low) begin
+//                 tl_cntr <= tl_cntr + 1 ;
+//                 SERVO <= 1'b0 ;
+//                 // tmp_th <= tmp_th_cw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_cw;
+//             end
+//             else begin
+//                 tl_cntr <= 0 ;
+//                 th_cntr <= 0 ;
+//                 SERVO <= 1'b0 ;
+//                 // tmp_th <= tmp_th_cw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_cw;
+//                 tmp_th_cw <= tmp_th_cw + inc_dec_interval;
+//             end
+//         end
+//         else if (DIR == 2'b10) begin
+//             if (th_cntr < tmp_th_ccw) begin
+//                 th_cntr <= th_cntr + 1 ;
+//                 SERVO <= 1'b1 ;
+//                 // tmp_th <= tmp_th_ccw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_ccw;
+//             end
+//             else if (tl_cntr < time_low) begin
+//                 tl_cntr <= tl_cntr + 1 ;
+//                 SERVO <= 1'b0 ;
+//                 // tmp_th <= tmp_th_ccw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_ccw;
+//             end
+//             else begin
+//                 tl_cntr <= 0 ;
+//                 th_cntr <= 0 ;
+//                 SERVO <= 1'b0 ;
+//                 // tmp_th <= tmp_th_ccw;
+//                 // $display("tmp_th =",tmp_th);
+//                 pulseWidth <= tmp_th_ccw;
+//                 tmp_th_ccw <= tmp_th_ccw - inc_dec_interval;
+//             end
+//         end
+//     end
+//     else begin
+//         th_cntr <= 0;
+//         tl_cntr <= 0;
+//         SERVO <= 1'b0;
+//         // pulseWidth <= 16'b0;
+//         // tmp_th <= 0;
+//         tmp_th_cw <= minPulseWidth;
+//         tmp_th_ccw <= maxPulseWidth;
+//     end
+// end
+//
+// endmodule
 
 
 // `timescale 1 ns / 100 ps
