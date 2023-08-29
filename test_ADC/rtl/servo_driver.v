@@ -9,6 +9,7 @@ module servo_driver(
    output wire SERVO,
    output wire [31:0] servo_position,
    output reg general_enable,
+   // output wire PWM_limit_cw,
    output reg [1:0] direction
 );
 
@@ -36,13 +37,13 @@ always @(direction) begin
 end
 
 
-always @(CLK) begin
-   if (servo_position < 250 ) begin
-      general_enable <= 1'b1;
+always @(posedge CLK) begin
+   if (servo_position < 100 ) begin
+      general_enable <= 1'b0;
    end
-   else general_enable <= 1'b0;
+   else general_enable <= 1'b1;
 
-   $display("PWM_limit = ", general_enable);
+   // $display("PWM_limit = ", general_enable);
 end
 
 // function given from Catalog of servos
@@ -54,6 +55,7 @@ pwm_control pwm_control_0(
    .max_enable(max_enable),
    .pulseWidth_max(pulseWidth_max),
    .pulseWidth(servo_position),
+   // .PWM_limit_cw(PWM_limit_cw),
    .SERVO(SERVO));
 
 // Tickcounter should decrease the clk frequency from 100 MHz to 1 Mhz in

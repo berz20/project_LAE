@@ -14,7 +14,16 @@ wire [11:0] V_in;
 // wire [3:0] DISP_EN;
 // wire [7:0] SSD;
 wire [11:0] max_V_in;
-wire [31:0] pulseWidth_max;
+wire [31:0] pulseWidth_max_H;
+wire [31:0] pulseWidth_max_V;
+// wire PWM_limit_cw_H;
+// wire PWM_limit_cw_V;
+wire mc;
+wire hs;
+wire vs;
+wire cnt_ru;
+wire cnt_l;
+wire cnt_d;
 wire servo_l;
 wire servo_r;
 wire servo_u;
@@ -48,7 +57,16 @@ sp_optimizer dut(
     // .vp_in(vp_in),
     .V_in(V_in),
     .max_V_in(max_V_in),
-    .pulseWidth_max(pulseWidth_max),
+    .pulseWidth_max_H(pulseWidth_max_H),
+    .pulseWidth_max_V(pulseWidth_max_V),
+    // .PWM_limit_cw_H(PWM_limit_cw_H),
+    // .PWM_limit_cw_V(PWM_limit_cw_V),
+    .hs(hs),
+    .vs(vs),
+    .mc(mc),
+    .cnt_l(cnt_l),
+    .cnt_d(cnt_d),
+    .cnt_ru(cnt_ru),
     .direction_lr(direction_lr),
     .direction_ud(direction_ud),
     // .V_out(), // Unused output in test bench

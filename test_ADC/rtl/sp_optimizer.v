@@ -21,7 +21,16 @@ input wire CLK,
 // input wire vp_in,
 output wire [11:0] V_in,
 output wire [11:0] max_V_in,
-output wire [31:0] pulseWidth_max,
+output wire [31:0] pulseWidth_max_H,
+output wire [31:0] pulseWidth_max_V,
+// output wire PWM_limit_cw_H,
+// output wire PWM_limit_cw_V,
+output wire hs,
+output wire vs,
+output wire mc,
+output wire cnt_l,
+output wire cnt_d,
+output wire cnt_ru,
 // input wire V_out,
 // output wire [3:0] DISP_EN,
 // output wire [7:0] SSD,
@@ -42,8 +51,10 @@ output wire [2:0] STAT
 
 wire general_enable_H;
 wire general_enable_V;
-wire hs; wire vs; wire mc; // define horizontal sweep, vertical sweep and max counter enable signals
-wire cnt_l; wire cnt_ru; wire cnt_d; // define counter left and right enable signals
+// wire hs; wire vs;
+// wire mc; // define horizontal sweep, vertical sweep and max counter enable signals
+// wire cnt_l; wire cnt_d; // define counter left and right enable signals
+// wire cnt_ru;
 wire [9:0] max_volt = 10'b0000000000; wire [9:0] volt = 10'b0000000000; // wire which contain max voltage e voltage readed form adc
 // wire servo_l; wire servo_r; wire servo_u; wire servo_d; // define servo left right up and down signals
 wire reset;
@@ -159,10 +170,11 @@ servo_driver servo_driver0(
    .BTN_0(servo_l),
    .BTN_1(servo_r),
    .max_enable(mc),
-   .pulseWidth_max(pulseWidth_max),
+   .pulseWidth_max(pulseWidth_max_H),
    .direction(direction_lr),
    .servo_position(servo_position_H),
    .general_enable(general_enable_H),
+   // .PWM_limit_cw(PWM_limit_cw_H),
    .SERVO(SERVO_H));
 
 servo_driver servo_driver1(
@@ -170,10 +182,11 @@ servo_driver servo_driver1(
    .BTN_0(servo_d),
    .BTN_1(servo_u),
    .max_enable(mc),
-   .pulseWidth_max(pulseWidth_max),
+   .pulseWidth_max(pulseWidth_max_V),
    .direction(direction_ud),
    .servo_position(servo_position_V),
    .general_enable(general_enable_V),
+   // .PWM_limit_cw(PWM_limit_cw_V),
    .SERVO(SERVO_V));
 
 // Voltage visualizer which outputs current voltage on the seven segment
@@ -198,13 +211,15 @@ clk_div cd0(
 
 // TIckcounter faster than the actual in orded to reduce the time to switch
 // the sweeping steps 
-// TickCounterRst #(.MAX(24414)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk)) ;
+// TickCounterRst #(.MAX(24414)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(pll_clk)) ;
 
 // Counter which counts the number of steps taken from the max voltage 
 max_counter max_counter0(
    .CLK(div_clk),
    .CNT_RST(cnt_rst),
    .RESET(reset),
+   // .PWM_limit_cw_H(PWM_limit_cw_H),
+   // .PWM_limit_cw_V(PWM_limit_cw_V),
    .MC(mc),
    .CNT_RU(cnt_ru));
 
@@ -212,14 +227,14 @@ max_counter max_counter0(
 horiz_counter horiz_counter0(
    .CLK(div_clk),
    .HS(hs),
-   .PWM_limit(general_enable_H),
+   // .PWM_limit(general_enable_H),
    .CNT_L(cnt_l));
 
 // Counter to limit the vertical range of movement of servos
 vert_counter vert_counter0(
    .CLK(div_clk),
    .VS(vs),
-   .PWM_limit(general_enable_V),
+   // .PWM_limit(general_enable_V),
    .CNT_D(cnt_d));
 
 // Flip Flop array which register the max voltage
@@ -228,10 +243,11 @@ FF_Array FF_Array0(
    .GT(reset),
    .pulseWidth_H(servo_position_H),
    .pulseWidth_V(servo_position_V),
-   .EN_H(servo_r),
-   .EN_V(servo_u),
+   // .EN_H(servo_r),
+   // .EN_V(servo_u),
    .PV(V_in),
-   .pulseWidth_max(pulseWidth_max),
+   .pulseWidth_max_H(pulseWidth_max_H),
+   .pulseWidth_max_V(pulseWidth_max_V),
    .LV(max_V_in));
 
 

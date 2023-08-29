@@ -1,43 +1,31 @@
-module max_counter(
-   input wire CLK,
-   input wire CNT_RST,
-   input wire RESET,
-   input wire MC,// max counter enable
-   output reg CNT_RU
-   );
-
-   // Maximum count for horizontal movement (it sets the servos limits)
-   // reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
-
-   // Reduced count to view all the calibration steps in a reasonable simulation
-   // time 
-   reg [8:0] currcount = 9'b000_000_000; // **TODO: value to be defined
-
-   always @(CLK,CNT_RST,RESET,MC) begin : P1
-
-      if(CNT_RST == 1'b1 | RESET == 1'b1) begin
-         // currcount <= 13'b0_000_000_000_000;
-         currcount <= 9'b000_000_000;
-         CNT_RU <= 1'b0;
-      end else if (CLK == 1'b1) begin
-         if(MC == 1'b0) begin
-            currcount <= currcount + 1;
-            CNT_RU <= 1'b0;
-         end
-         else if(MC == 1'b1) begin
-            currcount <= currcount - 1;
-            // if(currcount == 13'b0_000_000_000_000) begin
-            if(currcount == 9'b000_000_000) begin
-               CNT_RU <= 1'b0;
-            end
-            else begin
-               CNT_RU <= 1'b1;
-            end
-         end
-      end
-   end
-
-   endmodule
+// module max_counter(
+//    input wire CLK,
+//    input wire MC, // horizontal sweep enable FSM defined
+//    input wire PWM_limit_cw_H, // horizontal sweep enable FSM defined
+//    input wire PWM_limit_cw_V, // horizontal sweep enable FSM defined
+//    output reg CNT_RU // counter left enable
+// );
+//
+// // Maximum count for horizontal movement (it sets the servos limits)
+// //reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
+//
+// // Reduced count to view all the calibration steps in a reasonable simulation
+// // time
+// // reg [8:0] currcount = 9'b000_000_000; // **TODO: value to be defined
+//
+// always @(posedge CLK, posedge MC) begin : P1
+//
+//    if(MC == 1'b1 & (PWM_limit_cw_H == 1'b1 | PWM_limit_cw_V == 1'b1)) begin
+//          CNT_RU <= 1'b1;
+//    end
+//    else begin
+//       //currcount <= 13'b0_000_000_000_000;
+//       CNT_RU <= 1'b0;
+//    end
+// end
+//
+//
+// endmodule
 
 
 // //--------------------------------------------------------------------------------
@@ -63,43 +51,44 @@ module max_counter(
 // // 
 // //--------------------------------------------------------------------------------
 //
-// module max_counter(
-//    input wire CLK,
-//    input wire CNT_RST,
-//    input wire RESET,
-//    input wire MC,// max counter enable
-//    output reg CNT_RU
-//    );
-//
-//    // Maximum count for horizontal movement (it sets the servos limits)
-//    // reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
-//
-//    // Reduced count to view all the calibration steps in a reasonable simulation
-//    // time 
-//    reg [8:0] currcount = 9'b000_000_000; // **TODO: value to be defined
-//
-//    always @(CLK,CNT_RST,RESET,MC) begin : P1
-//
-//       if(CNT_RST == 1'b1 | RESET == 1'b1) begin
-//          // currcount <= 13'b0_000_000_000_000;
-//          currcount <= 9'b000_000_000;
-//          CNT_RU <= 1'b0;
-//       end else if (CLK == 1'b1) begin
-//          if(MC == 1'b0) begin
-//             currcount <= currcount + 1;
-//             CNT_RU <= 1'b0;
-//          end
-//          else if(MC == 1'b1) begin
-//             currcount <= currcount - 1;
-//             // if(currcount == 13'b0_000_000_000_000) begin
-//             if(currcount == 9'b000_000_000) begin
-//                CNT_RU <= 1'b0;
-//             end
-//             else begin
-//                CNT_RU <= 1'b1;
-//             end
-//          end
-//       end
-//    end
-//
-//    endmodule
+module max_counter(
+   input wire CLK,
+   input wire CNT_RST,
+   input wire RESET,
+   input wire MC,// max counter enable
+   output reg CNT_RU
+   );
+
+   // Maximum count for horizontal movement (it sets the servos limits)
+   // reg [12:0] currcount = 13'b0_000_000_000_000; // **TODO: value to be defined
+
+   // Reduced count to view all the calibration steps in a reasonable simulation
+   // time
+   reg [3:0] currcount = 4'b0_000; // **TODO: value to be defined
+
+   always @(CLK,CNT_RST,RESET,MC) begin : P1
+
+      if(CNT_RST == 1'b1 | RESET == 1'b1) begin
+         // currcount <= 13'b0_000_000_000_000;
+         currcount <= 4'b0_000;
+         CNT_RU <= 1'b0;
+      end
+      else if (CLK == 1'b1) begin
+         if(MC == 1'b0) begin
+            currcount <= currcount + 1;
+            CNT_RU <= 1'b0;
+         end
+         else if(MC == 1'b1) begin
+            currcount <= currcount - 1;
+            // if(currcount == 13'b0_000_000_000_000) begin
+            if(currcount == 4'b0_000) begin
+               CNT_RU <= 1'b0;
+            end
+            else begin
+               CNT_RU <= 1'b1;
+            end
+         end
+      end
+   end
+
+   endmodule
