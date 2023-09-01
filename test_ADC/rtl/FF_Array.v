@@ -30,7 +30,7 @@ reg [11:0] inter = 12'b000000000000;
 reg [31:0] inter_pulse_H = 32'b0;
 reg [31:0] inter_pulse_V = 32'b0;
 
-always @(posedge CLK,GT,PV) begin
+always @(posedge CLK) begin
    pulseWidth_max_H <= 32'b0;
    pulseWidth_max_V <= 32'b0;
       if(GT == 1'b1) begin

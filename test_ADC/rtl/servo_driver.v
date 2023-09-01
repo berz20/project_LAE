@@ -15,9 +15,9 @@ module servo_driver(
 
 // reg [1:0] direction;
 wire inter_clk;
-reg pwm_enable = 1'b1;
+// reg pwm_enable = 1'b1;
 
-always @(BTN_0, BTN_1, CLK) begin
+always @(posedge CLK) begin
    if(BTN_0 == 1'b0 && BTN_1 == 1'b0) begin
       direction <= 2'b00;   // stop
    end
@@ -32,18 +32,18 @@ always @(BTN_0, BTN_1, CLK) begin
    end
 end
 
-always @(direction) begin
-   pwm_enable <= ~pwm_enable;
-end
+// always @(direction) begin
+//    pwm_enable <= ~pwm_enable;
+// end
 
 
 always @(posedge CLK) begin
-   if (servo_position < 100 ) begin
+   if (servo_position < 600 ) begin
       general_enable <= 1'b0;
    end
    else general_enable <= 1'b1;
 
-   // $display("PWM_limit = ", general_enable);
+   $display("PWM_limit = ", general_enable);
 end
 
 // function given from Catalog of servos
@@ -51,7 +51,7 @@ end
 pwm_control pwm_control_0(
    .CLK(CLK),
    .DIR(direction),
-   .EN(pwm_enable),
+   .EN(1'b1),
    .max_enable(max_enable),
    .pulseWidth_max(pulseWidth_max),
    .pulseWidth(servo_position),
@@ -62,15 +62,15 @@ pwm_control pwm_control_0(
 // order to change the period of the clk that becomes 1us so the constants in
 // the pwm_control are expressed in us due to the fact that the increase in
 // the counter happens every rising edge of clk
-// TickCounterRst #(.MAX(50)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+TickCounterRst #(.MAX(100)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
 // this is a test tick counter to view more pwm pulses it only divides the clk
 // by 2
 // TickCounterRst #(.MAX(2)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
-clk_div2 clk_div2_0(
-   .clk(CLK),
-   .sclk(inter_clk));
+// clk_div2 clk_div2_0(
+//    .clk(CLK),
+//    .sclk(inter_clk));
 
 
 endmodule
