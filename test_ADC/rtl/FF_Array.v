@@ -15,6 +15,7 @@
 
 module FF_Array(
    input wire CLK,
+   input wire RST,
    input wire GT, // enable signal 
    input wire [31:0] pulseWidth_H,
    input wire [31:0] pulseWidth_V,
@@ -31,16 +32,22 @@ reg [31:0] inter_pulse_H = 32'b0;
 reg [31:0] inter_pulse_V = 32'b0;
 
 always @(posedge CLK) begin
-   pulseWidth_max_H <= 32'b0;
-   pulseWidth_max_V <= 32'b0;
+   if (RST == 1'b1) begin
+         LV <= 12'b000000000000;
+         pulseWidth_max_H <= 32'b0;
+         pulseWidth_max_V <= 32'b0;
+   end 
+   else begin
+      pulseWidth_max_H <= 32'b0;
+      pulseWidth_max_V <= 32'b0;
       if(GT == 1'b1) begin
          LV <= PV; // if enable is set to high to LV is set to PV otherwise it keeps is value 
          inter <= PV;
 
-            pulseWidth_max_V <= pulseWidth_V;
-            inter_pulse_V <= pulseWidth_V;
-            pulseWidth_max_H <= pulseWidth_H;
-            inter_pulse_H <= pulseWidth_H;
+         pulseWidth_max_V <= pulseWidth_V;
+         inter_pulse_V <= pulseWidth_V;
+         pulseWidth_max_H <= pulseWidth_H;
+         inter_pulse_H <= pulseWidth_H;
          // if (EN_V) begin
          //    pulseWidth_max <= pulseWidth_V;
          //    inter_pulse <= pulseWidth_V;
@@ -59,6 +66,7 @@ always @(posedge CLK) begin
 
       end
    end
+end
 
 
 endmodule

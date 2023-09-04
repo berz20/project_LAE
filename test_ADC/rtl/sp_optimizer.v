@@ -19,6 +19,7 @@ input wire BTN_U,
 input wire BTN_D,
 input wire BTN_C,
 input wire CLK,
+input wire RST,
 input wire vauxp,
 input wire vauxn,
 // // input wire vp_in,
@@ -166,6 +167,7 @@ FSM fsm0(
    .CNT_RU(cnt_ru),
    .CNT_D(cnt_d),
    .CLK(div_clk),
+   .RST(RST),
    .HS(HS),
    .VS(VS),
    .MC(MC),
@@ -180,6 +182,7 @@ FSM fsm0(
 // a clk divider
 servo_driver servo_driver0(
    .CLK(pll_clk),
+   .RST(RST),
    .BTN_0(servo_l),
    .BTN_1(servo_r),
    .MC(MC),
@@ -193,6 +196,7 @@ servo_driver servo_driver0(
 
 servo_driver servo_driver1(
    .CLK(pll_clk),
+   .RST(RST),
    .BTN_0(servo_d),
    .BTN_1(servo_u),
    .MC(MC),
@@ -256,6 +260,7 @@ vert_counter vert_counter0(
 // Flip Flop array which register the max voltage
 FF_Array FF_Array0(
    .CLK(div_clk),
+   .RST(RST),
    .GT(reset),
    .pulseWidth_H(servo_position_H),
    .pulseWidth_V(servo_position_V),
@@ -310,6 +315,7 @@ endmodule
 // input wire BTN_D,
 // input wire BTN_C,
 // input wire CLK,
+// input wire RST,
 // // input wire vp_in,
 // output wire [11:0] V_in,
 // output wire RS,

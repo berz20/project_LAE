@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-// Date        : Fri Aug 25 11:42:53 2023
+// Date        : Tue Sep  5 00:38:54 2023
 // Host        : berz-msi running 64-bit Archcraft
 // Command     : write_verilog -force -mode funcsim /home/berz/Documents/UNI/MAG_1/project_LAE/cores/PLL/PLL_sim_netlist.v
 // Design      : PLL
@@ -72,7 +72,7 @@ module PLL_clk_wiz
         .O(CLK_OUT));
   (* BOX_TYPE = "PRIMITIVE" *) 
   PLLE2_ADV #(
-    .BANDWIDTH("LOW"),
+    .BANDWIDTH("OPTIMIZED"),
     .CLKFBOUT_MULT(9),
     .CLKFBOUT_PHASE(0.000000),
     .CLKIN1_PERIOD(10.000000),

@@ -1,58 +1,3 @@
-
-// file: xadc_wiz_0_tb.v
-// (c) Copyright 2009 - 2013 Xilinx, Inc. All rights reserved.
-// 
-// This file contains confidential and proprietary information
-// of Xilinx, Inc. and is protected under U.S. and
-// international copyright and other intellectual property
-// laws.
-// 
-// DISCLAIMER
-// This disclaimer is not a license and does not grant any
-// rights to the materials distributed herewith. Except as
-// otherwise provided in a valid license issued to you by
-// Xilinx, and to the maximum extent permitted by applicable
-// law: (1) THESE MATERIALS ARE MADE AVAILABLE "AS IS" AND
-// WITH ALL FAULTS, AND XILINX HEREBY DISCLAIMS ALL WARRANTIES
-// AND CONDITIONS, EXPRESS, IMPLIED, OR STATUTORY, INCLUDING
-// BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, NON-
-// INFRINGEMENT, OR FITNESS FOR ANY PARTICULAR PURPOSE; and
-// (2) Xilinx shall not be liable (whether in contract or tort,
-// including negligence, or under any other theory of
-// liability) for any loss or damage of any kind or nature
-// related to, arising under or in connection with these
-// materials, including for any direct, or any indirect,
-// special, incidental, or consequential loss or damage
-// (including loss of data, profits, goodwill, or any type of
-// loss or damage suffered as a result of any action brought
-// by a third party) even if such damage or loss was
-// reasonably foreseeable or Xilinx had been advised of the
-// possibility of the same.
-// 
-// CRITICAL APPLICATIONS
-// Xilinx products are not designed or intended to be fail-
-// safe, or for use in any application requiring fail-safe
-// performance, such as life-support or safety devices or
-// systems, Class III medical devices, nuclear facilities,
-// applications related to the deployment of airbags, or any
-// other applications that could lead to death, personal
-// injury, or severe property or environmental damage
-// (individually and collectively, "Critical
-// Applications"). Customer assumes the sole risk and
-// liability of any use of Xilinx products in Critical
-// Applications, subject only to applicable laws and
-// regulations governing limitations on product liability.
-// 
-// THIS COPYRIGHT NOTICE AND DISCLAIMER MUST BE RETAINED AS
-// PART OF THIS FILE AT ALL TIMES.
-//----------------------------------------------------------------------------
-// XADC Monitor wizard demonstration testbench
-//----------------------------------------------------------------------------
-// This demonstration testbench instantiates the example design for the 
-// XADC wizard. Input clock is generated in this testbench.
-//----------------------------------------------------------------------------
-// Bipolar signals are applied with Vn = 0
-
 `timescale 1ps/1ps
 `define wait_eoc @(negedge EOC_TB)
 `define wait_eoc_p @(posedge EOC_TB)
@@ -85,13 +30,13 @@ module tb_xadc ();
   wire [15:0] DO_TB;
   wire DRDY_TB;
   reg RESET_TB;
+  wire [2:0] ALM_unused;
   wire ALARM_OUT_TB;
-  wire VCCAUX_ALARM_TB;
-  wire VCCINT_ALARM_TB;
-  wire USER_TEMP_ALARM_TB;
+  wire FLOAT_VCCAUX_ALARM;
+  wire FLOAT_VCCINT_ALARM;
+  wire FLOAT_USER_TEMP_ALARM;
   wire BUSY_TB;
   wire [4:0] CHANNEL_TB;
-  wire OT_TB;
 
 // Input clock generation
 
@@ -122,21 +67,7 @@ begin
   assign RESET_TB = 1'b1;
   #(10*PER1);
   assign RESET_TB = 1'b0;
-  #(10*PER1);
-  $display ("Timing checks are valid");
-   `wait_eoc_p;
-   `wait_eoc;
-   `wait_eoc_p;
-   `wait_eoc;
-   `wait_eoc_p;
-   `wait_eoc;
-   `wait_drdy_p;	
-   `wait_drdy;	
-    $display ("This TB supports CONSTANT Waveform comaprision. User should compare the analog input and digital output for SIN, TRAINGLE, SQUARE waves !!") ;
-    $display ("Waiting for Analog Waveform to complete !!") ;
-    #(10400000.0);
-  $display("SYSTEM_CLOCK_COUNTER : %0d\n",$time/PER1);
-  $display ("Test Completed Successfully");
+  #(100000*PER1);
   $finish;
 end
 
@@ -170,14 +101,12 @@ end
      .do_out(DO_TB[15:0]),
      .drdy_out(DRDY_TB),
      .reset_in(RESET_TB),
-     .vccaux_alarm_out(VCCAUX_ALARM_TB),
-     .vccint_alarm_out(VCCINT_ALARM_TB),
-     .user_temp_alarm_out(USER_TEMP_ALARM_TB),
+     .vauxp0(1'b0),      // Stimulus for Channels is applied from the SIM_MONITOR_FILE
+     .vauxn0(1'b0),
      .busy_out(BUSY_TB),
      .channel_out(CHANNEL_TB[4:0]),
      .eoc_out(EOC_TB),
      .eos_out(EOS_TB),
-     .ot_out(OT_TB),
      .alarm_out(ALARM_OUT_TB),
      .vp_in(1'b0),
      .vn_in(1'b0)

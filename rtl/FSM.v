@@ -19,6 +19,7 @@ module FSM(
    input wire CNT_RU,
    input wire CNT_D,
    input wire CLK, // clock signal
+   input wire RST, // reset signal
    output reg HS, // horizontal sweep signal, enable signal which go to counters
    output reg VS, // vertical sweep
    output reg MC, // Maximum counter
@@ -41,8 +42,12 @@ parameter [2:0]
 reg [2:0] PS = man;  // Present State
 reg [2:0] NS;  // Next state
 
-always @(CLK,NS) begin
-   if (CLK == 1) begin
+always @(posedge CLK) begin
+   if (RST == 1'b1) begin
+      PS <= man;
+   end
+   else begin
+   // if (CLK == 1) begin
       PS <= NS;
    end
 end
@@ -203,7 +208,7 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
          HS <= 1'b0;
          VS <= 1'b0;
          MC <= 1'b0;
-         STAT <= 5'b00000;
+         STAT <= 3'b000;
       end
    endcase
 end

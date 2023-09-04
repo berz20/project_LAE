@@ -102,7 +102,7 @@ SIM_TOP_MODULE := tb_sp_optimizer
 #RTL_VLOG_SOURCES := $(RTL_DIR)/DLATCH.v
 # RTL_VLOG_SOURCES := $(RTL_DIR)/DFF.v
 # RTL_VLOG_SOURCES := $(RTL_DIR)/RippleCounter4b.v
-RTL_VLOG_SOURCES := $(RTL_DIR)/xadc.v $(RTL_DIR)/TickCounterRst.v $(RTL_DIR)/sp_optimizer.v $(RTL_DIR)/FSM.v $(RTL_DIR)/voltage_comparator.v $(RTL_DIR)/clk_div.v $(RTL_DIR)/max_counter.v $(RTL_DIR)/horiz_counter.v $(RTL_DIR)/vert_counter.v $(RTL_DIR)/FF_Array.v $(RTL_DIR)/servo_driver.v $(RTL_DIR)/pwm_control.v $(RTL_DIR)/clk_div2.v
+RTL_VLOG_SOURCES := $(RTL_DIR)/xadc.v $(RTL_DIR)/TickCounterRst.v $(RTL_DIR)/sp_optimizer.v $(RTL_DIR)/FSM.v $(RTL_DIR)/voltage_comparator.v $(RTL_DIR)/max_counter.v $(RTL_DIR)/horiz_counter.v $(RTL_DIR)/vert_counter.v $(RTL_DIR)/FF_Array.v $(RTL_DIR)/servo_driver.v $(RTL_DIR)/pwm_control.v $(RTL_DIR)/LCD.v
 
 #SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_DLATCH.v
 # SIM_VLOG_SOURCES := $(SIM_DIR)/glbl.v $(SIM_DIR)/ClockGen.v $(SIM_DIR)/tb_DFF.v
