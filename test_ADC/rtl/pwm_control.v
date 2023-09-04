@@ -4,7 +4,8 @@ module pwm_control(
    input wire CLK,
    input wire [1:0] DIR,
    input wire EN,
-   input wire max_enable,
+   input wire MC,
+   input wire ES, // enable sweep state FSM (HS or VS)
    input wire [31:0] pulseWidth_max,
    output reg [31:0] pulseWidth,
    // output reg PWM_limit_cw,
@@ -12,15 +13,16 @@ module pwm_control(
 );
 
 parameter integer minPulseWidth = 500;
-parameter integer maxPulseWidth = 2500;
+// parameter integer maxPulseWidth = 2500;
 parameter integer inc_dec_interval = 10;
 
 integer th_cntr = 0;
 integer tl_cntr = 0;
 
+reg tmp_flag = 1'b0;
 integer tmp_th = minPulseWidth;
 integer tmp_th_cw = minPulseWidth;
-integer tmp_th_ccw = maxPulseWidth;
+// integer tmp_th_ccw = maxPulseWidth;
 integer time_low = 15000;
 
 always @(posedge CLK) begin
@@ -31,6 +33,11 @@ always @(posedge CLK) begin
          SERVO <= 1'b0;
       end
       else if (DIR == 2'b01) begin
+         if (ES == 1'b1 && tmp_flag == 1'b0) begin
+            tmp_th_cw <= minPulseWidth;
+            tmp_flag <= 1'b1;
+         end 
+
          if (th_cntr < tmp_th_cw) begin
             th_cntr <= th_cntr + 1 ;
             SERVO <= 1'b1 ;
@@ -46,7 +53,7 @@ always @(posedge CLK) begin
             pulseWidth <= tmp_th_cw;
          end
          else begin
-            if (tmp_th_cw < 600) begin
+            if (tmp_th_cw < 2500) begin
                tl_cntr <= 0 ;
                th_cntr <= 0 ;
                SERVO <= 1'b0 ;
@@ -66,13 +73,15 @@ always @(posedge CLK) begin
          end
       end
       else if (DIR == 2'b10) begin
-         if (max_enable) begin
+            tmp_flag <= 1'b0;
+         if (MC) begin
             if (th_cntr < pulseWidth_max) begin
                // PWM_limit_cw <= 1'b1;
                th_cntr <= th_cntr + 1 ;
                SERVO <= 1'b1 ;
                $display("pulseWidth_max = ",pulseWidth_max);
                pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
             end
             else if (tl_cntr < time_low) begin
                // PWM_limit_cw <= 1'b1;
@@ -80,6 +89,7 @@ always @(posedge CLK) begin
                SERVO <= 1'b0 ;
                $display("pulseWidth_max = ",pulseWidth_max);
                pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
             end
             else begin
                tl_cntr <= 0 ;
@@ -87,6 +97,7 @@ always @(posedge CLK) begin
                SERVO <= 1'b0 ;
                $display("pulseWidth_max = ",pulseWidth_max);
                pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
                // PWM_limit_cw <= 1'b0;
             end
 
@@ -133,7 +144,7 @@ always @(posedge CLK) begin
         pulseWidth <= tmp_th;
         // tmp_th <= 0;
         tmp_th_cw <= minPulseWidth;
-        tmp_th_ccw <= maxPulseWidth;
+        // tmp_th_ccw <= maxPulseWidth;
     end
 end
 
@@ -145,7 +156,7 @@ endmodule
 //    input wire CLK,
 //    input wire [1:0] DIR,
 //    input wire EN,
-//    input wire max_enable,
+//    input wire MC,
 //    input wire [31:0] pulseWidth_max,
 //    output reg [31:0] pulseWidth,
 //    // output reg PWM_limit_cw,
@@ -207,7 +218,7 @@ endmodule
 //          end
 //       end
 //       else if (DIR == 2'b10) begin
-//          if (max_enable) begin
+//          if (MC) begin
 //             if (th_cntr < pulseWidth_max) begin
 //                // PWM_limit_cw <= 1'b1;
 //                th_cntr <= th_cntr + 1 ;

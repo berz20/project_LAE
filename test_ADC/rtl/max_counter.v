@@ -7,7 +7,7 @@ module max_counter(
    );
 
    // Maximum count for horizontal movement (it sets the servos limits)
-   reg [5:0] currcount = 6'b000_000; // **TODO: value to be defined
+   reg [5:0] currcount = 9'b000_000_000; // **TODO: value to be defined
 
    // Reduced count to view all the calibration steps in a reasonable simulation
    // time
@@ -15,8 +15,8 @@ module max_counter(
 
    always @(posedge CLK) begin : P1
 
-      if(CNT_RST == 1'b1 | RESET == 1'b1) begin
-         currcount <= 6'b000_000;
+      if(CNT_RST == 1'b1 /* | RESET == 1'b1*/) begin
+         currcount <= 9'b000_000_000;
          // currcount <= 4'b0_000;
          CNT_RU <= 1'b0;
       end
@@ -27,7 +27,7 @@ module max_counter(
          end
          else if(MC == 1'b1) begin
             currcount <= currcount - 1;
-            if(currcount == 6'b000_000) begin
+            if(currcount == 9'b000_000_000) begin
             // if(currcount == 4'b0_000) begin
                CNT_RU <= 1'b0;
             end

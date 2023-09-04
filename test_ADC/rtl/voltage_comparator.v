@@ -16,12 +16,13 @@
 //--------------------------------------------------------------------------------
 
 module voltage_comparator(
+   input wire CLK,
    input wire [11:0] PV, // pending value (ADC)
    input wire [11:0] LV, // last value (register)
    output reg GT // greater flag
 );
 
-always @(PV, LV) begin
+always @(posedge CLK) begin
    if(PV[11:6] > LV[11:6]) begin // [9:4] last bits are not relevant in the comparison
       GT <= 1'b1;
    end

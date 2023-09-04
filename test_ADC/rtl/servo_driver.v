@@ -4,7 +4,8 @@ module servo_driver(
    input wire CLK,
    input wire BTN_0, // enable signal which tell the servo which way to turn
    input wire BTN_1,
-   input wire max_enable,
+   input wire MC,
+   input wire ES, //enable sweep (HS or VS)
    input wire [31:0] pulseWidth_max,
    output wire SERVO,
    output wire [31:0] servo_position,
@@ -38,7 +39,7 @@ end
 
 
 always @(posedge CLK) begin
-   if (servo_position < 600 ) begin
+   if (servo_position < 2500 ) begin
       general_enable <= 1'b0;
    end
    else general_enable <= 1'b1;
@@ -49,10 +50,11 @@ end
 // function given from Catalog of servos
 
 pwm_control pwm_control_0(
-   .CLK(CLK),
+   .CLK(inter_clk),
    .DIR(direction),
    .EN(1'b1),
-   .max_enable(max_enable),
+   .MC(MC),
+   .ES(ES),
    .pulseWidth_max(pulseWidth_max),
    .pulseWidth(servo_position),
    // .PWM_limit_cw(PWM_limit_cw),
