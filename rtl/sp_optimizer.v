@@ -20,6 +20,7 @@ input wire BTN_D,
 input wire BTN_C,
 input wire CLK,
 input wire RST,
+input wire DBG,
 input wire vauxp,
 input wire vauxn,
 // // input wire vp_in,
@@ -273,7 +274,7 @@ FF_Array FF_Array0(
 
 LCD LCD_disp (
    .CLK(div_clk),
-   .RST(reset),
+   .DBG(DBG),
    // .EN(1'b1),
    .V_in(V_in[11:0]),
    .max_V_in(max_V_in[11:0]),

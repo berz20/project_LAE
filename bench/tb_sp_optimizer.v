@@ -48,6 +48,8 @@ wire SERVO_V;
 // Clock Divider
 
 wire CLK ;
+reg RST ;
+reg DBG ;
 integer i = 0;
 integer j = 0;
 // real vp_in;
@@ -61,6 +63,8 @@ sp_optimizer dut(
     .BTN_D(BTN_D),
     .BTN_C(BTN_C),
     .CLK(CLK),
+    .RST(RST),
+    .DBG(DBG),
     .vauxp(1'b0),
     .vauxn(1'b0),
     // .vp_in(vp_in),
@@ -111,6 +115,11 @@ initial begin
     // CLK = 0;
     // V_in = 12'b000000000000;
 
+    RST = 1'b1;
+    #100000;
+
+    RST = 1'b0;
+    #100;
     // Start the machine by setting BTN_C to 1
     BTN_L = 1;
     #10;
@@ -125,7 +134,7 @@ initial begin
     #10;
 
     BTN_U = 1;
-    #100000;
+    #1000;
 
     BTN_U = 0;
     #10;
@@ -158,7 +167,7 @@ initial begin
     // BTN_C = 0;
 
     // Wait for a few clock cycles to observe the final outputs
-    #10000000;
+    #10;
 
     $finish; // End simulation
 end

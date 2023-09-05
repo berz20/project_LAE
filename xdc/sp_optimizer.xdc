@@ -26,18 +26,15 @@ set_input_delay -clock clk100 2.000 [all_inputs]
 ########################
 
 
-set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
-set_property -dict { PACKAGE_PIN C11  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L13P_T2_MRCC_16 Sch=sw[1]
-set_property -dict { PACKAGE_PIN C10  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L13N_T2_MRCC_16 Sch=sw[2]
-set_property -dict { PACKAGE_PIN A10  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L14P_T2_SRCC_16 Sch=sw[3]
+# set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
+# set_property -dict { PACKAGE_PIN C11  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L13P_T2_MRCC_16 Sch=sw[1]
+# set_property -dict { PACKAGE_PIN C10  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L13N_T2_MRCC_16 Sch=sw[2]
+# set_property -dict { PACKAGE_PIN A10  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L14P_T2_SRCC_16 Sch=sw[3]
 
 
-########################
-##   slide switches   ##
-########################
-
-
-# set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
+set_property -dict { PACKAGE_PIN A8   IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12N_T1_MRCC_16 Sch=sw[0]
+set_property -dict { PACKAGE_PIN C11  IOSTANDARD LVCMOS33 } [get_ports RST]   ; #IO_L13P_T2_MRCC_16 Sch=sw[1]
+set_property -dict { PACKAGE_PIN C10  IOSTANDARD LVCMOS33 } [get_ports DBG]   ; #IO_L13N_T2_MRCC_16 Sch=sw[2]
 
 
 ######################
@@ -53,13 +50,13 @@ set_property -dict { PACKAGE_PIN A10  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   
 
 # Buttons facing away from human
 
-# set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
-# set_property -dict { PACKAGE_PIN C9  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L11P_T1_SRCC_16 Sch=btn[1]
-# set_property -dict { PACKAGE_PIN B9  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L11N_T1_SRCC_16 Sch=btn[2]
-# set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
+set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports BTN_R]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
+set_property -dict { PACKAGE_PIN C9  IOSTANDARD LVCMOS33 } [get_ports BTN_U]   ; #IO_L11P_T1_SRCC_16 Sch=btn[1]
+set_property -dict { PACKAGE_PIN B9  IOSTANDARD LVCMOS33 } [get_ports BTN_D]   ; #IO_L11N_T1_SRCC_16 Sch=btn[2]
+set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_L]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
 
-set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports RST]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
-set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
+# set_property -dict { PACKAGE_PIN D9  IOSTANDARD LVCMOS33 } [get_ports RST]   ; #IO_L6N_T0_VREF_16 Sch=btn[0]
+# set_property -dict { PACKAGE_PIN B8  IOSTANDARD LVCMOS33 } [get_ports BTN_C]   ; #IO_L12P_T1_MRCC_16 Sch=btn[3]
 
 #######################
 ##   standard LEDs   ##

@@ -63,7 +63,7 @@
 
 module LCD (
     input wire CLK,                  // Clock signal
-    input wire RST,                  // Reset signal
+    input wire DBG,                  // DEBUG signal
     input wire [11:0] V_in,         // 12-bit ADC data input
     input wire [11:0] max_V_in,         // 12-bit ADC data input
     input wire [31:0] pulseWidth_H,
@@ -134,6 +134,8 @@ Datas[2] <= 8'h0C; // form feed
 Datas[3] <= 8'h06; // acknowledge
 Datas[4] <= 8'h01; // start of heading
 Datas[5] <= 8'h80;
+
+if (DBG == 1'b1) begin
 
 Datas[6] <= 8'h48; // H
 Datas[7] <= 8'h3A; // :
@@ -260,107 +262,6 @@ case (xval4_D3/10)
 8 : Datas[17] <= 8'h38;
 9 : Datas[17] <= 8'h39;
 endcase;
-// xval2 <= V_in;
-
-// modes
-// // Datas[6] <= 8'h4D; // M
-// // Datas[7] <= 8'h4F; // O
-// // Datas[8] <= 8'h44; // D
-// // Datas[9] <= 8'h45; // E
-// //
-// // Datas[10] <= 8'h20;
-//
-// if (HS == 1'b1 || VS == 1'b1 || MC == 1'b1) begin
-//
-//    Datas[6] <= 8'h43; // C
-//    Datas[7] <= 8'h41; // A
-//    Datas[8] <= 8'h4C; // L
-//    Datas[9] <= 8'h49; // I
-//    Datas[10] <= 8'h42; // B
-//    Datas[11] <= 8'h52; // R
-//    Datas[12] <= 8'h41; // A
-//    Datas[13] <= 8'h54; // T
-//    Datas[14] <= 8'h49; // I
-//    Datas[15] <= 8'h4E; // N
-//    Datas[16] <= 8'h47; // G
-//    Datas[17] <= 8'h20;
-//    Datas[18] <= 8'h20;
-//    Datas[19] <= 8'h20;
-//    Datas[20] <= 8'h20;
-//
-// end
-// else begin
-//
-//    Datas[6] <= 8'h4D; // M
-//    Datas[7] <= 8'h41; // A
-//    Datas[8] <= 8'h4E; // N
-//    Datas[9] <= 8'h55; // U
-//    Datas[10] <= 8'h41; // A
-//    Datas[11] <= 8'h4C; // L
-//    Datas[12] <= 8'h20;
-//    Datas[13] <= 8'h43; // C
-//    Datas[14] <= 8'h54; // T
-//    Datas[15] <= 8'h52; // R
-//    Datas[16] <= 8'h4C; // L
-//    Datas[17] <= 8'h20;
-//    Datas[18] <= 8'h20;
-//    Datas[19] <= 8'h20;
-//    Datas[20] <= 8'h20;
-//
-// end
-
-// Binary
-// Datas[6] <= 8'h42; // B
-// Datas[7] <= 8'h3A; // : 
-// Datas[8] <= 8'h20; // space
-//
-// if(V_in[11] == 1)
-// Datas[9] <= 8'h31;
-// else Datas[9] <= 8'h30;
-//
-// if(V_in[10] == 1)
-// Datas[10] <= 8'h31;
-// else Datas[10] <= 8'h30;
-//
-// if(V_in[9] == 1)
-// Datas[11] <= 8'h31;
-// else Datas[11] <= 8'h30;
-//
-// if(V_in[8] == 1)
-// Datas[12] <= 8'h31;
-// else Datas[12] <= 8'h30;
-//
-// if(V_in[7] == 1)
-// Datas[13] <= 8'h31;
-// else Datas[13] <= 8'h30;
-//
-// if(V_in[6] == 1)
-// Datas[14] <= 8'h31;
-// else Datas[14] <= 8'h30;
-//
-// if(V_in[5] == 1)
-// Datas[15] <= 8'h31;
-// else Datas[15] <= 8'h30;
-//
-// if(V_in[4] == 1)
-// Datas[16] <= 8'h31;
-// else Datas[16] <= 8'h30;
-//
-// if(V_in[3] == 1)
-// Datas[17] <= 8'h31;
-// else Datas[17] <= 8'h30;
-//
-// if(V_in[2] == 1)
-// Datas[18] <= 8'h31;
-// else Datas[18] <= 8'h30;
-//
-// if(V_in[1] == 1)
-// Datas[19] <= 8'h31;
-// else Datas[19] <= 8'h30;
-//
-// if(V_in[0] == 1)
-// Datas[20] <= 8'h31;
-// else Datas[20] <= 8'h30;
 
 Datas[21] <= 8'hC0; // new line
 Datas[22] <= 8'h48; // H
@@ -489,97 +390,206 @@ case (xval6_D3/10)
 9 : Datas[33] <= 8'h39;
 endcase;
 
+end
+else begin
 
-// // max & current voltage
-// Datas[21] <= 8'hC0; // new line
-// Datas[22] <= 8'h4D; // M
-// Datas[23] <= 8'h3A; // :
-// Datas[24] <= 8'h20; // space
-// Datas[26] <= 8'h2E; // period
+// modes
+// Datas[6] <= 8'h4D; // M
+// Datas[7] <= 8'h4F; // O
+// Datas[8] <= 8'h44; // D
+// Datas[9] <= 8'h45; // E
 //
-// case (xval_D1%10)
-// 0 : Datas[28] <= 8'h30;
-// 1 : Datas[28] <= 8'h31;
-// 2 : Datas[28] <= 8'h32;
-// 3 : Datas[28] <= 8'h33;
-// 4 : Datas[28] <= 8'h34;
-// 5 : Datas[29] <= 8'h35;
-// 6 : Datas[28] <= 8'h36;
-// 7 : Datas[28] <= 8'h37;
-// 8 : Datas[28] <= 8'h38;
-// 9 : Datas[28] <= 8'h39;
-// endcase;
+// Datas[10] <= 8'h20;
+
+if (HS == 1'b1 || VS == 1'b1 || MC == 1'b1) begin
+
+   Datas[6] <= 8'h43; // C
+   Datas[7] <= 8'h41; // A
+   Datas[8] <= 8'h4C; // L
+   Datas[9] <= 8'h49; // I
+   Datas[10] <= 8'h42; // B
+   Datas[11] <= 8'h52; // R
+   Datas[12] <= 8'h41; // A
+   Datas[13] <= 8'h54; // T
+   Datas[14] <= 8'h49; // I
+   Datas[15] <= 8'h4E; // N
+   Datas[16] <= 8'h47; // G
+   Datas[17] <= 8'h20;
+   Datas[18] <= 8'h20;
+   Datas[19] <= 8'h20;
+   Datas[20] <= 8'h20;
+
+end
+else begin
+
+   Datas[6] <= 8'h4D; // M
+   Datas[7] <= 8'h41; // A
+   Datas[8] <= 8'h4E; // N
+   Datas[9] <= 8'h55; // U
+   Datas[10] <= 8'h41; // A
+   Datas[11] <= 8'h4C; // L
+   Datas[12] <= 8'h20;
+   Datas[13] <= 8'h43; // C
+   Datas[14] <= 8'h54; // T
+   Datas[15] <= 8'h52; // R
+   Datas[16] <= 8'h4C; // L
+   Datas[17] <= 8'h20;
+   Datas[18] <= 8'h20;
+   Datas[19] <= 8'h20;
+   Datas[20] <= 8'h20;
+
+end
+
+// max & current voltage
+Datas[21] <= 8'hC0; // new line
+Datas[22] <= 8'h4D; // M
+Datas[23] <= 8'h3A; // :
+Datas[24] <= 8'h20; // space
+Datas[26] <= 8'h2E; // period
+
+case (xval_D1%10)
+0 : Datas[28] <= 8'h30;
+1 : Datas[28] <= 8'h31;
+2 : Datas[28] <= 8'h32;
+3 : Datas[28] <= 8'h33;
+4 : Datas[28] <= 8'h34;
+5 : Datas[29] <= 8'h35;
+6 : Datas[28] <= 8'h36;
+7 : Datas[28] <= 8'h37;
+8 : Datas[28] <= 8'h38;
+9 : Datas[28] <= 8'h39;
+endcase;
+
+case (xval_D2%10)
+0 : Datas[27] <= 8'h30;
+1 : Datas[27] <= 8'h31;
+2 : Datas[27] <= 8'h32;
+3 : Datas[27] <= 8'h33;
+4 : Datas[27] <= 8'h34;
+5 : Datas[27] <= 8'h35;
+6 : Datas[27] <= 8'h36;
+7 : Datas[27] <= 8'h37;
+8 : Datas[27] <= 8'h38;
+9 : Datas[27] <= 8'h39;
+endcase;
+
+case (xval_D2/10)
+0 : Datas[25] <= 8'h30;
+1 : Datas[25] <= 8'h31;
+2 : Datas[25] <= 8'h32;
+3 : Datas[25] <= 8'h33;
+4 : Datas[25] <= 8'h34;
+5 : Datas[25] <= 8'h35;
+6 : Datas[25] <= 8'h36;
+7 : Datas[25] <= 8'h37;
+8 : Datas[25] <= 8'h38;
+9 : Datas[25] <= 8'h39;
+endcase;
+
+Datas[29] <= 8'h20; // space
+Datas[30] <= 8'h56; // V
+Datas[31] <= 8'h3A; // :
+Datas[32] <= 8'h20; // space
+Datas[34] <= 8'h2E; // period
+
+case (xval2_D1%10)
+0 : Datas[36] <= 8'h30;
+1 : Datas[36] <= 8'h31;
+2 : Datas[36] <= 8'h32;
+3 : Datas[36] <= 8'h33;
+4 : Datas[36] <= 8'h34;
+5 : Datas[36] <= 8'h35;
+6 : Datas[36] <= 8'h36;
+7 : Datas[36] <= 8'h37;
+8 : Datas[36] <= 8'h38;
+9 : Datas[36] <= 8'h39;
+endcase;
+
+case (xval2_D2%10)
+0 : Datas[35] <= 8'h30;
+1 : Datas[35] <= 8'h31;
+2 : Datas[35] <= 8'h32;
+3 : Datas[35] <= 8'h33;
+4 : Datas[35] <= 8'h34;
+5 : Datas[35] <= 8'h35;
+6 : Datas[35] <= 8'h36;
+7 : Datas[35] <= 8'h37;
+8 : Datas[35] <= 8'h38;
+9 : Datas[35] <= 8'h39;
+endcase;
+
+case (xval2_D2/10)
+0 : Datas[33] <= 8'h30;
+1 : Datas[33] <= 8'h31;
+2 : Datas[33] <= 8'h32;
+3 : Datas[33] <= 8'h33;
+4 : Datas[33] <= 8'h34;
+5 : Datas[33] <= 8'h35;
+6 : Datas[33] <= 8'h36;
+7 : Datas[33] <= 8'h37;
+8 : Datas[33] <= 8'h38;
+9 : Datas[33] <= 8'h39;
+endcase;
+
+end
+// xval2 <= V_in;
+
+
+// Binary
+// Datas[6] <= 8'h42; // B
+// Datas[7] <= 8'h3A; // : 
+// Datas[8] <= 8'h20; // space
 //
-// case (xval_D2%10)
-// 0 : Datas[27] <= 8'h30;
-// 1 : Datas[27] <= 8'h31;
-// 2 : Datas[27] <= 8'h32;
-// 3 : Datas[27] <= 8'h33;
-// 4 : Datas[27] <= 8'h34;
-// 5 : Datas[27] <= 8'h35;
-// 6 : Datas[27] <= 8'h36;
-// 7 : Datas[27] <= 8'h37;
-// 8 : Datas[27] <= 8'h38;
-// 9 : Datas[27] <= 8'h39;
-// endcase;
+// if(V_in[11] == 1)
+// Datas[9] <= 8'h31;
+// else Datas[9] <= 8'h30;
 //
-// case (xval_D2/10)
-// 0 : Datas[25] <= 8'h30;
-// 1 : Datas[25] <= 8'h31;
-// 2 : Datas[25] <= 8'h32;
-// 3 : Datas[25] <= 8'h33;
-// 4 : Datas[25] <= 8'h34;
-// 5 : Datas[25] <= 8'h35;
-// 6 : Datas[25] <= 8'h36;
-// 7 : Datas[25] <= 8'h37;
-// 8 : Datas[25] <= 8'h38;
-// 9 : Datas[25] <= 8'h39;
-// endcase;
+// if(V_in[10] == 1)
+// Datas[10] <= 8'h31;
+// else Datas[10] <= 8'h30;
 //
-// Datas[29] <= 8'h20; // space
-// Datas[30] <= 8'h56; // V
-// Datas[31] <= 8'h3A; // :
-// Datas[32] <= 8'h20; // space
-// Datas[34] <= 8'h2E; // period
+// if(V_in[9] == 1)
+// Datas[11] <= 8'h31;
+// else Datas[11] <= 8'h30;
 //
-// case (xval2_D1%10)
-// 0 : Datas[36] <= 8'h30;
-// 1 : Datas[36] <= 8'h31;
-// 2 : Datas[36] <= 8'h32;
-// 3 : Datas[36] <= 8'h33;
-// 4 : Datas[36] <= 8'h34;
-// 5 : Datas[36] <= 8'h35;
-// 6 : Datas[36] <= 8'h36;
-// 7 : Datas[36] <= 8'h37;
-// 8 : Datas[36] <= 8'h38;
-// 9 : Datas[36] <= 8'h39;
-// endcase;
+// if(V_in[8] == 1)
+// Datas[12] <= 8'h31;
+// else Datas[12] <= 8'h30;
 //
-// case (xval2_D2%10)
-// 0 : Datas[35] <= 8'h30;
-// 1 : Datas[35] <= 8'h31;
-// 2 : Datas[35] <= 8'h32;
-// 3 : Datas[35] <= 8'h33;
-// 4 : Datas[35] <= 8'h34;
-// 5 : Datas[35] <= 8'h35;
-// 6 : Datas[35] <= 8'h36;
-// 7 : Datas[35] <= 8'h37;
-// 8 : Datas[35] <= 8'h38;
-// 9 : Datas[35] <= 8'h39;
-// endcase;
+// if(V_in[7] == 1)
+// Datas[13] <= 8'h31;
+// else Datas[13] <= 8'h30;
 //
-// case (xval2_D2/10)
-// 0 : Datas[33] <= 8'h30;
-// 1 : Datas[33] <= 8'h31;
-// 2 : Datas[33] <= 8'h32;
-// 3 : Datas[33] <= 8'h33;
-// 4 : Datas[33] <= 8'h34;
-// 5 : Datas[33] <= 8'h35;
-// 6 : Datas[33] <= 8'h36;
-// 7 : Datas[33] <= 8'h37;
-// 8 : Datas[33] <= 8'h38;
-// 9 : Datas[33] <= 8'h39;
-// endcase;
+// if(V_in[6] == 1)
+// Datas[14] <= 8'h31;
+// else Datas[14] <= 8'h30;
+//
+// if(V_in[5] == 1)
+// Datas[15] <= 8'h31;
+// else Datas[15] <= 8'h30;
+//
+// if(V_in[4] == 1)
+// Datas[16] <= 8'h31;
+// else Datas[16] <= 8'h30;
+//
+// if(V_in[3] == 1)
+// Datas[17] <= 8'h31;
+// else Datas[17] <= 8'h30;
+//
+// if(V_in[2] == 1)
+// Datas[18] <= 8'h31;
+// else Datas[18] <= 8'h30;
+//
+// if(V_in[1] == 1)
+// Datas[19] <= 8'h31;
+// else Datas[19] <= 8'h30;
+//
+// if(V_in[0] == 1)
+// Datas[20] <= 8'h31;
+// else Datas[20] <= 8'h30;
+
+
+
 
 end
 

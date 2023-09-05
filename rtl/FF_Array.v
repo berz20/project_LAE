@@ -28,14 +28,17 @@ module FF_Array(
 );
 
 reg [11:0] inter = 12'b000000000000;
-reg [31:0] inter_pulse_H = 32'b0;
-reg [31:0] inter_pulse_V = 32'b0;
+reg [31:0] inter_pulse_H = 32'd500;
+reg [31:0] inter_pulse_V = 32'd500;
 
 always @(posedge CLK) begin
    if (RST == 1'b1) begin
          LV <= 12'b000000000000;
-         pulseWidth_max_H <= 32'b0;
-         pulseWidth_max_V <= 32'b0;
+         pulseWidth_max_H <= 32'd500;
+         pulseWidth_max_V <= 32'd500;
+         inter <= 12'b000000000000;
+         inter_pulse_V <= 32'd500;
+         inter_pulse_H <= 32'd500;
    end 
    else begin
       pulseWidth_max_H <= 32'b0;
