@@ -1,0 +1,4 @@
+xpm_cdc.sv,systemverilog,xpm,../../../../../../../../../../../opt/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_cdc/hdl/xpm_cdc.sv,
+xpm_VCOMP.vhd,vhdl,xpm,../../../../../../../../../../../opt/Xilinx/Vivado/2021.2/data/ip/xpm/xpm_VCOMP.vhd,
+xadc_wiz_0.v,verilog,xil_defaultlib,../../../../SolarADC.gen/sources_1/ip/xadc_wiz_0/xadc_wiz_0.v,
+glbl.v,Verilog,xil_defaultlib,glbl.v
