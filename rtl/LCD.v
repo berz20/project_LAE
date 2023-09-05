@@ -129,11 +129,11 @@ end
 
 always @(posedge CLK) begin
 
-Datas[1] <= 8'h38;
-Datas[2] <= 8'h0C; // form feed
-Datas[3] <= 8'h06; // acknowledge
-Datas[4] <= 8'h01; // start of heading
-Datas[5] <= 8'h80;
+Datas[1] <= 8'h38; // Configures LCD to function set, it sets the LCD to 8 bit mode (2 lines and 5X8 char are default)
+Datas[2] <= 8'h0C; // turns on display and cursor (disable blinking)
+Datas[3] <= 8'h06; // Entry mode set, automatically increment the cursor position after each char is sent
+Datas[4] <= 8'h01; // Clear the display
+Datas[5] <= 8'h80; // Sets the DDRAM (display data RAM) addres to h80 sets the cursor at the beginning of the first line
 
 if (DBG == 1'b1) begin
 
