@@ -110,7 +110,7 @@ module xadc_wiz_0
     .IS_CONVSTCLK_INVERTED(1'b0),
     .IS_DCLK_INVERTED(1'b0),
     .SIM_DEVICE("7SERIES"),
-    .SIM_MONITOR_FILE("design.txt")) 
+    .SIM_MONITOR_FILE("../../bench/design.txt")) 
     inst
        (.ALM({alarm_out,NLW_inst_ALM_UNCONNECTED[6:0]}),
         .BUSY(busy_out),
