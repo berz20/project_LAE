@@ -14,8 +14,8 @@
 //--------------------------------------------------------------------------------
 
 //define the mode of operation
-`define TEST_MODE
-// `define FPGA_MODE
+// `define TEST_MODE
+`define FPGA_MODE
 
 `timescale 1 ns / 100 ps
 
@@ -79,7 +79,7 @@ always @(posedge CLK) begin
    end
    else PWM_limit <= 1'b1;
 
-   $display("PWM_limit = ", PWM_limit);
+   $display("PWM_limit 700 = ", PWM_limit);
 end
 
 // this is a test tick counter to view more pwm pulses, it only divides the clk

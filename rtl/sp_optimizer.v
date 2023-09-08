@@ -24,8 +24,8 @@
 //--------------------------------------------------------------------------------
 
 //define the mode of operation
-`define TEST_MODE
-// `define FPGA_MODE
+// `define TEST_MODE
+`define FPGA_MODE
 
 `timescale 1 ns / 100 ps
 
@@ -103,6 +103,14 @@
       output wire [2:0] STAT
 
    );
+
+
+   // Debounce time for buttons
+   parameter integer DEB_TIME = 1; 
+
+   // Divider parameter for clk
+   parameter integer TICK_DIV = 2150; 
+
 
    // PLL Instantiation
 
@@ -185,6 +193,13 @@
       output wire SERVO_V
 
    );
+
+   // Debounce time for buttons
+   parameter integer DEB_TIME = 5000; 
+
+   // Divider parameter for clk
+   parameter integer TICK_DIV = 2150; 
+
 
    wire [11:0] max_V_in;
    wire [31:0] pulseWidth_max_H;
@@ -269,25 +284,25 @@ wire cnt_rst; // From FSM
 
 
 // TickCounter used to reduce the PLL CLK
-TickCounterRst #(.MAX(2150)) AdcSocGen (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk));
+TickCounterRst #(.MAX(TICK_DIV)) Div_clk (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk));
 
 
 // Debouncers for button
-Debouncer debouncer_L (
+Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_L (
    .clk(div_clk),
    .rst(RST),
    .btn(BTN_L), // Button signal left
    .debounced_btn(debounced_btn_L) // Button signal left debounced
 );
 
-Debouncer debouncer_R (
+Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_R (
    .clk(div_clk),
    .rst(RST),
    .btn(BTN_R), // Button signal right
    .debounced_btn(debounced_btn_R) // Button signal right debounced
 );
 
-Debouncer debouncer_U (
+Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_U (
    .clk(div_clk),
    .rst(RST),
    .btn(BTN_U), // Button signal up
@@ -295,14 +310,14 @@ Debouncer debouncer_U (
 );
 
 
-Debouncer debouncer_D (
+Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_D (
    .clk(div_clk),
    .rst(RST),
    .btn(BTN_D), // Button signal down
    .debounced_btn(debounced_btn_D) // Button signal down debounced
 );
 
-Debouncer debouncer_C (
+Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_C (
    .clk(div_clk),
    .rst(RST),
    .btn(BTN_C), // Button signal centrale

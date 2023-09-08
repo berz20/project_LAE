@@ -1,6 +1,6 @@
 //define the mode of operation
-`define TEST_MODE
-// `define FPGA_MODE
+// `define TEST_MODE
+`define FPGA_MODE
 
 
 `timescale 1ns / 100ps
