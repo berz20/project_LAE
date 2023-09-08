@@ -1,6 +1,6 @@
 `timescale 1ns / 100ps
 
-module Debouncer (
+module Debouncer #(parameter integer DEBOUNCE_TIME = 5000) (
    input wire clk,
    input wire rst,
    input wire btn,           // Segnale del pulsante da stabilizzare

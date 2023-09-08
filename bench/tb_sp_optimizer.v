@@ -116,37 +116,59 @@ initial begin
     // V_in = 12'b000000000000;
 
     RST = 1'b1;
-    #100000;
+    #100;
 
     RST = 1'b0;
     #100;
     // Start the machine by setting BTN_C to 1
     BTN_L = 1;
-    #10;
+    #10000000;
 
     BTN_L = 0;
-    #10;
+    #10000000;
 
     BTN_R = 1;
-    #10;
+    #10000000;
 
     BTN_R = 0;
-    #10;
+    #10000000;
 
+    BTN_L = 1;
+    #10000000;
+
+    BTN_L = 0;
+    #10000000;
+
+    BTN_R = 1;
+    #10000000;
+
+    BTN_R = 0;
+    #10000000;
     BTN_U = 1;
-    #1000;
+    #10000000;
 
+    BTN_L = 1;
+    #10000000;
+
+    BTN_L = 0;
+    #10000000;
+
+    BTN_R = 1;
+    #10000000;
+
+    BTN_R = 0;
+    #10000000;
     BTN_U = 0;
-    #10;
+    #10000000;
 
     BTN_D = 1;
-    #10;
+    #10000000;
 
     BTN_D = 0;
-    #10;
+    #1000;
     // Wait for a few clock cycles to let the machine start
     BTN_C = 1;
-    #10;
+    #1000;
 
 
     // Repeat the trend multiple times

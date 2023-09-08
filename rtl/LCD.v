@@ -64,6 +64,7 @@
 module LCD (
     input wire CLK,                  // Clock signal
     input wire DBG,                  // DEBUG signal
+    input wire ANG,                  // DEBUG signal
     input wire [11:0] V_in,         // 12-bit ADC data input
     input wire [11:0] max_V_in,         // 12-bit ADC data input
     input wire [31:0] pulseWidth_H,
@@ -78,24 +79,47 @@ module LCD (
     output reg [7:0] data           // Data to be displayed (ASCII characters)
 );
 
+// Voltage values
+integer xval_D1;
+integer xval_D2;
+
+integer xval2_D1;
+integer xval2_D2;
+
+// PWM lenght signal (Debug)
 integer xval3_D1;
 integer xval3_D2;
 integer xval3_D3;
+
 integer xval4_D1;
 integer xval4_D2;
 integer xval4_D3;
+
 integer xval5_D1;
 integer xval5_D2;
 integer xval5_D3;
+
 integer xval6_D1;
 integer xval6_D2;
 integer xval6_D3;
 
-integer xval_D1;
-integer xval_D2;
-// integer xval_D3;
-integer xval2_D1;
-integer xval2_D2;
+// Angle servos 
+integer xval7_D1;
+integer xval7_D2;
+integer xval7_D3;
+
+integer xval8_D1;
+integer xval8_D2;
+integer xval8_D3;
+
+integer xval9_D1;
+integer xval9_D2;
+integer xval9_D3;
+
+integer xval10_D1;
+integer xval10_D2;
+integer xval10_D3;
+
 // integer xval;
 // integer xval2;
 reg [7:0] Datas [1:36];
@@ -103,6 +127,15 @@ integer i = 0;
 integer j = 1;
 
 always @(posedge CLK) begin
+
+// Voltage values
+xval_D1 <= max_V_in*330/4095;
+xval_D2 <= max_V_in*33/4095;
+
+xval2_D1 <= V_in*330/4095;
+xval2_D2 <= V_in*33/4095;
+
+// PWM lenght signal (Debug)
 xval3_D1 <= pulseWidth_max_H;
 xval3_D2 <= pulseWidth_max_H/10;
 xval3_D3 <= pulseWidth_max_H/100;
@@ -119,11 +152,23 @@ xval6_D1 <= pulseWidth_V;
 xval6_D2 <= pulseWidth_V/10;
 xval6_D3 <= pulseWidth_V/100;
 
-xval_D1 <= max_V_in*330/4095;
-xval_D2 <= max_V_in*33/4095;
+// Angle servos 
+xval7_D1 <= pulseWidth_max_H*180/2500;
+xval7_D2 <= pulseWidth_max_H*180/2500;
+xval7_D3 <= pulseWidth_max_H*18/2500;
 
-xval2_D1 <= V_in*330/4095;
-xval2_D2 <= V_in*33/4095;
+xval8_D1 <= pulseWidth_max_V*180/2500;
+xval8_D2 <= pulseWidth_max_V*180/2500;
+xval8_D3 <= pulseWidth_max_V*18/2500;
+
+xval9_D1 <= pulseWidth_H*1800/2000 -450;
+xval9_D2 <= pulseWidth_H*180/2000 -45;
+xval9_D3 <= pulseWidth_H*18/2000 -4;
+
+xval10_D1 <= pulseWidth_V*1800/2000 -450;
+xval10_D2 <= pulseWidth_V*180/2000 -45;
+xval10_D3 <= pulseWidth_V*18/2000 -4;
+
 end
 
 
@@ -391,6 +436,268 @@ case (xval6_D3/10)
 endcase;
 
 end
+
+else if (ANG == 1'b1) begin
+
+Datas[6] <= 8'h48; // H
+Datas[7] <= 8'h3A; // :
+Datas[8] <= 8'h20; // space
+
+// xval <= V_in;
+
+// case (xval7_D1%10)
+// 0 : Datas[12] <= 8'h30;
+// 1 : Datas[12] <= 8'h31;
+// 2 : Datas[12] <= 8'h32;
+// 3 : Datas[12] <= 8'h33;
+// 4 : Datas[12] <= 8'h34;
+// 5 : Datas[12] <= 8'h35;
+// 6 : Datas[12] <= 8'h36;
+// 7 : Datas[12] <= 8'h37;
+// 8 : Datas[12] <= 8'h38;
+// 9 : Datas[12] <= 8'h39;
+// endcase;
+//
+Datas[12] <= 8'h44;
+
+// xval <= xval/10;
+
+case (xval7_D2%10)
+0 : Datas[11] <= 8'h30;
+1 : Datas[11] <= 8'h31;
+2 : Datas[11] <= 8'h32;
+3 : Datas[11] <= 8'h33;
+4 : Datas[11] <= 8'h34;
+5 : Datas[11] <= 8'h35;
+6 : Datas[11] <= 8'h36;
+7 : Datas[11] <= 8'h37;
+8 : Datas[11] <= 8'h38;
+9 : Datas[11] <= 8'h39;
+endcase;
+
+// xval <= xval/10;
+
+case (xval7_D3%10)
+0 : Datas[10] <= 8'h30;
+1 : Datas[10] <= 8'h31;
+2 : Datas[10] <= 8'h32;
+3 : Datas[10] <= 8'h33;
+4 : Datas[10] <= 8'h34;
+5 : Datas[10] <= 8'h35;
+6 : Datas[10] <= 8'h36;
+7 : Datas[10] <= 8'h37;
+8 : Datas[10] <= 8'h38;
+9 : Datas[10] <= 8'h39;
+endcase;
+
+case (xval7_D3/10)
+0 : Datas[9] <= 8'h30;
+1 : Datas[9] <= 8'h31;
+2 : Datas[9] <= 8'h32;
+3 : Datas[9] <= 8'h33;
+4 : Datas[9] <= 8'h34;
+5 : Datas[9] <= 8'h35;
+6 : Datas[9] <= 8'h36;
+7 : Datas[9] <= 8'h37;
+8 : Datas[9] <= 8'h38;
+9 : Datas[9] <= 8'h39;
+endcase;
+
+
+Datas[13] <= 8'h20; // space
+Datas[14] <= 8'h56; // V
+Datas[15] <= 8'h3A; // :
+Datas[16] <= 8'h20; // space
+
+// xval <= V_in;
+
+// case (xval8_D1%10)
+// 0 : Datas[20] <= 8'h30;
+// 1 : Datas[20] <= 8'h31;
+// 2 : Datas[20] <= 8'h32;
+// 3 : Datas[20] <= 8'h33;
+// 4 : Datas[20] <= 8'h34;
+// 5 : Datas[20] <= 8'h35;
+// 6 : Datas[20] <= 8'h36;
+// 7 : Datas[20] <= 8'h37;
+// 8 : Datas[20] <= 8'h38;
+// 9 : Datas[20] <= 8'h39;
+// endcase;
+
+Datas[20] <= 8'h44;
+// xval <= xval/10;
+
+case (xval8_D2%10)
+0 : Datas[19] <= 8'h30;
+1 : Datas[19] <= 8'h31;
+2 : Datas[19] <= 8'h32;
+3 : Datas[19] <= 8'h33;
+4 : Datas[19] <= 8'h34;
+5 : Datas[19] <= 8'h35;
+6 : Datas[19] <= 8'h36;
+7 : Datas[19] <= 8'h37;
+8 : Datas[19] <= 8'h38;
+9 : Datas[19] <= 8'h39;
+endcase;
+
+// xval <= xval/10;
+
+case (xval8_D3%10)
+0 : Datas[18] <= 8'h30;
+1 : Datas[18] <= 8'h31;
+2 : Datas[18] <= 8'h32;
+3 : Datas[18] <= 8'h33;
+4 : Datas[18] <= 8'h34;
+5 : Datas[18] <= 8'h35;
+6 : Datas[18] <= 8'h36;
+7 : Datas[18] <= 8'h37;
+8 : Datas[18] <= 8'h38;
+9 : Datas[18] <= 8'h39;
+endcase;
+
+case (xval8_D3/10)
+0 : Datas[17] <= 8'h30;
+1 : Datas[17] <= 8'h31;
+2 : Datas[17] <= 8'h32;
+3 : Datas[17] <= 8'h33;
+4 : Datas[17] <= 8'h34;
+5 : Datas[17] <= 8'h35;
+6 : Datas[17] <= 8'h36;
+7 : Datas[17] <= 8'h37;
+8 : Datas[17] <= 8'h38;
+9 : Datas[17] <= 8'h39;
+endcase;
+
+Datas[21] <= 8'hC0; // new line
+Datas[22] <= 8'h48; // H
+Datas[23] <= 8'h3A; // :
+Datas[24] <= 8'h20; // space
+
+// xval <= V_in;
+
+// case (xval9_D1%10)
+// 0 : Datas[28] <= 8'h30;
+// 1 : Datas[28] <= 8'h31;
+// 2 : Datas[28] <= 8'h32;
+// 3 : Datas[28] <= 8'h33;
+// 4 : Datas[28] <= 8'h34;
+// 5 : Datas[28] <= 8'h35;
+// 6 : Datas[28] <= 8'h36;
+// 7 : Datas[28] <= 8'h37;
+// 8 : Datas[28] <= 8'h38;
+// 9 : Datas[28] <= 8'h39;
+// endcase;
+
+Datas[28] <= 8'h44;
+// xval <= xval/10;
+
+case (xval9_D2%10)
+0 : Datas[27] <= 8'h30;
+1 : Datas[27] <= 8'h31;
+2 : Datas[27] <= 8'h32;
+3 : Datas[27] <= 8'h33;
+4 : Datas[27] <= 8'h34;
+5 : Datas[27] <= 8'h35;
+6 : Datas[27] <= 8'h36;
+7 : Datas[27] <= 8'h37;
+8 : Datas[27] <= 8'h38;
+9 : Datas[27] <= 8'h39;
+endcase;
+
+// xval <= xval/10;
+
+case (xval9_D3%10)
+0 : Datas[26] <= 8'h30;
+1 : Datas[26] <= 8'h31;
+2 : Datas[26] <= 8'h32;
+3 : Datas[26] <= 8'h33;
+4 : Datas[26] <= 8'h34;
+5 : Datas[26] <= 8'h35;
+6 : Datas[26] <= 8'h36;
+7 : Datas[26] <= 8'h37;
+8 : Datas[26] <= 8'h38;
+9 : Datas[26] <= 8'h39;
+endcase;
+
+case (xval9_D3/10)
+0 : Datas[25] <= 8'h30;
+1 : Datas[25] <= 8'h31;
+2 : Datas[25] <= 8'h32;
+3 : Datas[25] <= 8'h33;
+4 : Datas[25] <= 8'h34;
+5 : Datas[25] <= 8'h35;
+6 : Datas[25] <= 8'h36;
+7 : Datas[25] <= 8'h37;
+8 : Datas[25] <= 8'h38;
+9 : Datas[25] <= 8'h39;
+endcase;
+
+
+Datas[29] <= 8'h20; // space
+Datas[30] <= 8'h56; // V
+Datas[31] <= 8'h3A; // :
+Datas[32] <= 8'h20; // space
+
+// xval <= V_in;
+
+// case (xval10_D1%10)
+// 0 : Datas[36] <= 8'h30;
+// 1 : Datas[36] <= 8'h31;
+// 2 : Datas[36] <= 8'h32;
+// 3 : Datas[36] <= 8'h33;
+// 4 : Datas[36] <= 8'h34;
+// 5 : Datas[36] <= 8'h35;
+// 6 : Datas[36] <= 8'h36;
+// 7 : Datas[36] <= 8'h37;
+// 8 : Datas[36] <= 8'h38;
+// 9 : Datas[36] <= 8'h39;
+// endcase;
+
+Datas[36] <= 8'h44;
+// xval <= xval/10;
+
+case (xval10_D2%10)
+0 : Datas[35] <= 8'h30;
+1 : Datas[35] <= 8'h31;
+2 : Datas[35] <= 8'h32;
+3 : Datas[35] <= 8'h33;
+4 : Datas[35] <= 8'h34;
+5 : Datas[35] <= 8'h35;
+6 : Datas[35] <= 8'h36;
+7 : Datas[35] <= 8'h37;
+8 : Datas[35] <= 8'h38;
+9 : Datas[35] <= 8'h39;
+endcase;
+
+// xval <= xval/10;
+
+case (xval10_D3%10)
+0 : Datas[34] <= 8'h30;
+1 : Datas[34] <= 8'h31;
+2 : Datas[34] <= 8'h32;
+3 : Datas[34] <= 8'h33;
+4 : Datas[34] <= 8'h34;
+5 : Datas[34] <= 8'h35;
+6 : Datas[34] <= 8'h36;
+7 : Datas[34] <= 8'h37;
+8 : Datas[34] <= 8'h38;
+9 : Datas[34] <= 8'h39;
+endcase;
+
+case (xval10_D3/10)
+0 : Datas[33] <= 8'h30;
+1 : Datas[33] <= 8'h31;
+2 : Datas[33] <= 8'h32;
+3 : Datas[33] <= 8'h33;
+4 : Datas[33] <= 8'h34;
+5 : Datas[33] <= 8'h35;
+6 : Datas[33] <= 8'h36;
+7 : Datas[33] <= 8'h37;
+8 : Datas[33] <= 8'h38;
+9 : Datas[33] <= 8'h39;
+endcase;
+end
+
 else begin
 
 // modes

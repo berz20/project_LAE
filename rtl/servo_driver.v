@@ -20,10 +20,10 @@ wire inter_clk;
 // reg pwm_enable = 1'b1;
 
 always @(posedge CLK) begin
-   if (RST == 1'b1) begin
-      direction <= 2'b10;
-   end
-   else if(BTN_0 == 1'b0 && BTN_1 == 1'b0) begin
+   // if (RST == 1'b1) begin
+   //    direction <= 2'b10;
+   // end
+   if(BTN_0 == 1'b0 && BTN_1 == 1'b0) begin
       direction <= 2'b00;   // stop
    end
    else if(BTN_0 == 1'b1 && BTN_1 == 1'b0) begin
@@ -55,7 +55,7 @@ end
 
 pwm_control pwm_control_0(
    .CLK(inter_clk),
-   // .RST(RST),
+   .RST(RST),
    .DIR(direction),
    .EN(1'b1),
    .MC(MC),

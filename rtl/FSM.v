@@ -214,41 +214,4 @@ always @(PS, BTN_L, BTN_R, BTN_U, BTN_D, BTN_C, CNT_L, CNT_RU, CNT_D) begin
 end
 
 
-
-Debouncer #(DEBOUNCE_TIME) debouncer_L (
-   .clk(CLK),
-   .rst(RST),
-   .btn(BTN_L), // Segnale del pulsante sinistro
-   .debounced_btn(debounced_btn_L) // Segnale del pulsante sinistro debounchato
-);
-
-Debouncer #(DEBOUNCE_TIME) debouncer_R (
-   .clk(CLK),
-   .rst(RST),
-   .btn(BTN_R), // Segnale del pulsante destro
-   .debounced_btn(debounced_btn_R) // Segnale del pulsante destro debounchato
-);
-
-Debouncer #(DEBOUNCE_TIME) debouncer_U (
-   .clk(CLK),
-   .rst(RST),
-   .btn(BTN_U), // Segnale del pulsante su
-   .debounced_btn(debounced_btn_U) // Segnale del pulsante su debounchato
-);
-
-
-Debouncer #(DEBOUNCE_TIME) debouncer_D (
-   .clk(CLK),
-   .rst(RST),
-   .btn(BTN_D), // Segnale del pulsante giù
-   .debounced_btn(debounced_btn_D) // Segnale del pulsante giù debounchato
-);
-
-Debouncer #(DEBOUNCE_TIME) debouncer_C (
-   .clk(CLK),
-   .rst(RST),
-   .btn(BTN_C), // Segnale del pulsante centrale
-   .debounced_btn(debounced_btn_C) // Segnale del pulsante centrale debounchato
-);
-
 endmodule

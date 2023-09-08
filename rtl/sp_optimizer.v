@@ -21,6 +21,7 @@ input wire BTN_C,
 input wire CLK,
 input wire RST,
 input wire DBG,
+input wire ANG,
 input wire vauxp,
 input wire vauxn,
 // // input wire vp_in,
@@ -60,6 +61,7 @@ output wire SERVO_V
 // output wire [2:0] STAT
 );
 
+wire debounced_btn_L, debounced_btn_R, debounced_btn_U, debounced_btn_D, debounced_btn_C;
 wire [31:0] servo_position_H;
 wire [31:0] servo_position_V;
 wire [31:0] pulseWidth_max_H;
@@ -157,13 +159,50 @@ wire [1:0] direction_ud;
 // ) ;
 
 
+// Debouncers 
+Debouncer debouncer_L (
+   .clk(div_clk),
+   .rst(RST),
+   .btn(BTN_L), // Segnale del pulsante sinistro
+   .debounced_btn(debounced_btn_L) // Segnale del pulsante sinistro debounchato
+);
+
+Debouncer debouncer_R (
+   .clk(div_clk),
+   .rst(RST),
+   .btn(BTN_R), // Segnale del pulsante destro
+   .debounced_btn(debounced_btn_R) // Segnale del pulsante destro debounchato
+);
+
+Debouncer debouncer_U (
+   .clk(div_clk),
+   .rst(RST),
+   .btn(BTN_U), // Segnale del pulsante su
+   .debounced_btn(debounced_btn_U) // Segnale del pulsante su debounchato
+);
+
+
+Debouncer debouncer_D (
+   .clk(div_clk),
+   .rst(RST),
+   .btn(BTN_D), // Segnale del pulsante giù
+   .debounced_btn(debounced_btn_D) // Segnale del pulsante giù debounchato
+);
+
+Debouncer debouncer_C (
+   .clk(div_clk),
+   .rst(RST),
+   .btn(BTN_C), // Segnale del pulsante centrale
+   .debounced_btn(debounced_btn_C) // Segnale del pulsante centrale debounchato
+);
+
 // Instantiation of finite state machine
 FSM fsm0(
-   .BTN_L(BTN_L),
-   .BTN_R(BTN_R),
-   .BTN_U(BTN_U),
-   .BTN_D(BTN_D),
-   .BTN_C(BTN_C),
+   .BTN_L(debounced_btn_L),
+   .BTN_R(debounced_btn_R),
+   .BTN_U(debounced_btn_U),
+   .BTN_D(debounced_btn_D),
+   .BTN_C(debounced_btn_C),
    .CNT_L(cnt_l),
    .CNT_RU(cnt_ru),
    .CNT_D(cnt_d),
@@ -275,6 +314,7 @@ FF_Array FF_Array0(
 LCD LCD_disp (
    .CLK(div_clk),
    .DBG(DBG),
+   .ANG(ANG),
    // .EN(1'b1),
    .V_in(V_in[11:0]),
    .max_V_in(max_V_in[11:0]),
