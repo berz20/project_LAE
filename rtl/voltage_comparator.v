@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------
-// Module Name: voltage_comparator - Behavioral
-// Project Name: 
-// Target Devices: 
+// Module Name: voltage_comparator
+// Project Name: Solar Tracker
+// Target Devices: xc7a35ticsg324-1L (Arty A7)
 // Description: takes in two values of the same bit size and sends the greater
 //              value to the register. This two value are from the register
-//              and the ADC. If the value form the ADC is greater than the
+//              and the ADC. If the value from the ADC is greater than the
 //              value in the register, the comparator outputs a high signal
 //              which causes the register to store the value that was in the
 //              ADC. In this way is found the max voltage while sweeping
@@ -15,21 +15,29 @@
 // 
 //--------------------------------------------------------------------------------
 
+`timescale 1 ns / 100 ps
+
 module voltage_comparator(
+
    input wire CLK,
+   
    input wire [11:0] PV, // pending value (ADC)
    input wire [11:0] LV, // last value (register)
+
    output reg GT // greater flag
+
 );
 
 always @(posedge CLK) begin
-   if(PV[11:6] > LV[11:6]) begin // [9:4] last bits are not relevant in the comparison
+
+   if(PV[11:4] > LV[11:4]) begin // [3:0] last bits are not relevant in the comparison
       GT <= 1'b1;
    end
+
    else begin
       GT <= 1'b0;
    end
-end
 
+end
 
 endmodule

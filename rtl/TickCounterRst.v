@@ -1,12 +1,21 @@
-//
-// Parameterized modulus-MAX 32-bit tick generator with reset. Use the resulting "tick"
+//--------------------------------------------------------------------------------
+
+// Module Name: TickCounter
+// Project Name: Solar Tracker
+// Target Devices: xc7a35ticsg324-1L (Arty A7) 
+// Description: Parameterized modulus-MAX 32-bit tick generator with reset. Use the resulting "tick"
 // single clock-pulse as "enable" for your synchronous logic if you need to decrease
 // the speed of the data processing without the need of a dedicated extra clock signal.
 //
+// Dependencies:
+//
+// Additional Comments:
+//
+// Credits:
 // Luca Pacher - pacher@to.infn.it
 // Spring 2020
 //
-
+//--------------------------------------------------------------------------------
 
 `timescale 1ns / 100ps
 
