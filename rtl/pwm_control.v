@@ -100,40 +100,6 @@ always @(posedge CLK) begin
       end
 
    end
-   // When the calibration is is Horizontal / Vertical max the time high
-   // is set to the pulse width relative to the maximum irradiance
-   // position
-   else if (MC == 1'b1) begin
-
-      if (th_cntr < pulseWidth_max) begin
-         th_cntr <= th_cntr + 1 ;
-         SERVO <= 1'b1 ;
-         $display("pulseWidth_max = ",pulseWidth_max);
-         pulseWidth <= pulseWidth_max;
-         tmp_th_cw <= pulseWidth_max;
-         tmp_th <= pulseWidth_max;
-      end
-
-      else if (tl_cntr < time_low) begin
-         tl_cntr <= tl_cntr + 1 ;
-         SERVO <= 1'b0 ;
-         $display("pulseWidth_max = ",pulseWidth_max);
-         pulseWidth <= pulseWidth_max;
-         tmp_th_cw <= pulseWidth_max;
-         tmp_th <= pulseWidth_max;
-      end
-
-      else begin
-         tl_cntr <= 0 ;
-         th_cntr <= 0 ;
-         SERVO <= 1'b0 ;
-         $display("pulseWidth_max = ",pulseWidth_max);
-         pulseWidth <= pulseWidth_max;
-         tmp_th_cw <= pulseWidth_max;
-         tmp_th <= pulseWidth_max;
-      end
-
-   end
 
    else if (EN == 1'b1) begin
 
@@ -196,8 +162,43 @@ always @(posedge CLK) begin
          // position to 500 at the start of the new calibration
          tmp_flag <= 1'b0;
 
+         // When the calibration is is Horizontal / Vertical max the time high
+         // is set to the pulse width relative to the maximum irradiance
+         // position
+         if (MC == 1'b1) begin
+
+            if (th_cntr < pulseWidth_max) begin
+               th_cntr <= th_cntr + 1 ;
+               SERVO <= 1'b1 ;
+               $display("pulseWidth_max = ",pulseWidth_max);
+               pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
+               tmp_th <= pulseWidth_max;
+            end
+
+            else if (tl_cntr < time_low) begin
+               tl_cntr <= tl_cntr + 1 ;
+               SERVO <= 1'b0 ;
+               $display("pulseWidth_max = ",pulseWidth_max);
+               pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
+               tmp_th <= pulseWidth_max;
+            end
+
+            else begin
+               tl_cntr <= 0 ;
+               th_cntr <= 0 ;
+               SERVO <= 1'b0 ;
+               $display("pulseWidth_max = ",pulseWidth_max);
+               pulseWidth <= pulseWidth_max;
+               tmp_th_cw <= pulseWidth_max;
+               tmp_th <= pulseWidth_max;
+            end
+
+         end
+
          // This condition is used in manual mode
-         if (th_cntr < tmp_th_cw) begin
+         else if (th_cntr < tmp_th_cw) begin
             th_cntr <= th_cntr + 1 ;
             SERVO <= 1'b1 ;
             tmp_th <= tmp_th_cw;
@@ -214,7 +215,7 @@ always @(posedge CLK) begin
          end
 
          else begin
-
+            
             // If the servo hasn't reached yet the extreme limit it continues
             // to change the pulse widht time high
             if (tmp_th_cw > 500) begin
