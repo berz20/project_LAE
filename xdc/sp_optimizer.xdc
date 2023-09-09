@@ -1,5 +1,3 @@
-# UNCOMMENT WHEN READY
-
 ################################
 ##   electrical constraints   ##
 ################################
@@ -19,7 +17,20 @@ set_property -dict { PACKAGE_PIN E3  IOSTANDARD LVCMOS33 } [get_ports CLK]
 create_clock -period 10.000 -name clk100 -waveform {0.000 5.000} -add [get_ports CLK]
 
 ## constrain the in2reg timing paths (assume approx. 1/2 clock period)
-set_input_delay -clock clk100 2.000 [all_inputs]
+# set_input_delay -clock clk100 2.000 [all_inputs]
+set_input_delay -clock clk100 2.000 [get_ports BTN_L]
+set_input_delay -clock clk100 2.000 [get_ports BTN_R]
+set_input_delay -clock clk100 2.000 [get_ports BTN_U]
+set_input_delay -clock clk100 2.000 [get_ports BTN_D]
+set_input_delay -clock clk100 2.000 [get_ports BTN_C]
+set_input_delay -clock clk100 2.000 [get_ports RST]
+set_input_delay -clock clk100 2.000 [get_ports DBG]
+set_input_delay -clock clk100 2.000 [get_ports ANG]
+set_input_delay -clock clk100 2.000 [get_ports vauxp]
+set_input_delay -clock clk100 2.000 [get_ports vauxn]
+
+## constrain the reg2out timing paths (assume approx. 1/2 clock period)
+set_output_delay -clock clk100 2.000 [all_outputs]
 
 ########################
 ##   slide switches   ##

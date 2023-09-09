@@ -25,7 +25,6 @@ module max_counter(
 
    // Reset for maximum signals
    input wire CNT_RST, // From voltage comparator
-   input wire RESET,   // From FSM
 
    // Max counter enable
    input wire MC,
