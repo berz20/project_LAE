@@ -1,7 +1,7 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-// Date        : Tue Sep  5 00:37:59 2023
+// Date        : Sun Sep 10 12:39:55 2023
 // Host        : berz-msi running 64-bit Archcraft
 // Command     : write_verilog -force -mode funcsim
 //               /home/berz/Documents/UNI/MAG_1/project_LAE/cores/xadc_wiz_0/xadc_wiz_0_sim_netlist.v
@@ -110,7 +110,7 @@ module xadc_wiz_0
     .IS_CONVSTCLK_INVERTED(1'b0),
     .IS_DCLK_INVERTED(1'b0),
     .SIM_DEVICE("7SERIES"),
-    .SIM_MONITOR_FILE("../../bench/design.txt")) 
+    .SIM_MONITOR_FILE("./../../scripts/test/output_wave.txt")) 
     inst
        (.ALM({alarm_out,NLW_inst_ALM_UNCONNECTED[6:0]}),
         .BUSY(busy_out),

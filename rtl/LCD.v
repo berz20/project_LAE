@@ -122,34 +122,34 @@ always @(posedge CLK) begin
    xval2_D2 <= V_in*33/4095;
 
    // PWM lenght signal (Debug)
-   xval3_D1 <= pulseWidth_max_H;
-   xval3_D2 <= pulseWidth_max_H/10;
-   xval3_D3 <= pulseWidth_max_H/100;
+   xval3_D1 <= pulseWidth_max_H/10;
+   xval3_D2 <= pulseWidth_max_H/100;
+   xval3_D3 <= pulseWidth_max_H/1000;
 
-   xval4_D1 <= pulseWidth_max_V;
-   xval4_D2 <= pulseWidth_max_V/10;
-   xval4_D3 <= pulseWidth_max_V/100;
+   xval4_D1 <= pulseWidth_max_V/10;
+   xval4_D2 <= pulseWidth_max_V/100;
+   xval4_D3 <= pulseWidth_max_V/1000;
 
-   xval5_D1 <= pulseWidth_H;
-   xval5_D2 <= pulseWidth_H/10;
-   xval5_D3 <= pulseWidth_H/100;
+   xval5_D1 <= pulseWidth_H/10;
+   xval5_D2 <= pulseWidth_H/100;
+   xval5_D3 <= pulseWidth_H/1000;
 
-   xval6_D1 <= pulseWidth_V;
-   xval6_D2 <= pulseWidth_V/10;
-   xval6_D3 <= pulseWidth_V/100;
+   xval6_D1 <= pulseWidth_V/10;
+   xval6_D2 <= pulseWidth_V/100;
+   xval6_D3 <= pulseWidth_V/1000;
 
    // Angle servos 
-   xval7_D2 <= pulseWidth_max_H*180/2500;
-   xval7_D3 <= pulseWidth_max_H*18/2500;
+   xval7_D2 <= pulseWidth_max_H*180/20000 - 45;
+   xval7_D3 <= pulseWidth_max_H*18/20000 - 4;
 
-   xval8_D2 <= pulseWidth_max_V*180/2500;
-   xval8_D3 <= pulseWidth_max_V*18/2500;
+   xval8_D2 <= pulseWidth_max_V*180/20000 - 45;
+   xval8_D3 <= pulseWidth_max_V*18/20000 - 4;
 
-   xval9_D2 <= pulseWidth_H*180/2000 - 45;
-   xval9_D3 <= pulseWidth_H*18/2000 - 4;
+   xval9_D2 <= pulseWidth_H*180/20000 - 45;
+   xval9_D3 <= pulseWidth_H*18/20000 - 4;
 
-   xval10_D2 <= pulseWidth_V*180/2000 - 45;
-   xval10_D3 <= pulseWidth_V*18/2000 - 4;
+   xval10_D2 <= pulseWidth_V*180/20000 - 45;
+   xval10_D3 <= pulseWidth_V*18/20000 - 4;
 
 end
 
@@ -182,6 +182,7 @@ always @(posedge CLK) begin
          7 : Datas[12] <= 8'h37;
          8 : Datas[12] <= 8'h38;
          9 : Datas[12] <= 8'h39;
+         default : Datas[12] <= 8'h20;  
       endcase
 
       case (xval3_D2%10)
@@ -195,6 +196,7 @@ always @(posedge CLK) begin
          7 : Datas[11] <= 8'h37;
          8 : Datas[11] <= 8'h38;
          9 : Datas[11] <= 8'h39;
+         default : Datas[11] <= 8'h20;  
       endcase
 
       case (xval3_D3%10)
@@ -208,6 +210,7 @@ always @(posedge CLK) begin
          7 : Datas[10] <= 8'h37;
          8 : Datas[10] <= 8'h38;
          9 : Datas[10] <= 8'h39;
+         default : Datas[10] <= 8'h20;  
       endcase
 
       case (xval3_D3/10)
@@ -221,6 +224,7 @@ always @(posedge CLK) begin
          7 : Datas[9] <= 8'h37;
          8 : Datas[9] <= 8'h38;
          9 : Datas[9] <= 8'h39;
+         default : Datas[9] <= 8'h20;  
       endcase
 
 
@@ -241,6 +245,7 @@ always @(posedge CLK) begin
          7 : Datas[20] <= 8'h37;
          8 : Datas[20] <= 8'h38;
          9 : Datas[20] <= 8'h39;
+         default : Datas[20] <= 8'h20;  
       endcase
 
       case (xval4_D2%10)
@@ -254,6 +259,7 @@ always @(posedge CLK) begin
          7 : Datas[19] <= 8'h37;
          8 : Datas[19] <= 8'h38;
          9 : Datas[19] <= 8'h39;
+         default : Datas[19] <= 8'h20;  
       endcase
 
       case (xval4_D3%10)
@@ -267,6 +273,7 @@ always @(posedge CLK) begin
          7 : Datas[18] <= 8'h37;
          8 : Datas[18] <= 8'h38;
          9 : Datas[18] <= 8'h39;
+         default : Datas[18] <= 8'h20;  
       endcase
 
       case (xval4_D3/10)
@@ -280,6 +287,7 @@ always @(posedge CLK) begin
          7 : Datas[17] <= 8'h37;
          8 : Datas[17] <= 8'h38;
          9 : Datas[17] <= 8'h39;
+         default : Datas[17] <= 8'h20;  
       endcase
 
       // Current horizontal
@@ -299,6 +307,7 @@ always @(posedge CLK) begin
          7 : Datas[28] <= 8'h37;
          8 : Datas[28] <= 8'h38;
          9 : Datas[28] <= 8'h39;
+         default : Datas[28] <= 8'h20;  
       endcase
 
       case (xval5_D2%10)
@@ -312,6 +321,7 @@ always @(posedge CLK) begin
          7 : Datas[27] <= 8'h37;
          8 : Datas[27] <= 8'h38;
          9 : Datas[27] <= 8'h39;
+         default : Datas[27] <= 8'h20;  
       endcase
 
       case (xval5_D3%10)
@@ -325,6 +335,7 @@ always @(posedge CLK) begin
          7 : Datas[26] <= 8'h37;
          8 : Datas[26] <= 8'h38;
          9 : Datas[26] <= 8'h39;
+         default : Datas[26] <= 8'h20;  
       endcase
 
       case (xval5_D3/10)
@@ -338,6 +349,7 @@ always @(posedge CLK) begin
          7 : Datas[25] <= 8'h37;
          8 : Datas[25] <= 8'h38;
          9 : Datas[25] <= 8'h39;
+         default : Datas[25] <= 8'h20;  
       endcase
 
 
@@ -358,6 +370,7 @@ always @(posedge CLK) begin
          7 : Datas[36] <= 8'h37;
          8 : Datas[36] <= 8'h38;
          9 : Datas[36] <= 8'h39;
+         default : Datas[36] <= 8'h20;  
       endcase
 
       case (xval6_D2%10)
@@ -371,6 +384,7 @@ always @(posedge CLK) begin
          7 : Datas[35] <= 8'h37;
          8 : Datas[35] <= 8'h38;
          9 : Datas[35] <= 8'h39;
+         default : Datas[35] <= 8'h20;  
       endcase
 
       case (xval6_D3%10)
@@ -384,6 +398,7 @@ always @(posedge CLK) begin
          7 : Datas[34] <= 8'h37;
          8 : Datas[34] <= 8'h38;
          9 : Datas[34] <= 8'h39;
+         default : Datas[34] <= 8'h20;  
       endcase
 
       case (xval6_D3/10)
@@ -397,6 +412,7 @@ always @(posedge CLK) begin
          7 : Datas[33] <= 8'h37;
          8 : Datas[33] <= 8'h38;
          9 : Datas[33] <= 8'h39;
+         default : Datas[33] <= 8'h20;  
       endcase
 
    end
@@ -422,6 +438,7 @@ always @(posedge CLK) begin
          7 : Datas[11] <= 8'h37;
          8 : Datas[11] <= 8'h38;
          9 : Datas[11] <= 8'h39;
+         default : Datas[11] <= 8'h20;  
       endcase
 
       case (xval7_D3%10)
@@ -435,6 +452,7 @@ always @(posedge CLK) begin
          7 : Datas[10] <= 8'h37;
          8 : Datas[10] <= 8'h38;
          9 : Datas[10] <= 8'h39;
+         default : Datas[10] <= 8'h20;  
       endcase
 
       case (xval7_D3/10)
@@ -448,6 +466,7 @@ always @(posedge CLK) begin
          7 : Datas[9] <= 8'h37;
          8 : Datas[9] <= 8'h38;
          9 : Datas[9] <= 8'h39;
+         default : Datas[9] <= 8'h20;  
       endcase
 
 
@@ -470,6 +489,7 @@ always @(posedge CLK) begin
          7 : Datas[19] <= 8'h37;
          8 : Datas[19] <= 8'h38;
          9 : Datas[19] <= 8'h39;
+         default : Datas[19] <= 8'h20;  
       endcase
 
       case (xval8_D3%10)
@@ -483,6 +503,7 @@ always @(posedge CLK) begin
          7 : Datas[18] <= 8'h37;
          8 : Datas[18] <= 8'h38;
          9 : Datas[18] <= 8'h39;
+         default : Datas[18] <= 8'h20;  
       endcase
 
       case (xval8_D3/10)
@@ -496,6 +517,7 @@ always @(posedge CLK) begin
          7 : Datas[17] <= 8'h37;
          8 : Datas[17] <= 8'h38;
          9 : Datas[17] <= 8'h39;
+         default : Datas[17] <= 8'h20;  
       endcase
 
       // Current horizontal
@@ -517,6 +539,7 @@ always @(posedge CLK) begin
          7 : Datas[27] <= 8'h37;
          8 : Datas[27] <= 8'h38;
          9 : Datas[27] <= 8'h39;
+         default : Datas[27] <= 8'h20;  
       endcase
 
       case (xval9_D3%10)
@@ -530,6 +553,7 @@ always @(posedge CLK) begin
          7 : Datas[26] <= 8'h37;
          8 : Datas[26] <= 8'h38;
          9 : Datas[26] <= 8'h39;
+         default : Datas[26] <= 8'h20;  
       endcase
 
       case (xval9_D3/10)
@@ -543,6 +567,7 @@ always @(posedge CLK) begin
          7 : Datas[25] <= 8'h37;
          8 : Datas[25] <= 8'h38;
          9 : Datas[25] <= 8'h39;
+         default : Datas[25] <= 8'h20;  
       endcase
 
 
@@ -565,6 +590,7 @@ always @(posedge CLK) begin
          7 : Datas[35] <= 8'h37;
          8 : Datas[35] <= 8'h38;
          9 : Datas[35] <= 8'h39;
+         default : Datas[35] <= 8'h20;  
       endcase
 
       case (xval10_D3%10)
@@ -578,6 +604,7 @@ always @(posedge CLK) begin
          7 : Datas[34] <= 8'h37;
          8 : Datas[34] <= 8'h38;
          9 : Datas[34] <= 8'h39;
+         default : Datas[34] <= 8'h20;  
       endcase
 
       case (xval10_D3/10)
@@ -591,6 +618,7 @@ always @(posedge CLK) begin
          7 : Datas[33] <= 8'h37;
          8 : Datas[33] <= 8'h38;
          9 : Datas[33] <= 8'h39;
+         default : Datas[33] <= 8'h20;  
       endcase
    end
 
@@ -654,6 +682,7 @@ always @(posedge CLK) begin
          7 : Datas[28] <= 8'h37;
          8 : Datas[28] <= 8'h38;
          9 : Datas[28] <= 8'h39;
+         default : Datas[28] <= 8'h20;  
       endcase
 
       case (xval_D2%10)
@@ -667,6 +696,7 @@ always @(posedge CLK) begin
          7 : Datas[27] <= 8'h37;
          8 : Datas[27] <= 8'h38;
          9 : Datas[27] <= 8'h39;
+         default : Datas[27] <= 8'h20;  
       endcase
 
       case (xval_D2/10)
@@ -680,6 +710,7 @@ always @(posedge CLK) begin
          7 : Datas[25] <= 8'h37;
          8 : Datas[25] <= 8'h38;
          9 : Datas[25] <= 8'h39;
+         default : Datas[25] <= 8'h20;  
       endcase
 
       // Current voltage
@@ -700,6 +731,7 @@ always @(posedge CLK) begin
          7 : Datas[36] <= 8'h37;
          8 : Datas[36] <= 8'h38;
          9 : Datas[36] <= 8'h39;
+         default : Datas[36] <= 8'h20;  
       endcase
 
       case (xval2_D2%10)
@@ -713,6 +745,7 @@ always @(posedge CLK) begin
          7 : Datas[35] <= 8'h37;
          8 : Datas[35] <= 8'h38;
          9 : Datas[35] <= 8'h39;
+         default : Datas[35] <= 8'h20;  
       endcase
 
       case (xval2_D2/10)
@@ -726,6 +759,7 @@ always @(posedge CLK) begin
          7 : Datas[33] <= 8'h37;
          8 : Datas[33] <= 8'h38;
          9 : Datas[33] <= 8'h39;
+         default : Datas[33] <= 8'h20;  
       endcase
 
    end
@@ -787,16 +821,16 @@ end
 
 always @(posedge CLK) begin
 
-   if (i <= 100) begin
+   if (i <= 50000) begin
       i <= i + 1; EN_OUT <= 1'b1;
       data <= Datas[j];
    end
 
-   else if (i > 100 & i < 200) begin
+   else if (i > 50000 & i < 100000) begin
       i <= i + 1; EN_OUT <= 1'b0;
    end
 
-   else if (i == 200) begin
+   else if (i == 100000) begin
       j <= j + 1; i <= 0;
    end
 

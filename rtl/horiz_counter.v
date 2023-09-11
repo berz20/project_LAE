@@ -38,7 +38,6 @@ module horiz_counter(
 
 reg [4:0] currcount = 5'b00_000;
 
-
 always @(posedge CLK) begin
 
    if (HS == 1'b1) begin

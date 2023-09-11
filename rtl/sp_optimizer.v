@@ -97,7 +97,7 @@
       output wire PWM_limit_V,
 
       // CLK divided
-      output wire div_clk,
+      output wire pll_clk,
 
       // FSM state
       output wire [2:0] STAT
@@ -114,7 +114,7 @@
 
    // PLL Instantiation
 
-   wire pll_clk; 
+   // wire div_clk; 
    wire pll_locked;
 
    PLL  PLL_inst ( .CLK_IN(CLK), .CLK_OUT(pll_clk), .LOCKED(pll_locked) ) ;
@@ -195,7 +195,8 @@
    );
 
    // Debounce time for buttons
-   parameter integer DEB_TIME = 5000; 
+   // parameter integer DEB_TIME = 1000000; // 100 ms
+   parameter integer DEB_TIME = 10; // 100 ms
 
    // Divider parameter for clk
    parameter integer TICK_DIV = 2150; 
@@ -216,12 +217,12 @@
    wire [31:0] servo_position_V;
    wire PWM_limit_H;
    wire PWM_limit_V;
-   wire div_clk;
+   wire pll_clk; 
    wire [2:0] STAT;
 
    // PLL Instantiation
 
-   wire pll_clk; 
+   // wire div_clk;
    wire pll_locked;
 
    PLL  PLL_inst ( .CLK_IN(CLK), .CLK_OUT(pll_clk), .LOCKED(pll_locked) ) ;
@@ -283,27 +284,27 @@ wire reset;   // From voltage comparator
 wire cnt_rst; // From FSM
 
 
-// TickCounter used to reduce the PLL CLK
-TickCounterRst #(.MAX(TICK_DIV)) Div_clk (.clk(pll_clk), .rst(~pll_locked), .tick(div_clk));
+// // TickCounter used to reduce the PLL CLK
+// TickCounterRst #(.MAX(TICK_DIV)) pll_clk (.clk(pll_clk), .rst(~pll_locked), .tick(pll_clk));
 
 
 // Debouncers for button
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_L (
-   .clk(div_clk),
+   .clk(pll_clk),
    .rst(RST),
    .btn(BTN_L), // Button signal left
    .debounced_btn(debounced_btn_L) // Button signal left debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_R (
-   .clk(div_clk),
+   .clk(pll_clk),
    .rst(RST),
    .btn(BTN_R), // Button signal right
    .debounced_btn(debounced_btn_R) // Button signal right debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_U (
-   .clk(div_clk),
+   .clk(pll_clk),
    .rst(RST),
    .btn(BTN_U), // Button signal up
    .debounced_btn(debounced_btn_U) // Button signal up debounced
@@ -311,14 +312,14 @@ Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_U (
 
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_D (
-   .clk(div_clk),
+   .clk(pll_clk),
    .rst(RST),
    .btn(BTN_D), // Button signal down
    .debounced_btn(debounced_btn_D) // Button signal down debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_C (
-   .clk(div_clk),
+   .clk(pll_clk),
    .rst(RST),
    .btn(BTN_C), // Button signal centrale
    .debounced_btn(debounced_btn_C) // Button signal centrale debounced
@@ -335,7 +336,7 @@ FSM fsm0(
    .CNT_L(cnt_l),
    .CNT_RU(cnt_ru),
    .CNT_D(cnt_d),
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .RST(RST),
    .HS(HS),
    .VS(VS),
@@ -382,7 +383,7 @@ servo_driver servo_driver1(
 
 // Compare current voltage with the one stored in the register
 voltage_comparator voltage_comparator0(
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .PV(V_in[11:4]), // [3:0] last bits are not relevant in the comparison
    .LV(max_V_in[11:4]),
    .GT(reset)
@@ -391,7 +392,7 @@ voltage_comparator voltage_comparator0(
 
 // Counter which sets the time limit for the right and up direction movement
 max_counter max_counter0(
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .CNT_RST(cnt_rst),
    .MC(MC),
    .CNT_RU(cnt_ru)
@@ -400,7 +401,7 @@ max_counter max_counter0(
 
 // Counter to limit the horizontal range of movement of servos
 horiz_counter horiz_counter0(
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .HS(HS),
    .PWM_limit(PWM_limit_H),
    .CNT_L(cnt_l)
@@ -409,7 +410,7 @@ horiz_counter horiz_counter0(
 
 // Counter to limit the vertical range of movement of servos
 vert_counter vert_counter0(
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .VS(VS),
    .PWM_limit(PWM_limit_V),
    .CNT_D(cnt_d)
@@ -419,7 +420,7 @@ vert_counter vert_counter0(
 // Flip Flop array which register the max voltage and the PWM logic time high
 // for the maximum position of the servos
 FF_Array FF_Array0(
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .RST(RST),
    .GT(reset),
    .pulseWidth_H(servo_position_H),
@@ -433,7 +434,7 @@ FF_Array FF_Array0(
 
 // LCD instantiation
 LCD LCD_disp (
-   .CLK(div_clk),
+   .CLK(pll_clk),
    .DBG(DBG),
    .ANG(ANG),
    .V_in(V_in[11:0]),

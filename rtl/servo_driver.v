@@ -74,7 +74,7 @@ end
 `ifdef TEST_MODE
 
 always @(posedge CLK) begin
-   if (servo_position < 700 ) begin
+   if (servo_position < 7000 ) begin
       PWM_limit <= 1'b0;
    end
    else PWM_limit <= 1'b1;
@@ -84,14 +84,14 @@ end
 
 // this is a test tick counter to view more pwm pulses, it only divides the clk
 // by 2
-TickCounterRst #(.MAX(2)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+// TickCounterRst #(.MAX(2)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
 `endif
 
 `ifdef FPGA_MODE
 
 always @(posedge CLK) begin
-   if (servo_position < 2500 ) begin
+   if (servo_position < 25000 ) begin
       PWM_limit <= 1'b0;
    end
    else PWM_limit <= 1'b1;
@@ -103,12 +103,12 @@ end
 // order to change the period of the clk that becomes 1 us so the constants in
 // the pwm_control are expressed in us due to the fact that the increase in
 // the counter happens every rising edge of clk
-TickCounterRst #(.MAX(100)) AdcSocGen (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
+// TickCounterRst #(.MAX(100)) PWM_clock (.clk(CLK), .rst(1'b0), .tick(inter_clk)) ;
 
 `endif
 
 pwm_control pwm_control_0(
-   .CLK(inter_clk),
+   .CLK(CLK),
    .RST(RST),
    .DIR(direction),
    .EN(1'b1),

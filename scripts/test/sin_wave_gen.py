@@ -2,14 +2,14 @@ import math
 
 # Constants
 start_time = 0.0
-end_time = 100037.60
-num_points = 10000  # Number of data points
+end_time = 500037.60
+num_points = 50000  # Number of data points
 amplitude = 0.5  # Amplitude of the sinusoidal wave
 frequency = 0.100  # Frequency of the sinusoidal wave
 
 # Generate sinusoidal values
 time_values = [start_time + (end_time - start_time) * i / (num_points - 1) for i in range(num_points)]
-sinusoidal_values = [abs((0.000015 *2 * math.pi * frequency * t) * math.sin(2 * math.pi * frequency * t)) for t in time_values]
+sinusoidal_values = [abs((0.000003 *2 * math.pi * frequency * t) * math.sin(2 * math.pi * frequency * t)) for t in time_values]
 
 # Print header
 print("TIME    TEMP   VCCINT   VCCBRAM   VCCAUX   VP     VN    ", end="")

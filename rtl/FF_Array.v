@@ -46,8 +46,8 @@ always @(posedge CLK) begin
    // and the max voltage value to zero
    if (RST == 1'b1) begin
          LV <= 12'b000000000000;
-         pulseWidth_max_H <= 32'd500;
-         pulseWidth_max_V <= 32'd500;
+         pulseWidth_max_H <= 32'd5000;
+         pulseWidth_max_V <= 32'd5000;
 
    end 
 

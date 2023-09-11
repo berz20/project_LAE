@@ -12,6 +12,10 @@
 //
 //--------------------------------------------------------------------------------
 
+//define the mode of operation
+`define TB_MODE
+// `define FP_MODE
+
 `timescale 1ns / 100ps
 
 module pwm_control(
@@ -44,10 +48,25 @@ module pwm_control(
 // The servo motor used are the MS60
 // map 0 - 180 deg 500 - 2500 us time high PWM signal
 
-parameter integer minPulseWidth = 500;
+parameter integer minPulseWidth = 5000;
+
+`ifdef FP_MODE
 
 // increase / decrease interval for changing time high
-parameter integer inc_dec_interval = 10;
+parameter integer inc_dec_interval = 100;
+// Additional variable to decide the time low of the PWM
+integer time_low = 150000;
+
+`endif 
+
+`ifdef TB_MODE
+
+// increase / decrease interval for changing time high
+parameter integer inc_dec_interval = 4000;
+// Additional variable to decide the time low of the PWM
+integer time_low = 15000;
+
+`endif 
 
 // Counter to set the time high and time low of the PWM signal
 integer th_cntr = 0;
@@ -62,9 +81,6 @@ integer tmp_th = minPulseWidth;
 
 // Additional variable to decide the time high of the PWM
 integer tmp_th_cw = minPulseWidth;
-
-// Additional variable to decide the time low of the PWM
-integer time_low = 15000;
 
 always @(posedge CLK) begin
 
@@ -134,7 +150,7 @@ always @(posedge CLK) begin
          else begin
 
             // Updates the time high value
-            if (tmp_th_cw < 2500) begin
+            if (tmp_th_cw < 25000) begin
                tl_cntr <= 0 ;
                th_cntr <= 0 ;
                SERVO <= 1'b0 ;
@@ -218,7 +234,7 @@ always @(posedge CLK) begin
             
             // If the servo hasn't reached yet the extreme limit it continues
             // to change the pulse widht time high
-            if (tmp_th_cw > 500) begin
+            if (tmp_th_cw > 5000) begin
                tl_cntr <= 0 ;
                th_cntr <= 0 ;
                SERVO <= 1'b0 ;

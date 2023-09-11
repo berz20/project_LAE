@@ -35,13 +35,13 @@ module max_counter(
 
 
 // Maximum count for horizontal movement (it sets the servos limits)
-reg [14:0] currcount = 15'b000_000_000_000_000; // **TODO: value to be defined
+reg [21:0] currcount = 22'b0; // **TODO: value to be defined
 
 
 always @(posedge CLK) begin
 
    if (CNT_RST == 1'b1) begin
-      currcount <= 15'b000_000_000_000_000;
+      currcount <= 22'b0;
       CNT_RU <= 1'b0;
    end
 
@@ -55,7 +55,7 @@ always @(posedge CLK) begin
       else if (MC == 1'b1) begin
          currcount <= currcount - 1;
 
-         if (currcount == 15'b000_000_000_000_000) begin
+         if (currcount == 22'b0) begin
             CNT_RU <= 1'b0;
          end
 
