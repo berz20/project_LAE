@@ -13,8 +13,8 @@
 //--------------------------------------------------------------------------------
 
 //define the mode of operation
-`define TB_MODE
-// `define FP_MODE
+// `define TB_MODE
+`define FP_MODE
 
 `timescale 1ns / 100ps
 
@@ -122,6 +122,9 @@ always @(posedge CLK) begin
       // Direction is in stop mode
       if (DIR == 2'b00) begin
          SERVO <= 1'b0;
+         tl_cntr <= 0 ;
+         th_cntr <= 0 ;
+         SERVO <= 1'b0 ;
       end
 
       // Direction CounterClockWise

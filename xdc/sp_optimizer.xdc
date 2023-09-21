@@ -30,7 +30,16 @@ set_input_delay -clock clk100 2.000 [get_ports vauxp]
 set_input_delay -clock clk100 2.000 [get_ports vauxn]
 
 ## constrain the reg2out timing paths (assume approx. 1/2 clock period)
-set_output_delay -clock clk100 2.000 [all_outputs]
+set_output_delay -clock clk100 2.000 [get_ports V_in]
+set_output_delay -clock clk100 2.000 [get_ports RS]
+set_output_delay -clock clk100 2.000 [get_ports EN_OUT]
+set_output_delay -clock clk100 2.000 [get_ports data_LCD]
+set_output_delay -clock clk100 2.000 [get_ports servo_l]
+set_output_delay -clock clk100 2.000 [get_ports servo_r]
+set_output_delay -clock clk100 2.000 [get_ports servo_u]
+set_output_delay -clock clk100 2.000 [get_ports servo_d]
+set_output_delay -clock clk100 2.000 [get_ports SERVO_H]
+set_output_delay -clock clk100 2.000 [get_ports SERVO_V]
 
 ########################
 ##   slide switches   ##

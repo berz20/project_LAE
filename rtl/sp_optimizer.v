@@ -195,8 +195,8 @@
    );
 
    // Debounce time for buttons
-   // parameter integer DEB_TIME = 1000000; // 100 ms
-   parameter integer DEB_TIME = 10; // 100 ms
+   parameter integer DEB_TIME = 1000000; // 100 ms
+   // parameter integer DEB_TIME = 10; // reduced for simulation
 
    // Divider parameter for clk
    parameter integer TICK_DIV = 2150; 

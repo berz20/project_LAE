@@ -48,7 +48,7 @@ module servo_driver(
 );
 
 // Internal clk reduced from the PLL clk (100 MHz) to 1 MHz
-wire inter_clk;
+// wire inter_clk;
 
 
 always @(posedge CLK) begin

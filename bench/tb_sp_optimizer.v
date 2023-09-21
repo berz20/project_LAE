@@ -169,40 +169,40 @@ initial begin
     
     #110000;
     BTN_L = 1'b1;
-    #1000000; // 1 ms
+    #10000000; // 10 ms
 
     BTN_L = 1'b0;
-    #1000;    // 1 us
+    #1000;    // 1 us 
 
     BTN_R = 1'b1;
-    #1000000; // 1 ms
+    #11000000; // 11 ms
 
     BTN_R = 1'b0;
-    #1000;    // 1 us
+    #1000;    // 1 us 
 
     BTN_U = 1'b1;
-    #1000000; // 1ms
+    #9800000; // 9.8 ms
 
     BTN_U = 1'b0;
-    #1000;    // 1 us
+    #1000;    // 1 us 
 
     BTN_D = 1'b1;
-    #1000000; // 1 ms
+    #13000000; // 12 ms
 
     BTN_D = 1'b0;
     #1000;    // 1us
 
     BTN_R = 1'b1;
-    #500000;  // 0.5 ms
+    #5000000;  // 5 ms
 
     BTN_D = 1'b1;
-    #500000;  // 0.5 ms
+    #7000000;  // 5 ms
 
     BTN_R = 1'b0;
-    #1000;    // 1 us
+    #1000;    // 1 us 
 
     BTN_D = 1'b0;
-    #1000;    // 1 us
+    #1000;    // 1 us 
 
     #10;
 
@@ -221,7 +221,7 @@ initial begin
     #34000000; // 34 ms
 
     BTN_C = 1'b0;
-    #1000;     // 1 us
+    #46000000;     // 1 us 
 
     $finish; // End simulation
 end
@@ -240,7 +240,7 @@ initial begin
     #34000000; // 34 ms
 
     BTN_C = 1'b0;
-    #1000;     // 1 us
+    #46000000;     // 1 us 
 
     $finish; // End simulation
 end
@@ -259,7 +259,7 @@ initial begin
     #34000000; // 34 ms
 
     BTN_C = 1'b0;
-    #1000;     // 1 us
+    #46000000;     // 1 us 
 
     $finish; // End simulation
 end

@@ -1,9 +1,9 @@
-+===============+===============+=================================================+
-| Launch Clock  | Capture Clock | Pin                                             |
-+===============+===============+=================================================+
-| CLK_OUT_PLL_1 | CLK_OUT_PLL   | LCD_disp/xval3_D1_reg[2]/D                      |
-| CLK_OUT_PLL_1 | CLK_OUT_PLL   | LCD_disp/xval3_D1_reg[6]/D                      |
-| clk100        | CLK_OUT_PLL   | servo_driver1/pwm_control_0/tmp_th_cw_reg[0]/D  |
-| clk100        | CLK_OUT_PLL   | servo_driver1/pwm_control_0/tmp_th_cw_reg[31]/D |
-| clk100        | CLK_OUT_PLL   | servo_driver1/pwm_control_0/tmp_flag_reg/D      |
-+---------------+---------------+-------------------------------------------------+
++==============+===============+==============================+
+| Launch Clock | Capture Clock | Pin                          |
++==============+===============+==============================+
+| clk100       | CLK_OUT_PLL   | debouncer_L/btn_buffer_reg/D |
+| clk100       | CLK_OUT_PLL   | debouncer_D/btn_buffer_reg/D |
+| clk100       | CLK_OUT_PLL   | debouncer_R/btn_buffer_reg/D |
+| clk100       | CLK_OUT_PLL   | debouncer_C/btn_buffer_reg/D |
+| clk100       | CLK_OUT_PLL   | debouncer_U/btn_buffer_reg/D |
++--------------+---------------+------------------------------+
