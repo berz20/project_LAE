@@ -1,9 +1,9 @@
 // Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
-// Date        : Wed Sep 20 18:58:53 2023
+// Date        : Sat Sep 23 17:00:56 2023
 // Host        : berz-msi running 64-bit Archcraft
-// Command     : write_verilog -force -mode synth_stub /home/berz/Documents/UNI/MAG_1/project_LAE/cores/PLL/PLL_stub.v
+// Command     : write_verilog -force -mode synth_stub /home/berz/Documents/UNI/MAG_1/LAE/project_LAE/cores/PLL/PLL_stub.v
 // Design      : PLL
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7a35ticsg324-1L

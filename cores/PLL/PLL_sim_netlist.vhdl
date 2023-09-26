@@ -1,9 +1,10 @@
 -- Copyright 1986-2021 Xilinx, Inc. All Rights Reserved.
 -- --------------------------------------------------------------------------------
 -- Tool Version: Vivado v.2021.2 (lin64) Build 3367213 Tue Oct 19 02:47:39 MDT 2021
--- Date        : Wed Sep 20 18:58:54 2023
+-- Date        : Sat Sep 23 17:00:56 2023
 -- Host        : berz-msi running 64-bit Archcraft
--- Command     : write_vhdl -force -mode funcsim /home/berz/Documents/UNI/MAG_1/project_LAE/cores/PLL/PLL_sim_netlist.vhdl
+-- Command     : write_vhdl -force -mode funcsim
+--               /home/berz/Documents/UNI/MAG_1/LAE/project_LAE/cores/PLL/PLL_sim_netlist.vhdl
 -- Design      : PLL
 -- Purpose     : This VHDL netlist is a functional simulation representation of the design and should not be modified or
 --               synthesized. This netlist cannot be used for SDF annotated simulation.
