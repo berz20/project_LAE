@@ -22,19 +22,20 @@ This project implements a dual-axis solar panel orientation optimizer using an A
 
 ### Overview
 
-<div style="background-color: white; text-align: center; padding: 10px;">
+<div align="center">
   <img src="./img/inkspace/external_system_schematic.png" alt="External System Schematic" height="300" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./img/inkspace/system_schematic.png" alt="System Schematic" height="300" />
+  <p style="text-align:center">System Schematic and Block Diagram</p>
 </div>
-   <p style="text-align:center">System Schematic and Block Diagram</p>
 
 The solar tracking system revolves around the "sp_optimizer" module, which interfaces with various components. It utilizes the ADC for voltage conversion, a voltage comparator to track peak voltages, and a servo driver for motor control. The "debouncer" module ensures reliable user interaction. An FSM manages the system's overall state, facilitating autonomous operation during calibration.
 
 ### FSM
 
-<div style="background-color: white; text-align: center; padding: 10px;">
-  <img src="./img/inkspace/FSM.png" alt="External System Schematic" height="300" /> </div>
+<div align="center">
+   <img src="./img/inkspace/FSM.png" alt="External System Schematic" height="300" /> 
    <p style="text-align:center">FSM State Diagram</p>
-   
+</div>
+
 The FSM module serves as the core control unit of the system, managing the device's operational states. It defines five states:
 1. **Manual Mode**: The default state where the user manually controls the tracker via buttons. When the calibration switch is logically high, the FSM transitions to the first calibration state.
 2. **Horizontal Sweep**: The tracker performs a horizontal scan looking for the maximum voltage value. It switches to the horizontal maximum state when the variable "CNT L" is logically low, indicating the horizontal plane has been completely scanned.
