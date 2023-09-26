@@ -53,6 +53,14 @@ The "xadc" module interfaces with a 12-bit ADC to convert analog signals from th
 The "voltage_comparator" module compares voltage values to identify peaks during scanning. The "FF_Array" module stores and manages maximum voltage values for efficient data management.
 
 ### LCD
+<div align="center">
+   <img src="./img/tinkercad/LCD_man.png" alt="LCD man" height="100" />   <img src="./img/tinkercad/LCD_calib_norm.png" alt="LCD calib norm" height="100" /> 
+   <p style="text-align:center">LCD normal mode</p>
+</div>
+<div align="center">
+   <img src="./img/tinkercad/LCD_calib_ANG.png" alt="LCD calib ANG" height="100" />   <img src="./img/tinkercad/LCD_calib_DBG.png" alt="LCD calib DBG" height="100" /> 
+   <p style="text-align:center">LCD ANG mode and DBG mode</p>
+</div>
 The LCD module displays system information, including mode, maximum voltage, and servo angles. It operates in normal, angle, and debug modes.
 
 ### SP Optimizer
@@ -66,12 +74,6 @@ The "sp_optimizer" module orchestrates system components, including the "xadc," 
 * The files are setted for the implementation on the real board, but in order to make the simulations show the main functionalities the following changes should be made:
    * In file [pwm_control.v](./rtl/pwm_control.v) should be commented the FP_MODE and decommented the TB_MODE. This will simply increase the width of the steps of change in the PWM signals
    * In file [sp_optimizer.v](./rtl/sp_optimizer.v) the DEB_TIME at line 198 should be commented and decomment the line below. This will reduce greatly the debouncing time of thebuttons.
-
-## Behavioral Simulation
-Behavioral simulations validate manual and calibration modes, demonstrating user interactions and servo motor control. Simulations confirm correct LCD operation.
-
-## Synthesis and Implementation
-The design is synthesized, mapped to hardware resources, and translated into FPGA configuration. Post-implementation simulations verify functionality.
 
 ## Resources, Timing, and Power
 Resource utilization and timing analysis show efficient design allocation. Power consumption is approximately 0.2 watts.
