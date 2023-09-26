@@ -1,9 +1,0 @@
-+==============+===============+==============================+
-| Launch Clock | Capture Clock | Pin                          |
-+==============+===============+==============================+
-| clk100       | CLK_OUT_PLL   | debouncer_L/btn_buffer_reg/D |
-| clk100       | CLK_OUT_PLL   | debouncer_D/btn_buffer_reg/D |
-| clk100       | CLK_OUT_PLL   | debouncer_R/btn_buffer_reg/D |
-| clk100       | CLK_OUT_PLL   | debouncer_C/btn_buffer_reg/D |
-| clk100       | CLK_OUT_PLL   | debouncer_U/btn_buffer_reg/D |
-+--------------+---------------+------------------------------+
