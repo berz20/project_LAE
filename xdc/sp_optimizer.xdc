@@ -114,6 +114,7 @@ set_property -dict { PACKAGE_PIN K1  IOSTANDARD LVCMOS33 } [get_ports V_in[11]] 
 
 # Utilized to control servo motors
 
+# Use Arduino chipkit for more precise control of servos (in real hardware no difference has been seen)
 set_property -dict { PACKAGE_PIN G13  IOSTANDARD LVCMOS33 } [get_ports SERVO_H ]   ; #IO_0_15 Sch=ja[1]
 set_property -dict { PACKAGE_PIN B11  IOSTANDARD LVCMOS33 } [get_ports SERVO_V ]   ; #IO_L4P_T0_15 Sch=ja[2]
 set_property -dict { PACKAGE_PIN A11  IOSTANDARD LVCMOS33 } [get_ports RS ]   ; #IO_L4N_T0_15 Sch=ja[3]
