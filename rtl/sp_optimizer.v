@@ -291,21 +291,21 @@ wire cnt_rst; // From FSM
 // Debouncers for button
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_L (
    .clk(pll_clk),
-   .rst(RST),
+   .rst(RST || ~pll_locked),
    .btn(BTN_L), // Button signal left
    .debounced_btn(debounced_btn_L) // Button signal left debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_R (
    .clk(pll_clk),
-   .rst(RST),
+   .rst(RST || ~pll_locked),
    .btn(BTN_R), // Button signal right
    .debounced_btn(debounced_btn_R) // Button signal right debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_U (
    .clk(pll_clk),
-   .rst(RST),
+   .rst(RST || ~pll_locked),
    .btn(BTN_U), // Button signal up
    .debounced_btn(debounced_btn_U) // Button signal up debounced
 );
@@ -313,14 +313,14 @@ Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_U (
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_D (
    .clk(pll_clk),
-   .rst(RST),
+   .rst(RST || ~pll_locked),
    .btn(BTN_D), // Button signal down
    .debounced_btn(debounced_btn_D) // Button signal down debounced
 );
 
 Debouncer #(.DEBOUNCE_TIME(DEB_TIME)) debouncer_C (
    .clk(pll_clk),
-   .rst(RST),
+   .rst(RST || ~pll_locked),
    .btn(BTN_C), // Button signal centrale
    .debounced_btn(debounced_btn_C) // Button signal centrale debounced
 );
@@ -337,7 +337,7 @@ FSM fsm0(
    .CNT_RU(cnt_ru),
    .CNT_D(cnt_d),
    .CLK(pll_clk),
-   .RST(RST),
+   .RST(RST || ~pll_locked),
    .HS(HS),
    .VS(VS),
    .MC(MC),
@@ -354,7 +354,7 @@ FSM fsm0(
 // pwm_control and a TickCounter
 servo_driver servo_driver0(
    .CLK(pll_clk),
-   .RST(RST),
+   .RST(RST || ~pll_locked),
    .BTN_0(servo_l),
    .BTN_1(servo_r),
    .MC(MC),
@@ -368,7 +368,7 @@ servo_driver servo_driver0(
 
 servo_driver servo_driver1(
    .CLK(pll_clk),
-   .RST(RST),
+   .RST(RST || ~pll_locked),
    .BTN_0(servo_d),
    .BTN_1(servo_u),
    .MC(MC),
@@ -421,7 +421,7 @@ vert_counter vert_counter0(
 // for the maximum position of the servos
 FF_Array FF_Array0(
    .CLK(pll_clk),
-   .RST(RST),
+   .RST(RST || ~pll_locked),
    .GT(reset),
    .pulseWidth_H(servo_position_H),
    .pulseWidth_V(servo_position_V),
