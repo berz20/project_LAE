@@ -24,8 +24,8 @@ module FF_Array(
    input wire GT, // From voltage comparator
       
    // Max PWM logic high time
-   input wire [31:0] pulseWidth_H,
-   input wire [31:0] pulseWidth_V,
+   input wire [14:0] pulseWidth_H,
+   input wire [14:0] pulseWidth_V,
 
    // Current PWM logic high time
    input wire [11:0] PV, // pendig value
@@ -34,8 +34,8 @@ module FF_Array(
    output reg [11:0] LV, // last value
 
    // Max PWM logic high time
-   output reg [31:0] pulseWidth_max_H,
-   output reg [31:0] pulseWidth_max_V
+   output reg [14:0] pulseWidth_max_H,
+   output reg [14:0] pulseWidth_max_V
 
 );
 
@@ -46,8 +46,8 @@ always @(posedge CLK) begin
    // and the max voltage value to zero
    if (RST == 1'b1) begin
          LV <= 12'b000000000000;
-         pulseWidth_max_H <= 32'd5000;
-         pulseWidth_max_V <= 32'd5000;
+         pulseWidth_max_H <= 15'd5000;
+         pulseWidth_max_V <= 15'd5000;
 
    end 
 

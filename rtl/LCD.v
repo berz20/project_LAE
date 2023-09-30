@@ -17,6 +17,8 @@
 //
 //--------------------------------------------------------------------------------
 
+`define TB_MODE
+
 `timescale 1 ns / 100 ps
 
 module LCD (
@@ -34,12 +36,12 @@ module LCD (
    input wire [11:0] max_V_in,
 
    // Current PWM logic high time
-   input wire [31:0] pulseWidth_H,
-   input wire [31:0] pulseWidth_V,
+   input wire [14:0] pulseWidth_H,
+   input wire [14:0] pulseWidth_V,
 
    // Max PWM logic high time
-   input wire [31:0] pulseWidth_max_H,
-   input wire [31:0] pulseWidth_max_V,
+   input wire [14:0] pulseWidth_max_H,
+   input wire [14:0] pulseWidth_max_V,
 
    // Enable sweep signals
    input wire HS,
@@ -57,50 +59,50 @@ module LCD (
 
 // Voltage values
 // Max Voltage
-integer xval_D1;
-integer xval_D2;
+reg [11:0] xval_D1;
+reg [11:0] xval_D2;
 
 // Current voltage
-integer xval2_D1;
-integer xval2_D2;
+reg [11:0] xval2_D1;
+reg [11:0] xval2_D2;
 
 // PWM time high lenght signal (Debug)
 // Max horizontal
-integer xval3_D1;
-integer xval3_D2;
-integer xval3_D3;
+reg [14:0] xval3_D1;
+reg [14:0] xval3_D2;
+reg [14:0] xval3_D3;
 
 // Max vertical
-integer xval4_D1;
-integer xval4_D2;
-integer xval4_D3;
+reg [14:0] xval4_D1;
+reg [14:0] xval4_D2;
+reg [14:0] xval4_D3;
 
 // Current horizontal
-integer xval5_D1;
-integer xval5_D2;
-integer xval5_D3;
+reg [14:0] xval5_D1;
+reg [14:0] xval5_D2;
+reg [14:0] xval5_D3;
 
 // Current vertical
-integer xval6_D1;
-integer xval6_D2;
-integer xval6_D3;
+reg [14:0] xval6_D1;
+reg [14:0] xval6_D2;
+reg [14:0] xval6_D3;
 
 // Angle servos
 // Max horizontal
-integer xval7_D2;
-integer xval7_D3;
+reg [14:0] xval7_D2;
+reg [14:0] xval7_D3;
 
 // Max vertical
-integer xval8_D2;
-integer xval8_D3;
+reg [14:0] xval8_D2;
+reg [14:0] xval8_D3;
 
 // Current horizontal
-integer xval9_D2;
-integer xval9_D3;
+reg [14:0] xval9_D2;
+reg [14:0] xval9_D3;
 
 // Current vertical
-integer xval10_D2;
-integer xval10_D3;
+reg [14:0] xval10_D2;
+reg [14:0] xval10_D3;
 
 
 // Array of 36 registers that contains the ASCII characters and the
@@ -108,48 +110,48 @@ integer xval10_D3;
 reg [7:0] Datas [1:36];
 
 // Internal counter
-integer i = 0;
-integer j = 1;
+reg [16:0] i = 0;
+reg [16:0] j = 1;
 
 
 always @(posedge CLK) begin
 
    // Voltage values
    xval_D1 <= max_V_in*330/4095;
-   xval_D2 <= max_V_in*33/4095;
-
-   xval2_D1 <= V_in*330/4095;
-   xval2_D2 <= V_in*33/4095;
-
+   xval_D2 <= max_V_in*33/4095; 
+ 
+   xval2_D1 <= V_in*12'd330/12'd4095;
+   xval2_D2 <= V_in*12'd33/12'd4095; 
+ 
    // PWM lenght signal (Debug)
-   xval3_D1 <= pulseWidth_max_H/10;
-   xval3_D2 <= pulseWidth_max_H/100;
-   xval3_D3 <= pulseWidth_max_H/1000;
+   xval3_D1 <= pulseWidth_max_H/15'd10;
+   xval3_D2 <= pulseWidth_max_H/15'd100;
+   xval3_D3 <= pulseWidth_max_H/15'd1000;
 
-   xval4_D1 <= pulseWidth_max_V/10;
-   xval4_D2 <= pulseWidth_max_V/100;
-   xval4_D3 <= pulseWidth_max_V/1000;
+   xval4_D1 <= pulseWidth_max_V/15'd10;
+   xval4_D2 <= pulseWidth_max_V/15'd100;
+   xval4_D3 <= pulseWidth_max_V/15'd1000;
 
-   xval5_D1 <= pulseWidth_H/10;
-   xval5_D2 <= pulseWidth_H/100;
-   xval5_D3 <= pulseWidth_H/1000;
+   xval5_D1 <= pulseWidth_H/15'd10;
+   xval5_D2 <= pulseWidth_H/15'd100;
+   xval5_D3 <= pulseWidth_H/15'd1000;
 
-   xval6_D1 <= pulseWidth_V/10;
-   xval6_D2 <= pulseWidth_V/100;
-   xval6_D3 <= pulseWidth_V/1000;
+   xval6_D1 <= pulseWidth_V/15'd10;
+   xval6_D2 <= pulseWidth_V/15'd100;
+   xval6_D3 <= pulseWidth_V/15'd1000;
 
    // Angle servos 
-   xval7_D2 <= pulseWidth_max_H*180/20000 - 45;
-   xval7_D3 <= pulseWidth_max_H*18/20000 - 4;
+   xval7_D2 <= pulseWidth_max_H*15'd180/15'd20000 - 15'd45;
+   xval7_D3 <= pulseWidth_max_H*18/15'd20000 - 15'd4;
 
-   xval8_D2 <= pulseWidth_max_V*180/20000 - 45;
-   xval8_D3 <= pulseWidth_max_V*18/20000 - 4;
+   xval8_D2 <= pulseWidth_max_V*15'd180/15'd20000 - 15'd45;
+   xval8_D3 <= pulseWidth_max_V*18/15'd20000 - 15'd4;
 
-   xval9_D2 <= pulseWidth_H*180/20000 - 45;
-   xval9_D3 <= pulseWidth_H*18/20000 - 4;
+   xval9_D2 <= pulseWidth_H*15'd180/15'd20000 - 15'd45;
+   xval9_D3 <= pulseWidth_H*18/15'd20000 - 15'd4;
 
-   xval10_D2 <= pulseWidth_V*180/20000 - 45;
-   xval10_D3 <= pulseWidth_V*18/20000 - 4;
+   xval10_D2 <= pulseWidth_V*15'd180/15'd20000 - 15'd45;
+   xval10_D3 <= pulseWidth_V*18/15'd20000 - 15'd4;
 
 end
 
@@ -171,7 +173,7 @@ always @(posedge CLK) begin
       Datas[7] <= 8'h3A; // :
       Datas[8] <= 8'h20; // space
 
-      case (xval3_D1%10)
+      case (xval3_D1%15'd10)
          0 : Datas[12] <= 8'h30;
          1 : Datas[12] <= 8'h31;
          2 : Datas[12] <= 8'h32;
@@ -185,7 +187,7 @@ always @(posedge CLK) begin
          default : Datas[12] <= 8'h20;  
       endcase
 
-      case (xval3_D2%10)
+      case (xval3_D2%15'd10)
          0 : Datas[11] <= 8'h30;
          1 : Datas[11] <= 8'h31;
          2 : Datas[11] <= 8'h32;
@@ -199,7 +201,7 @@ always @(posedge CLK) begin
          default : Datas[11] <= 8'h20;  
       endcase
 
-      case (xval3_D3%10)
+      case (xval3_D3%15'd10)
          0 : Datas[10] <= 8'h30;
          1 : Datas[10] <= 8'h31;
          2 : Datas[10] <= 8'h32;
@@ -234,7 +236,7 @@ always @(posedge CLK) begin
       Datas[15] <= 8'h3A; // :
       Datas[16] <= 8'h20; // space
 
-      case (xval4_D1%10)
+      case (xval4_D1%15'd10)
          0 : Datas[20] <= 8'h30;
          1 : Datas[20] <= 8'h31;
          2 : Datas[20] <= 8'h32;
@@ -248,7 +250,7 @@ always @(posedge CLK) begin
          default : Datas[20] <= 8'h20;  
       endcase
 
-      case (xval4_D2%10)
+      case (xval4_D2%15'd10)
          0 : Datas[19] <= 8'h30;
          1 : Datas[19] <= 8'h31;
          2 : Datas[19] <= 8'h32;
@@ -262,7 +264,7 @@ always @(posedge CLK) begin
          default : Datas[19] <= 8'h20;  
       endcase
 
-      case (xval4_D3%10)
+      case (xval4_D3%15'd10)
          0 : Datas[18] <= 8'h30;
          1 : Datas[18] <= 8'h31;
          2 : Datas[18] <= 8'h32;
@@ -296,7 +298,7 @@ always @(posedge CLK) begin
       Datas[23] <= 8'h3A; // :
       Datas[24] <= 8'h20; // space
 
-      case (xval5_D1%10)
+      case (xval5_D1%15'd10)
          0 : Datas[28] <= 8'h30;
          1 : Datas[28] <= 8'h31;
          2 : Datas[28] <= 8'h32;
@@ -310,7 +312,7 @@ always @(posedge CLK) begin
          default : Datas[28] <= 8'h20;  
       endcase
 
-      case (xval5_D2%10)
+      case (xval5_D2%15'd10)
          0 : Datas[27] <= 8'h30;
          1 : Datas[27] <= 8'h31;
          2 : Datas[27] <= 8'h32;
@@ -324,7 +326,7 @@ always @(posedge CLK) begin
          default : Datas[27] <= 8'h20;  
       endcase
 
-      case (xval5_D3%10)
+      case (xval5_D3%15'd10)
          0 : Datas[26] <= 8'h30;
          1 : Datas[26] <= 8'h31;
          2 : Datas[26] <= 8'h32;
@@ -359,7 +361,7 @@ always @(posedge CLK) begin
       Datas[31] <= 8'h3A; // :
       Datas[32] <= 8'h20; // space
 
-      case (xval6_D1%10)
+      case (xval6_D1%15'd10)
          0 : Datas[36] <= 8'h30;
          1 : Datas[36] <= 8'h31;
          2 : Datas[36] <= 8'h32;
@@ -373,7 +375,7 @@ always @(posedge CLK) begin
          default : Datas[36] <= 8'h20;  
       endcase
 
-      case (xval6_D2%10)
+      case (xval6_D2%15'd10)
          0 : Datas[35] <= 8'h30;
          1 : Datas[35] <= 8'h31;
          2 : Datas[35] <= 8'h32;
@@ -387,7 +389,7 @@ always @(posedge CLK) begin
          default : Datas[35] <= 8'h20;  
       endcase
 
-      case (xval6_D3%10)
+      case (xval6_D3%15'd10)
          0 : Datas[34] <= 8'h30;
          1 : Datas[34] <= 8'h31;
          2 : Datas[34] <= 8'h32;
@@ -427,7 +429,7 @@ always @(posedge CLK) begin
 
       Datas[12] <= 8'h44; // D
 
-      case (xval7_D2%10)
+      case (xval7_D2%15'd10)
          0 : Datas[11] <= 8'h30;
          1 : Datas[11] <= 8'h31;
          2 : Datas[11] <= 8'h32;
@@ -441,7 +443,7 @@ always @(posedge CLK) begin
          default : Datas[11] <= 8'h20;  
       endcase
 
-      case (xval7_D3%10)
+      case (xval7_D3%15'd10)
          0 : Datas[10] <= 8'h30;
          1 : Datas[10] <= 8'h31;
          2 : Datas[10] <= 8'h32;
@@ -478,7 +480,7 @@ always @(posedge CLK) begin
 
       Datas[20] <= 8'h44; // D
 
-      case (xval8_D2%10)
+      case (xval8_D2%15'd10)
          0 : Datas[19] <= 8'h30;
          1 : Datas[19] <= 8'h31;
          2 : Datas[19] <= 8'h32;
@@ -492,7 +494,7 @@ always @(posedge CLK) begin
          default : Datas[19] <= 8'h20;  
       endcase
 
-      case (xval8_D3%10)
+      case (xval8_D3%15'd10)
          0 : Datas[18] <= 8'h30;
          1 : Datas[18] <= 8'h31;
          2 : Datas[18] <= 8'h32;
@@ -528,7 +530,7 @@ always @(posedge CLK) begin
 
       Datas[28] <= 8'h44; // D
 
-      case (xval9_D2%10)
+      case (xval9_D2%15'd10)
          0 : Datas[27] <= 8'h30;
          1 : Datas[27] <= 8'h31;
          2 : Datas[27] <= 8'h32;
@@ -542,7 +544,7 @@ always @(posedge CLK) begin
          default : Datas[27] <= 8'h20;  
       endcase
 
-      case (xval9_D3%10)
+      case (xval9_D3%15'd10)
          0 : Datas[26] <= 8'h30;
          1 : Datas[26] <= 8'h31;
          2 : Datas[26] <= 8'h32;
@@ -579,7 +581,7 @@ always @(posedge CLK) begin
 
       Datas[36] <= 8'h44; // D
 
-      case (xval10_D2%10)
+      case (xval10_D2%15'd10)
          0 : Datas[35] <= 8'h30;
          1 : Datas[35] <= 8'h31;
          2 : Datas[35] <= 8'h32;
@@ -593,7 +595,7 @@ always @(posedge CLK) begin
          default : Datas[35] <= 8'h20;  
       endcase
 
-      case (xval10_D3%10)
+      case (xval10_D3%15'd10)
          0 : Datas[34] <= 8'h30;
          1 : Datas[34] <= 8'h31;
          2 : Datas[34] <= 8'h32;
@@ -671,7 +673,7 @@ always @(posedge CLK) begin
       Datas[24] <= 8'h20; // space
       Datas[26] <= 8'h2E; // period
 
-      case (xval_D1%10)
+      case (xval_D1%12'd10)
          0 : Datas[28] <= 8'h30;
          1 : Datas[28] <= 8'h31;
          2 : Datas[28] <= 8'h32;
@@ -685,7 +687,7 @@ always @(posedge CLK) begin
          default : Datas[28] <= 8'h20;  
       endcase
 
-      case (xval_D2%10)
+      case (xval_D2%12'd10)
          0 : Datas[27] <= 8'h30;
          1 : Datas[27] <= 8'h31;
          2 : Datas[27] <= 8'h32;
@@ -699,7 +701,7 @@ always @(posedge CLK) begin
          default : Datas[27] <= 8'h20;  
       endcase
 
-      case (xval_D2/10)
+      case (xval_D2/12'd10)
          0 : Datas[25] <= 8'h30;
          1 : Datas[25] <= 8'h31;
          2 : Datas[25] <= 8'h32;
@@ -720,7 +722,7 @@ always @(posedge CLK) begin
       Datas[32] <= 8'h20; // space
       Datas[34] <= 8'h2E; // period
 
-      case (xval2_D1%10)
+      case (xval2_D1%12'd10)
          0 : Datas[36] <= 8'h30;
          1 : Datas[36] <= 8'h31;
          2 : Datas[36] <= 8'h32;
@@ -734,7 +736,7 @@ always @(posedge CLK) begin
          default : Datas[36] <= 8'h20;  
       endcase
 
-      case (xval2_D2%10)
+      case (xval2_D2%12'd10)
          0 : Datas[35] <= 8'h30;
          1 : Datas[35] <= 8'h31;
          2 : Datas[35] <= 8'h32;
@@ -748,7 +750,7 @@ always @(posedge CLK) begin
          default : Datas[35] <= 8'h20;  
       endcase
 
-      case (xval2_D2/10)
+      case (xval2_D2/12'd10)
          0 : Datas[33] <= 8'h30;
          1 : Datas[33] <= 8'h31;
          2 : Datas[33] <= 8'h32;
@@ -819,18 +821,19 @@ always @(posedge CLK) begin
 
 end
 
+`ifdef TB_MODE
 always @(posedge CLK) begin
 
-   if (i <= 50000) begin
+   if (i <= 17'd500) begin
       i <= i + 1; EN_OUT <= 1'b1;
       data <= Datas[j];
    end
 
-   else if (i > 50000 & i < 100000) begin
+   else if (i > 17'd500 & i < 17'd1000) begin
       i <= i + 1; EN_OUT <= 1'b0;
    end
 
-   else if (i == 100000) begin
+   else if (i == 17'd1000) begin
       j <= j + 1; i <= 0;
    end
 
@@ -850,5 +853,41 @@ always @(posedge CLK) begin
    end
 
 end
+
+`elsif
+
+always @(posedge CLK) begin
+
+   if (i <= 17'd50000) begin
+      i <= i + 1; EN_OUT <= 1'b1;
+      data <= Datas[j];
+   end
+
+   else if (i > 17'd50000 & i < 17'd100000) begin
+      i <= i + 1; EN_OUT <= 1'b0;
+   end
+
+   else if (i == 17'd100000) begin
+      j <= j + 1; i <= 0;
+   end
+
+   else i <= 0;
+
+   if (j <= 5) RS <= 0;             // sets register select to instruction mode
+
+   else if (j > 5 & j< 21) RS <= 1; // sets register select to character mode
+
+   else if (j == 21) RS <= 0;
+
+   else if (j > 21 & j < 37) RS <= 1;
+
+   else if (j == 37) begin 
+      RS <= 1; j <= 5;
+
+   end
+
+end
+
+`endif
 
 endmodule

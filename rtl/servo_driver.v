@@ -32,13 +32,13 @@ module servo_driver(
    input wire MC, // Max counter
    input wire ES, // Enable sweep (HS or VS)
    // Max PWM logic high time horizontal or vertical
-   input wire [31:0] pulseWidth_max,
+   input wire [14:0] pulseWidth_max,
 
    // PWM signal
    output wire SERVO,
 
    // Current PWM logic high time
-   output wire [31:0] servo_position,
+   output wire [14:0] servo_position,
 
    // Signal to limit the sweep for servos
    output reg PWM_limit,

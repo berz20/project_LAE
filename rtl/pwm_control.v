@@ -35,11 +35,11 @@ module pwm_control(
    input wire ES, // enable sweep state FSM (HS or VS)
 
    // Max PWM logic high time horizontal
-   input wire [31:0] pulseWidth_max,
+   input wire [14:0] pulseWidth_max,
 
    
    // Current PWM logic high time
-   output reg [31:0] pulseWidth,
+   output reg [14:0] pulseWidth,
 
    // PWM signals
    output reg SERVO
@@ -48,39 +48,39 @@ module pwm_control(
 // The servo motor used are the MS60
 // map 0 - 180 deg 500 - 2500 us time high PWM signal
 
-parameter integer minPulseWidth = 5000;
+parameter reg [14:0] minPulseWidth = 5000;
 
 `ifdef FP_MODE
 
 // increase / decrease interval for changing time high
-parameter integer inc_dec_interval = 100;
+parameter reg [14:0] inc_dec_interval = 100;
 // Additional variable to decide the time low of the PWM
-integer time_low = 150000;
+reg [18:0] time_low = 150000;
 
 `endif 
 
 `ifdef TB_MODE
 
 // increase / decrease interval for changing time high
-parameter integer inc_dec_interval = 4000;
+parameter reg [14:0] inc_dec_interval = 4000;
 // Additional variable to decide the time low of the PWM
-integer time_low = 15000;
+reg [14:0] time_low = 15000;
 
 `endif 
 
 // Counter to set the time high and time low of the PWM signal
-integer th_cntr = 0;
-integer tl_cntr = 0;
+reg [14:0] th_cntr = 0;
+reg [18:0] tl_cntr = 0;
 
 // Additional flag signal to set the servos at 500 (0 degree) every time the
 // calibration starts
 reg tmp_flag = 1'b0;
 
 // Additional variable to take trace of the actual position of the servos
-integer tmp_th = minPulseWidth;
+reg [14:0] tmp_th = minPulseWidth;
 
 // Additional variable to decide the time high of the PWM
-integer tmp_th_cw = minPulseWidth;
+reg [14:0] tmp_th_cw = minPulseWidth;
 
 always @(posedge CLK) begin
 

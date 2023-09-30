@@ -61,8 +61,8 @@
 
       // Maximum signals
       output wire [11:0] max_V_in,         // Max ADC digital output
-      output wire [31:0] pulseWidth_max_H, // Max PWM logic high time horizontal (sets the position for max in horizontal sweep)
-      output wire [31:0] pulseWidth_max_V, // Max PWM logic high time vertical (sets the position for max in vertical sweep)
+      output wire [14:0] pulseWidth_max_H, // Max PWM logic high time horizontal (sets the position for max in horizontal sweep)
+      output wire [14:0] pulseWidth_max_V, // Max PWM logic high time vertical (sets the position for max in vertical sweep)
 
       // Enable sweep signals
       output wire HS, // Horizontal sweep
@@ -89,8 +89,8 @@
       output wire SERVO_V, // vertical signal
 
       // Current PWM logic high time
-      output wire [31:0] servo_position_H, // horizontal
-      output wire [31:0] servo_position_V, // vertical
+      output wire [14:0] servo_position_H, // horizontal
+      output wire [14:0] servo_position_V, // vertical
 
       // Signal to limit the sweep for servos
       output wire PWM_limit_H,
@@ -203,8 +203,8 @@
 
 
    wire [11:0] max_V_in;
-   wire [31:0] pulseWidth_max_H;
-   wire [31:0] pulseWidth_max_V;
+   wire [14:0] pulseWidth_max_H;
+   wire [14:0] pulseWidth_max_V;
    wire HS;
    wire VS;
    wire MC;
@@ -213,8 +213,8 @@
    wire cnt_ru;
    wire [1:0] direction_lr;
    wire [1:0] direction_ud;
-   wire [31:0] servo_position_H;
-   wire [31:0] servo_position_V;
+   wire [14:0] servo_position_H;
+   wire [14:0] servo_position_V;
    wire PWM_limit_H;
    wire PWM_limit_V;
    wire pll_clk; 
